@@ -1,0 +1,103 @@
+/*
+ * Licensed to Jasig under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work
+ * for additional information regarding copyright ownership.
+ * Jasig licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a
+ * copy of the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+﻿/*
+Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+/**
+ * @fileOverview Defines the {@link CKEDITOR.plugins} object, which is used to
+ *		manage plugins registration and loading.
+ */
+
+/**
+ * Manages plugins registration and loading.
+ * @namespace
+ * @augments CKEDITOR.resourceManager
+ * @example
+ */
+CKEDITOR.plugins = new CKEDITOR.resourceManager(
+	'_source/' +	// @Packager.RemoveLine
+	'plugins/', 'plugin' );
+
+// PACKAGER_RENAME( CKEDITOR.plugins )
+
+CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function( originalLoad )
+	{
+		return function( name, callback, scope )
+		{
+			var allPlugins = {};
+
+			var loadPlugins = function( names )
+			{
+				originalLoad.call( this, names, function( plugins )
+					{
+						CKEDITOR.tools.extend( allPlugins, plugins );
+
+						var requiredPlugins = [];
+						for ( var pluginName in plugins )
+						{
+							var plugin = plugins[ pluginName ],
+								requires = plugin && plugin.requires;
+
+							if ( requires )
+							{
+								for ( var i = 0 ; i < requires.length ; i++ )
+								{
+									if ( !allPlugins[ requires[ i ] ] )
+										requiredPlugins.push( requires[ i ] );
+								}
+							}
+						}
+
+						if ( requiredPlugins.length )
+							loadPlugins.call( this, requiredPlugins );
+						else
+						{
+							// Call the "onLoad" function for all plugins.
+							for ( pluginName in allPlugins )
+							{
+								plugin = allPlugins[ pluginName ];
+								if ( plugin.onLoad && !plugin.onLoad._called )
+								{
+									plugin.onLoad();
+									plugin.onLoad._called = 1;
+								}
+							}
+
+							// Call the callback.
+							if ( callback )
+								callback.call( scope || window, allPlugins );
+						}
+					}
+					, this);
+
+			};
+
+			loadPlugins.call( this, name );
+		};
+	});
+
+CKEDITOR.plugins.setLang = function( pluginName, languageCode, languageEntries )
+{
+	var plugin = this.get( pluginName ),
+		pluginLang = plugin.lang || ( plugin.lang = {} );
+
+	pluginLang[ languageCode ] = languageEntries;
+};
