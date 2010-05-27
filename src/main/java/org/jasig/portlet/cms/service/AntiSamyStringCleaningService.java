@@ -20,6 +20,7 @@ package org.jasig.portlet.cms.service;
 
 import java.io.InputStream;
 
+import org.jasig.portlet.cms.mvc.exception.StringCleaningException;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
@@ -75,15 +76,25 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
     public String getSafeContent(String content) {
         try {
             
-            AntiSamy as = new AntiSamy();
+            AntiSamy as = getAntiSamyInstance();
             CleanResults cr = as.scan(content, policy);
             return cr.getCleanHTML();
             
         } catch (ScanException e) {
-            throw new RuntimeException("Exception while cleaning content");
+            throw new StringCleaningException("Failed to scan new content", e);
         } catch (PolicyException e) {
-            throw new RuntimeException("Exception while cleaning content");
+            throw new StringCleaningException("Exception while cleaning content", e);
         }
+    }
+    
+    /**
+     * Just returns a new AntiSamy instance.  This method is mostly to help
+     * enable unit tests.
+     * 
+     * @return new AntiSamy instance
+     */
+    protected AntiSamy getAntiSamyInstance() {
+        return new AntiSamy();
     }
 
 }

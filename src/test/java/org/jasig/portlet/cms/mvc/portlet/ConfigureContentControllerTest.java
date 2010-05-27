@@ -67,6 +67,12 @@ public class ConfigureContentControllerTest {
         ContentForm form = controller.getForm(request);
         assert cleanContent.endsWith(form.getContent());
     }
+    
+    @Test
+    public void testCancelUpdate() throws PortletModeException {
+        controller.cancelUpdate(request, response);
+        verify(response).setPortletMode(PortletMode.VIEW);
+    }
 
     @Test
     public void testUpdateConfiguration() throws ReadOnlyException, PortletModeException {

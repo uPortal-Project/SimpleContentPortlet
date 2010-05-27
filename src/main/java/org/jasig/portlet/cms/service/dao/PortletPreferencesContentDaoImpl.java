@@ -28,6 +28,7 @@ import javax.portlet.ValidatorException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jasig.portlet.cms.mvc.exception.ContentPersistenceException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -69,11 +70,11 @@ public class PortletPreferencesContentDaoImpl implements IContentDao {
             preferences.store();
         
         } catch (ReadOnlyException e) {
-            log.error("Failed to save read-only preference", e);
+            throw new ContentPersistenceException("Failed to save read-only preference", e);
         } catch (ValidatorException e) {
-            log.error("Portlet preferences validation error while attempting to persist portlet content", e);
+            throw new ContentPersistenceException("Portlet preferences validation error while attempting to persist portlet content", e);
         } catch (IOException e) {
-            log.error("IO error while attempting to persist portlet content", e);
+            throw new ContentPersistenceException("IO error while attempting to persist portlet content", e);
         }
     }
 

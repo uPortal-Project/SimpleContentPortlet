@@ -98,6 +98,20 @@ public class ConfigureContentController {
     }
     
     /**
+     * Cancel any pending portlet configuration edits and exit configuration mode.
+     * 
+     * @param request
+     * @param response
+     * @throws PortletModeException
+     */
+    @RequestMapping(params="action=cancelUpdate")
+    public void cancelUpdate(ActionRequest request, ActionResponse response) 
+            throws PortletModeException {
+        // exit the portlet's configuration mode
+        response.setPortletMode(PortletMode.VIEW);
+    }
+    
+    /**
      * Get the form object for the portlet configuration.  If this portlet has
      * already been configured with content, the current HTML will be 
      * pre-populated into the form object.  If this is a new portlet, the 

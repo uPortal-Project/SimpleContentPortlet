@@ -18,15 +18,19 @@
  */
 package org.jasig.portlet.cms.service.dao;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.io.IOException;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
+import javax.portlet.ValidatorException;
 
-import org.jasig.portlet.cms.service.dao.IContentDao;
-import org.jasig.portlet.cms.service.dao.PortletPreferencesContentDaoImpl;
+import org.jasig.portlet.cms.mvc.exception.ContentPersistenceException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -60,5 +64,50 @@ public class PortletPreferencesContentDaoImplTest {
         verify(preferences).setValue(PortletPreferencesContentDaoImpl.CONTENT_KEY, content);
     }
 
+    @Test
+    public void testReadOnlyError() {
+        
+        try {
+            doThrow(new ReadOnlyException("")).when(preferences).setValue(PortletPreferencesContentDaoImpl.CONTENT_KEY, content);
+            contentDao.saveContent(request, content);
+            
+            Assert.fail("Should have thrown an exception");
+        } catch (ReadOnlyException e) {
+            Assert.fail("Read-only exception should have been converted to a ContentPersistenceException");
+        } catch (ContentPersistenceException e) {
+        }
+        
+    }
+
+    @Test
+    public void testValidatorError() throws IOException {
+        
+        try {
+            doThrow(new ValidatorException("", null)).when(preferences).store();
+            contentDao.saveContent(request, content);
+            
+            Assert.fail("Should have thrown an exception");
+        } catch (ValidatorException e) {
+            Assert.fail("Validator exception should have been converted to a ContentPersistenceException");
+        } catch (ContentPersistenceException e) {
+        }
+
+    }
+
+
+    @Test
+    public void testIOError() throws ValidatorException {
+        
+        try {
+            doThrow(new IOException("", null)).when(preferences).store();
+            contentDao.saveContent(request, content);
+            
+            Assert.fail("Should have thrown an exception");
+        } catch (IOException e) {
+            Assert.fail("Validator exception should have been converted to a ContentPersistenceException");
+        } catch (ContentPersistenceException e) {
+        }
+
+    }
 
 }

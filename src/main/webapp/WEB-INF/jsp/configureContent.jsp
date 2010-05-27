@@ -22,6 +22,7 @@
 <c:set var="includeJQuery" value="${renderRequest.preferences.map['includeJQuery'][0]}"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
+<portlet:actionURL var="cancelUrl"><portlet:param name="action" value="cancelUpdate"/></portlet:actionURL>
 
 <c:if test="${includeJQuery}">
     <script type="text/javascript" src="<rs:resourceURL value="/rs/jquery/1.4.2/jquery-1.4.2.min.js"/>"></script>
@@ -31,7 +32,7 @@
 </c:if>
 
 <style type="text/css">
-    #${n}contentForm .flc-inlineEdit-text { min-height: 100px; border: thin dashed #666; padding: 10px; }
+    #${n}contentForm .flc-inlineEdit-text { min-height: 100px; border: thin dashed #666; padding: 10px; margin: 10px; }
 </style>
 
 <h2>Content Preview</h2>
@@ -47,23 +48,25 @@
 
         <form:textarea path="content"/>
 
-        <button class="portlet-form-button primary save">
+        <button class="portlet-form-button portlet-button button portlet-button-primary primary save">
             <spring:message code="configurationForm.preview"/>
         </button>
 
-        <button class="cancel portlet-form-button">
+        <button class="cancel portlet-form-button portlet-button button portlet-button-secondary secondary">
             <spring:message code="configurationForm.cancel"/>
         </button>
 
     </div>
     
-    <div>
-        <input type="submit" value="<spring:message code="configurationForm.save"/>"/>
+    <div class="save-configuration-button portlet-button-group buttons">
+        <input class="portlet-form-button portlet-button portlet-button-primary" type="submit" value="<spring:message code="configurationForm.save"/>"/>
     </div>
 
-    <a href="<portlet:actionURL portletMode="VIEW"/>">
-        <spring:message code="configurationForm.return"/>
-    </a>   
+    <p>
+        <a href="${ cancelUrl }">
+            <spring:message code="configurationForm.return"/>
+        </a>
+    </p>   
      
 </form:form>
     
@@ -85,13 +88,22 @@
 
             $(".cancel", editor.container).click(function(){
                 editor.cancel();
+                $(".save-configuration-button").show();
                 return false;
             });
         }; 
         
         $(document).ready(function(){
             // Create an CKEditor 3.x-based Rich Inline Edit component.
-            var ckEditor = fluid.inlineEdit.CKEditor("#${n}contentForm");
+            var ckEditor = fluid.inlineEdit.CKEditor("#${n}contentForm", {
+                listeners: {
+                    onBeginEdit: function(){ $(".save-configuration-button").hide(); },
+                    afterFinishEdit: function(newVal, old, edit, view){
+                        $(".save-configuration-button").show();
+                        console.log($(".flc-inlineEdit-editContainer textarea").val());
+                    }
+                }
+            });
             makeButtons(ckEditor);  
         });
         

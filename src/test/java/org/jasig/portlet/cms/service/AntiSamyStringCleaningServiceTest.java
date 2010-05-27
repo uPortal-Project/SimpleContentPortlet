@@ -18,8 +18,23 @@
  */
 package org.jasig.portlet.cms.service;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
+import org.jasig.portlet.cms.mvc.exception.StringCleaningException;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.owasp.validator.html.AntiSamy;
+import org.owasp.validator.html.Policy;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,17 +43,61 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations={"classpath:testContext.xml"})
 public class AntiSamyStringCleaningServiceTest {
 
-    private IStringCleaningService cleaningService;
+    private AntiSamyStringCleaningService cleaningService;
+    @Mock AntiSamy antiSamy;
+    String content = "<h1>Title</h1><p>Content<script type=\"text/javascript\">alert('uhoh!');</script></p>";
 
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+    
     @Autowired(required = true)
-    public void setCleaningService(IStringCleaningService cleaningService) {
+    public void setCleaningService(AntiSamyStringCleaningService cleaningService) {
         this.cleaningService = cleaningService;
     }
     
     @Test
     public void testGetSafeContent() {
-        String clean = cleaningService.getSafeContent("<h1>Title</h1><p>Content<script type=\"text/javascript\">alert('uhoh!');</script></p>");
+        String clean = cleaningService.getSafeContent(content);
         assert ("Title<p>Content</p>").equals(clean);
+    }
+
+    @Test
+    public void testScanException() throws PolicyException {
+
+        cleaningService = spy(cleaningService);
+        when(cleaningService.getAntiSamyInstance()).thenReturn(antiSamy);
+        
+        try {
+            doThrow(new ScanException("")).when(antiSamy).scan(anyString(), any(Policy.class));
+            cleaningService.getSafeContent(content);
+            
+            Assert.fail("Should have thrown an exception");
+        } catch (ScanException e) {
+            Assert.fail("Scan exception should have been converted to a ContentPersistenceException");
+        } catch (StringCleaningException e) {
+        }
+
+    }
+    
+    @Test
+    public void testPolicyException() throws ScanException {
+
+        cleaningService = spy(cleaningService);
+        when(cleaningService.getAntiSamyInstance()).thenReturn(antiSamy);
+        
+        try {
+            
+            doThrow(new PolicyException("")).when(antiSamy).scan(anyString(), any(Policy.class));
+            cleaningService.getSafeContent(content);
+            
+            Assert.fail("Should have thrown an exception");
+        } catch (PolicyException e) {
+            Assert.fail("Policy exception should have been converted to a ContentPersistenceException");
+        } catch (StringCleaningException e) {
+        }
+
     }
     
 }
