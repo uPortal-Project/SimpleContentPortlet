@@ -23,12 +23,19 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <context:component-scan base-package="org.jasig.portlet.cms.service"/>
     <context:annotation-config/>
 
+    <!-- 
+     | OWASP AntiSamy policy file.
+     |  
+     | Used at content submission time to validate and sanitize submitted HTML. 
+     | For tips on selecting and tailoring a policy file to meet your security
+     | requirements, please refer to the OWASP documentation.
+     +-->
     <bean id="policyFile" class="org.springframework.core.io.ClassPathResource">
         <constructor-arg value="antisamy-configuration.xml"/>
     </bean>
