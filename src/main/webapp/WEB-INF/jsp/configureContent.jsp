@@ -23,6 +23,7 @@
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
 <portlet:actionURL var="cancelUrl"><portlet:param name="action" value="cancelUpdate"/></portlet:actionURL>
+<c:url var="previewUrl" value="/ajax/preview"/>
 
 <c:if test="${includeJQuery}">
     <script type="text/javascript" src="<rs:resourceURL value="/rs/jquery/1.4.2/jquery-1.4.2.min.js"/>"></script>
@@ -76,6 +77,19 @@
     ${n}.fluid = fluid;
     <c:if test="${includeJQuery}">delete fluid; delete fluid_1_1;</c:if>
     
+    ${n}.scriptCapableViewAccessor = function (element) {
+        return {
+            value: function (newValue) {
+                if (newValue) {
+                    element.innerHTML = newValue;
+                    return ${n}.jQuery(element);
+                } else {
+                    return element.innerHTML;
+                }
+            }
+        };
+    };
+    
     ${n}.jQuery(function(){
         var $ = ${n}.jQuery;
         var fluid = ${n}.fluid;
@@ -92,15 +106,28 @@
                 return false;
             });
         }; 
-        
+
         $(document).ready(function(){
             // Create an CKEditor 3.x-based Rich Inline Edit component.
             var ckEditor = fluid.inlineEdit.CKEditor("#${n}contentForm", {
+                displayAccessor: {
+                    type: "${n}.scriptCapableViewAccessor"
+                },
                 listeners: {
                     onBeginEdit: function(){ $(".save-configuration-button").hide(); },
                     afterFinishEdit: function(newVal, old, edit, view){
+                        $.ajax({
+                            url: "${ previewUrl }",
+                            data: { content: newVal },
+                            dataType: "json",
+                            async: false,
+                            type: "GET",
+                            success: function(data) {
+                                var model = ckEditor.model;
+                                ckEditor.updateModelValue(data.content);
+                            }
+                        });
                         $(".save-configuration-button").show();
-                        console.log($(".flc-inlineEdit-editContainer textarea").val());
                     }
                 }
             });
