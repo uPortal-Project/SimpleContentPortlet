@@ -123,7 +123,6 @@
                             async: false,
                             type: "GET",
                             success: function(data) {
-                                var model = ckEditor.model;
                                 ckEditor.updateModelValue(data.content);
                             }
                         });
