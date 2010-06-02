@@ -93,6 +93,7 @@
     ${n}.jQuery(function(){
         var $ = ${n}.jQuery;
         var fluid = ${n}.fluid;
+        var cleanContent = ${cleanContent};
 
         var makeButtons = function (editor) {
             $(".save", editor.container).click(function(){
@@ -116,16 +117,20 @@
                 listeners: {
                     onBeginEdit: function(){ $(".save-configuration-button").hide(); },
                     afterFinishEdit: function(newVal, old, edit, view){
-                        $.ajax({
-                            url: "${ previewUrl }",
-                            data: { content: newVal },
-                            dataType: "json",
-                            async: false,
-                            type: "GET",
-                            success: function(data) {
-                                ckEditor.updateModelValue(data.content);
-                            }
-                        });
+                        if (cleanContent) {
+                            $.ajax({
+                                url: "${ previewUrl }",
+                                data: { content: newVal },
+                                dataType: "json",
+                                async: false,
+                                type: "GET",
+                                success: function(data) {
+                                    ckEditor.updateModelValue(data.content);
+                                }
+                            });
+                        } else {
+                            ckEditor.updateModelValue(newVal);                            
+                        }
                         $(".save-configuration-button").show();
                     }
                 }

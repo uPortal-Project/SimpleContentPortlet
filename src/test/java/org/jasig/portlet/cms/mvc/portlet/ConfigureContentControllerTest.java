@@ -18,6 +18,7 @@
  */
 package org.jasig.portlet.cms.mvc.portlet;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +26,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletModeException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 
 import org.jasig.portlet.cms.mvc.form.ContentForm;
@@ -41,6 +43,7 @@ public class ConfigureContentControllerTest {
     @Mock ActionResponse response;
     @Mock IContentDao contentDao;
     @Mock IStringCleaningService cleaningService;
+    @Mock PortletPreferences preferences;
     
     String content = "<h1>Title</h1><p>content</p>";
     String cleanContent = "Title<p>content</p>";
@@ -49,6 +52,9 @@ public class ConfigureContentControllerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        
+        when(request.getPreferences()).thenReturn(preferences);
+        when(preferences.getValue("cleanContent", "true")).thenReturn("true");
         
         controller.setContentDao(contentDao);
         when(contentDao.getContent(request)).thenReturn(cleanContent);
@@ -85,6 +91,19 @@ public class ConfigureContentControllerTest {
         
         verify(response).setPortletMode(PortletMode.VIEW);
         
+    }
+    
+    @Test
+    public void testUpdateConfigurationWithoutCleaning() throws PortletModeException {
+        
+        when(preferences.getValue("cleanContent", "true")).thenReturn("false");
+        
+        ContentForm form = new ContentForm();
+        form.setContent(content);
+        controller.updateConfiguration(request, response, form);
+        
+        verify(contentDao).saveContent(request, content);
+
     }
 
 }

@@ -22,6 +22,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletModeException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
 import org.apache.commons.logging.Log;
@@ -59,7 +60,7 @@ public class ConfigureContentController {
     
     private IStringCleaningService cleaningService;
     
-    @Autowired(required = true)
+    @Autowired
     public void setStringCleaningService(IStringCleaningService cleaningService) {
         this.cleaningService = cleaningService;
     }
@@ -87,8 +88,14 @@ public class ConfigureContentController {
     public void updateConfiguration(ActionRequest request, ActionResponse response, 
             @ModelAttribute("form") ContentForm form) throws PortletModeException {
         
-        // first strip the content of any dangerous HTML
-        String content = cleaningService.getSafeContent(form.getContent());
+        String content = form.getContent();
+        
+        // if configured to do so, validate the content and strip out any
+        // potentially dangerous HTML
+        PortletPreferences preferences = request.getPreferences();
+        if (Boolean.valueOf(preferences.getValue("cleanContent", "true"))) {
+            content = cleaningService.getSafeContent(form.getContent());
+        }
         
         // save the new content to the portlet preferences
         this.contentDao.saveContent(request, content);
@@ -128,6 +135,17 @@ public class ConfigureContentController {
         ContentForm form = new ContentForm();
         form.setContent(content);
         return form;
+    }
+    
+    /**
+     * 
+     * @param request
+     * @return
+     */
+    @ModelAttribute("cleanContent")
+    public boolean isCleanContent(PortletRequest request) {
+        PortletPreferences preferences = request.getPreferences();
+        return Boolean.valueOf(preferences.getValue("cleanContent", "true"));
     }
     
 }
