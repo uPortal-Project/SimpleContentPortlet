@@ -18,6 +18,10 @@
  */
 package org.jasig.portlet.cms.mvc.exception;
 
+/**
+ * @author Jen Bourey, jbourey@unicon.net
+ * @version $Revision$
+ */
 public class ContentPersistenceException extends RuntimeException {
 
     private static final long serialVersionUID = -2080327787225619040L;

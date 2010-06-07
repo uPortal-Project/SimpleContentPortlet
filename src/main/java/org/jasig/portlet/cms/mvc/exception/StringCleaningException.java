@@ -18,6 +18,10 @@
  */
 package org.jasig.portlet.cms.mvc.exception;
 
+/**
+ * @author Jen Bourey, jbourey@unicon.net
+ * @version $Revision$
+ */
 public class StringCleaningException extends RuntimeException {
 
     private static final long serialVersionUID = 773741965998995908L;
