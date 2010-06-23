@@ -45,7 +45,7 @@
         ${ form.content }
     </div>
 
-    <div class="flc-inlineEdit-editContainer">
+    <div class="flc-inlineEdit-editContainer" style="display:none">
 
         <form:textarea path="content"/>
 
