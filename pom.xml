@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.portlet.simplecontent</groupId>
     <artifactId>SimpleContentPortlet</artifactId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Simple Content Management Portlet</name>
@@ -17,9 +17,9 @@
     <url>http://www.jasig.org</url>
 
     <scm>
-        <connection>scm:svn:https://source.jasig.org/sandbox/SimpleContentPortlet/tags/SimpleContentPortlet-0.1</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/sandbox/SimpleContentPortlet/tags/SimpleContentPortlet-0.1</developerConnection>
-        <url>http://developer.jasig.org/source/browse/jasigsvn/sandbox/SimpleContentPortlet/tags/SimpleContentPortlet-0.1</url>
+        <connection>scm:svn:https://source.jasig.org/sandbox/SimpleContentPortlet/trunk</connection>
+        <developerConnection>scm:svn:https://source.jasig.org/sandbox/SimpleContentPortlet/trunk</developerConnection>
+        <url>http://developer.jasig.org/source/browse/jasigsvn/sandbox/SimpleContentPortlet/trunk</url>
     </scm>
 
     <issueManagement>
