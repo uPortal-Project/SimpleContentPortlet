@@ -4,30 +4,24 @@
     <parent>
         <groupId>org.jasig.parent</groupId>
         <artifactId>jasig-parent</artifactId>
-        <version>18</version>
+        <version>20</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.portlet.simplecontent</groupId>
     <artifactId>SimpleContentPortlet</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Simple Content Management Portlet</name>
     <description>Jasig Portlet-preferences based CMS portlet</description>
+    <url>http://www.jasig.org</url>
 
     <scm>
-        <connection>scm:svn:https://www.ja-sig.org/svn/sandbox/SimpleContentPortlet/trunk</connection>
-        <developerConnection>scm:svn:https://www.ja-sig.org/svn/sandbox/SimpleContentPortlet/trunk</developerConnection>
+        <connection>scm:svn:https://source.jasig.org/sandbox/SimpleContentPortlet/trunk</connection>
+        <developerConnection>scm:svn:https://source.jasig.org/sandbox/SimpleContentPortlet/trunk</developerConnection>
         <url>http://developer.jasig.org/source/browse/jasigsvn/sandbox/SimpleContentPortlet/trunk</url>
     </scm>
-
-    <distributionManagement>
-        <site>
-            <id>developer.jasig</id>
-            <url>${jasig-site-dist-base}/SimpleContentPortlet/${project.version}</url>
-        </site>
-    </distributionManagement>
 
     <issueManagement>
         <url>${jasig-issues-base}/CMSPLT</url>
@@ -36,9 +30,9 @@
 
     <repositories>
         <repository>
-            <id>jasig-repository</id>
-            <name>JA-SIG Maven2 Repository</name>
-            <url>http://developer.ja-sig.org/maven2</url>
+            <id>sonatype-release</id>
+            <name>Sonatype Releases Repo</name>
+            <url>http://oss.sonatype.org/content/repositories/sourceforge-releases</url>
         </repository>
     </repositories>
 
