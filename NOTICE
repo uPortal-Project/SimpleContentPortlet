@@ -21,6 +21,7 @@ This project includes:
 
  jQuery, jQueryUI, and the jQuery Form Plugin under the MIT license
  SLF4J under the MIT License
+ mockito under the MIT license
 
  Xerces under the Apache License, Version 1.1
 
@@ -40,6 +41,9 @@ This project includes:
  NekoHTML under the Apache Lience, Version 2
  Spring Framework under the Apache License, Version 2
  XML APIs under the Apache License, Version 2
+ Batik Java SVG Toolkit under the Apache License, Version 2
+ JSP Standard Tag Library under the Apache License, Version 2
+ Objenesis under the Apache License, Version 2
  
  AOP Alliance under the Public Domain License
 
@@ -49,12 +53,9 @@ This project includes:
  
  CK Editor under the Mozilla Public License
  
-antisamy-1.4.jar
-batik-css-1.7.jar
-batik-ext-1.7.jar
-batik-util-1.7.jar
-hamcrest-core-1.1.jar
-jstl-1.1.2.jar
-mockito-core-1.8.4.jar
-objenesis-1.0.jar
-standard-1.1.2.jar
+ OWASP AntiSamy under the new BSD License
+ Hamcrest library under the new BSD License
+ 
+
+
+
