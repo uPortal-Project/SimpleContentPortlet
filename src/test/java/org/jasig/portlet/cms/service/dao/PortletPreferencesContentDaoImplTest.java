@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.jasig.portlet.cms.service.dao;
 
 import static org.mockito.Mockito.doThrow;
@@ -99,7 +100,7 @@ public class PortletPreferencesContentDaoImplTest {
     public void testIOError() throws ValidatorException {
         
         try {
-            doThrow(new IOException("", null)).when(preferences).store();
+            doThrow(new IOException("")).when(preferences).store();
             contentDao.saveContent(request, content);
             
             Assert.fail("Should have thrown an exception");

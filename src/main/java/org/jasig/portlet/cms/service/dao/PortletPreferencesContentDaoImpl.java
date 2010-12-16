@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.jasig.portlet.cms.service.dao;
 
 import java.io.IOException;

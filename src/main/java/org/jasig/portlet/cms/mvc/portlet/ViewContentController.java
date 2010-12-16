@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.jasig.portlet.cms.mvc.portlet;
 
 import javax.portlet.PortletRequest;

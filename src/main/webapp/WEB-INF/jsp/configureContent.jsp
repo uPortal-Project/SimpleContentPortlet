@@ -18,6 +18,7 @@
     under the License.
 
 --%>
+
 <jsp:directive.include file="/WEB-INF/jsp/include.jsp"/>
 <c:set var="includeJQuery" value="${renderRequest.preferences.map['includeJQuery'][0]}"/>
 <c:set var="n"><portlet:namespace/></c:set>
