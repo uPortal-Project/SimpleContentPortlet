@@ -17,9 +17,9 @@
     <url>http://www.jasig.org</url>
 
     <scm>
-        <connection>scm:svn:https://source.jasig.org/sandbox/SimpleContentPortlet/trunk</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/sandbox/SimpleContentPortlet/trunk</developerConnection>
-        <url>http://developer.jasig.org/source/browse/jasigsvn/sandbox/SimpleContentPortlet/trunk</url>
+        <connection>scm:svn:https://source.jasig.org/portlets/SimpleContentPortlet/trunk</connection>
+        <developerConnection>scm:svn:https://source.jasig.org/portlets/SimpleContentPortlet/trunk</developerConnection>
+        <url>http://developer.jasig.org/source/browse/jasigsvn/portlets/SimpleContentPortlet/trunk</url>
     </scm>
 
     <issueManagement>
