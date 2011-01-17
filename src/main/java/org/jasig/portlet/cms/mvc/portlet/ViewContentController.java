@@ -19,6 +19,8 @@
 
 package org.jasig.portlet.cms.mvc.portlet;
 
+import java.util.Locale;
+
 import javax.portlet.PortletRequest;
 
 import org.jasig.portlet.cms.service.dao.IContentDao;
@@ -63,7 +65,8 @@ public class ViewContentController {
      */
     @ModelAttribute("content")
     public String getContent(PortletRequest request){
-        return this.contentDao.getContent(request);
+    	Locale locale = request.getLocale();
+        return this.contentDao.getContent(request, locale.toString());
     }
     
 }

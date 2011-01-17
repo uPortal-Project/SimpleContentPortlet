@@ -27,6 +27,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.ValidatorException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.cms.mvc.exception.ContentPersistenceException;
@@ -51,23 +52,34 @@ public class PortletPreferencesContentDaoImpl implements IContentDao {
 
     /*
      * (non-Javadoc)
-     * @see org.jasig.portlet.cms.service.dao.IContentDao#getContent(javax.portlet.PortletRequest)
+     * @see org.jasig.portlet.cms.service.dao.IContentDao#getContent(javax.portlet.PortletRequest, java.lang.String)
      */
-    public String getContent(PortletRequest request) {
+    public String getContent(PortletRequest request, String localeKey) {
         PortletPreferences preferences = request.getPreferences();
-        String content = preferences.getValue(CONTENT_KEY, "");
+
+        String content = null;
+        if (StringUtils.isNotBlank(localeKey)) {
+            content = preferences.getValue(getLocaleSpecificKey(localeKey), null);
+        }
+        if (content == null) {
+            content = preferences.getValue(CONTENT_KEY, "");
+        }
         return content;
     }
 
     /*
      * (non-Javadoc)
-     * @see org.jasig.portlet.cms.service.dao.IContentDao#saveContent(javax.portlet.ActionRequest, java.lang.String)
+     * @see org.jasig.portlet.cms.service.dao.IContentDao#saveContent(javax.portlet.ActionRequest, java.lang.String, java.lang.String)
      */
-    public void saveContent(ActionRequest request, String content) {
+    public void saveContent(ActionRequest request, String content, String localeKey) {
         try {
 
             PortletPreferences preferences = request.getPreferences();
-            preferences.setValue(CONTENT_KEY, content);
+            if (StringUtils.isNotBlank(localeKey)) {
+                preferences.setValue(getLocaleSpecificKey(localeKey), content);
+            } else {
+                preferences.setValue(CONTENT_KEY, content);
+            }
             preferences.store();
         
         } catch (ReadOnlyException e) {
@@ -77,6 +89,16 @@ public class PortletPreferencesContentDaoImpl implements IContentDao {
         } catch (IOException e) {
             throw new ContentPersistenceException("IO error while attempting to persist portlet content", e);
         }
+    }
+    
+    /**
+     * Return a locale-specific content preference key.
+     * 
+     * @param localeKey
+     * @return
+     */
+    protected String getLocaleSpecificKey(String localeKey) {
+        return CONTENT_KEY.concat("-").concat(localeKey);
     }
 
     

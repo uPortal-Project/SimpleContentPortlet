@@ -35,16 +35,18 @@ public interface IContentDao {
      * Get the HTML content to be displayed for this portlet.
      * 
      * @param request
+     * @param localeKey
      * @return
      */
-    public String getContent(PortletRequest request);
+    public String getContent(PortletRequest request, String localeKey);
 
     /**
      * Save the HTML content for this portlet.
      * 
      * @param request Action request associated with this operation.
      * @param content HTML content to be persisted.
+     * @param localeKey Locale of content to be persisted.
      */
-    public void saveContent(ActionRequest request, String content);
+    public void saveContent(ActionRequest request, String content, String localeKey);
 
 }

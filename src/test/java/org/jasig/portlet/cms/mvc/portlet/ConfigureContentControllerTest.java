@@ -57,7 +57,7 @@ public class ConfigureContentControllerTest {
         when(preferences.getValue("cleanContent", "true")).thenReturn("true");
         
         controller.setContentDao(contentDao);
-        when(contentDao.getContent(request)).thenReturn(cleanContent);
+        when(contentDao.getContent(request, null)).thenReturn(cleanContent);
         
         controller.setStringCleaningService(cleaningService);
         when(cleaningService.getSafeContent(content)).thenReturn(cleanContent);
@@ -87,7 +87,7 @@ public class ConfigureContentControllerTest {
         form.setContent(content);
         
         controller.updateConfiguration(request, response, form);
-        verify(contentDao).saveContent(request, cleanContent);
+        verify(contentDao).saveContent(request, cleanContent, null);
         
         verify(response).setPortletMode(PortletMode.VIEW);
         
@@ -102,7 +102,7 @@ public class ConfigureContentControllerTest {
         form.setContent(content);
         controller.updateConfiguration(request, response, form);
         
-        verify(contentDao).saveContent(request, content);
+        verify(contentDao).saveContent(request, content, null);
 
     }
 

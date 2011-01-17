@@ -28,6 +28,7 @@ package org.jasig.portlet.cms.mvc.form;
 public class ContentForm {
 
     private String content;
+    private String locale;
 
     /**
      * Get the HTML content to be displayed by this portlet.
@@ -39,7 +40,7 @@ public class ContentForm {
     }
 
     /**
-     * Set the HTML contet to be displayed by this portlet.
+     * Set the HTML content to be displayed by this portlet.
      * 
      * @param content
      */
@@ -47,5 +48,21 @@ public class ContentForm {
         this.content = content;
     }
 
-    
+    /**
+     * Get the locale string associated with the content.
+     * 
+     * @return
+     */
+    public String getLocale() {
+        return locale;
+    }
+
+    /**
+     * Set the locale string associated with the content.
+     * 
+     * @param locale
+     */
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 }

@@ -62,6 +62,14 @@
                 <name>cleanContent</name>
                 <value>true</value>
             </preference>
+
+            <preference>
+                <name>supportedLocales</name>
+                <value>en_US</value>
+                <value>ja_JP</value>
+                <value>sv_SE</value>
+                <value>de_DE</value>
+            </preference>
         </portlet-preferences>
                
     </portlet>
@@ -111,6 +119,11 @@
             <preference>
                 <name>cleanContent</name>
                 <value>false</value>
+            </preference>
+
+            <preference>
+                <name>supportedLocales</name>
+                <value>en_US,ja_JP,sv_SE,de_DE</value>
             </preference>
         </portlet-preferences>
         

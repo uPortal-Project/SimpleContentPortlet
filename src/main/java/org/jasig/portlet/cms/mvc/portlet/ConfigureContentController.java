@@ -19,6 +19,9 @@
 
 package org.jasig.portlet.cms.mvc.portlet;
 
+import java.util.HashMap;
+import java.util.Locale;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
@@ -33,6 +36,7 @@ import org.jasig.portlet.cms.service.IStringCleaningService;
 import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -90,6 +94,7 @@ public class ConfigureContentController {
             @ModelAttribute("form") ContentForm form) throws PortletModeException {
         
         String content = form.getContent();
+        String locale = form.getLocale();
         
         // if configured to do so, validate the content and strip out any
         // potentially dangerous HTML
@@ -99,7 +104,7 @@ public class ConfigureContentController {
         }
         
         // save the new content to the portlet preferences
-        this.contentDao.saveContent(request, content);
+        this.contentDao.saveContent(request, content, locale);
         
         // exit the portlet's configuration mode
         response.setPortletMode(PortletMode.VIEW);
@@ -131,13 +136,14 @@ public class ConfigureContentController {
     @ModelAttribute("form")
     public ContentForm getForm(PortletRequest request) {
         
-        String content = this.contentDao.getContent(request);
+        // TODO: Get the locale specified in the drop-down list
+        String content = this.contentDao.getContent(request, null);
         
         ContentForm form = new ContentForm();
         form.setContent(content);
         return form;
     }
-    
+
     /**
      * 
      * @param request
@@ -149,4 +155,25 @@ public class ConfigureContentController {
         return Boolean.valueOf(preferences.getValue("cleanContent", "true"));
     }
     
+    /**
+     * Get the list of supported locales to populate the drop-down list with.
+     * 
+     * @param request
+     * @return
+     */
+//    @ModelAttribute("supportedLocales")
+    public HashMap<String, String> getLocales(PortletRequest request) {
+
+        PortletPreferences preferences = request.getPreferences();
+        String[] supportedLocales = preferences.getValues("supportedLocales", new String[]{});
+        HashMap<String, String> locales = new HashMap<String, String>(); 
+
+        for (String localeString : supportedLocales) {
+            localeString = localeString.trim();
+            Locale locale = StringUtils.parseLocaleString(localeString.trim());
+            locales.put(localeString.trim(), localeString.trim() + ": " + locale.getDisplayName());
+        }
+
+        return locales;
+    }
 }

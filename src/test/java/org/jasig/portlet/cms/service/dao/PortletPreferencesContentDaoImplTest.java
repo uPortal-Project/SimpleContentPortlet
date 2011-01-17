@@ -55,13 +55,13 @@ public class PortletPreferencesContentDaoImplTest {
     
     @Test
     public void testGetContent() {
-        String result = contentDao.getContent(request);
+        String result = contentDao.getContent(request, null);
         assert content.equals(result);
     }
     
     @Test
     public void testSaveContent() throws ReadOnlyException {
-        contentDao.saveContent(request, content);
+        contentDao.saveContent(request, content, null);
         verify(preferences).setValue(PortletPreferencesContentDaoImpl.CONTENT_KEY, content);
     }
 
@@ -70,7 +70,7 @@ public class PortletPreferencesContentDaoImplTest {
         
         try {
             doThrow(new ReadOnlyException("")).when(preferences).setValue(PortletPreferencesContentDaoImpl.CONTENT_KEY, content);
-            contentDao.saveContent(request, content);
+            contentDao.saveContent(request, content, null);
             
             Assert.fail("Should have thrown an exception");
         } catch (ReadOnlyException e) {
@@ -85,7 +85,7 @@ public class PortletPreferencesContentDaoImplTest {
         
         try {
             doThrow(new ValidatorException("", null)).when(preferences).store();
-            contentDao.saveContent(request, content);
+            contentDao.saveContent(request, content, null);
             
             Assert.fail("Should have thrown an exception");
         } catch (ValidatorException e) {
@@ -101,7 +101,7 @@ public class PortletPreferencesContentDaoImplTest {
         
         try {
             doThrow(new IOException("")).when(preferences).store();
-            contentDao.saveContent(request, content);
+            contentDao.saveContent(request, content, null);
             
             Assert.fail("Should have thrown an exception");
         } catch (IOException e) {
