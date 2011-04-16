@@ -76,7 +76,7 @@
     var ${n} = ${n} || {};
     ${n}.jQuery = jQuery.noConflict(${includeJQuery});
     ${n}.fluid = fluid;
-    <c:if test="${includeJQuery}">delete fluid; delete fluid_1_1;</c:if>
+    <c:if test="${includeJQuery}">fluid = null; fluid_1_2 = null;</c:if>
     
     ${n}.scriptCapableViewAccessor = function (element) {
         return {
