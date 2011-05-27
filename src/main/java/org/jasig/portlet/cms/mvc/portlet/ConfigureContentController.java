@@ -21,6 +21,7 @@ package org.jasig.portlet.cms.mvc.portlet;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -39,6 +40,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * ConfigureContentController allows administrative users to set the content 
@@ -123,6 +127,17 @@ public class ConfigureContentController {
         // exit the portlet's configuration mode
         response.setPortletMode(PortletMode.VIEW);
     }
+    
+    @ResourceMapping("preview")
+    public ModelAndView getPreview(@RequestParam("content") String content) {
+        
+        Map<String, String> model = new HashMap<String, String>();
+        String cleanContent = cleaningService.getSafeContent(content);
+        model.put("content", cleanContent);
+        
+        return new ModelAndView("jsonView", model);
+    }
+    
     
     /**
      * Get the form object for the portlet configuration.  If this portlet has

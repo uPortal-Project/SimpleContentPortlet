@@ -21,13 +21,23 @@ package org.jasig.portlet.cms.mvc.portlet;
 
 import java.util.Locale;
 
+import javax.portlet.Event;
+import javax.portlet.EventRequest;
+import javax.portlet.EventResponse;
+import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 
+import org.jasig.portal.search.PortletUrl;
+import org.jasig.portal.search.SearchQuery;
+import org.jasig.portal.search.SearchResult;
+import org.jasig.portal.search.SearchResults;
 import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.portlet.bind.annotation.EventMapping;
+import org.springframework.web.portlet.context.PortletConfigAware;
 
 /**
  * ViewContentController provides the main view of the portlet.
@@ -37,13 +47,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("VIEW")
-public class ViewContentController {
+public class ViewContentController implements PortletConfigAware {
     
+    private int searchSummaryLength = 1000;
+    private PortletConfig portletConfig;
     private IContentDao contentDao;
     
     @Autowired(required = true)
     public void setContentDao(IContentDao contentDao) {
         this.contentDao = contentDao;
+    }
+    
+    public void setPortletConfig(PortletConfig portletConfig) {
+        this.portletConfig = portletConfig;
+    }
+
+    @EventMapping("SearchQuery")
+    public void searchContent(EventRequest request, EventResponse response) {
+        final Event event = request.getEvent();
+        final SearchQuery searchQuery = (SearchQuery)event.getValue();
+        
+        final String content = getContent(request);
+        final String[] searchTerms = searchQuery.getSearchTerms().split(" ");
+        for (final String term : searchTerms) {
+            if (content.contains(term)) {
+                //matched, create results object and copy over the query id
+                final SearchResults searchResults = new SearchResults();
+                searchResults.setQueryId(searchQuery.getQueryId());
+               
+                //Build the result object for the match
+                final SearchResult searchResult = new SearchResult();
+                searchResult.setWindowId(request.getWindowID()); //TODO move to SearchResults
+                searchResult.setTitle(this.portletConfig.getPortletName());
+                searchResult.setSummary(getContentSummary(content));
+                searchResult.setPortletUrl(new PortletUrl());
+                
+                //Add the result to the results and send the event
+                searchResults.getSearchResult().add(searchResult);
+                response.setEvent("SearchResults", searchResults);
+                
+                //Stop processing
+                return;
+            }
+        }
+    }
+
+    protected String getContentSummary(final String content) {
+        if (content.length() > searchSummaryLength) {
+            return content.substring(0, searchSummaryLength) + "...";
+        }
+        
+        return content;
     }
     
     /**

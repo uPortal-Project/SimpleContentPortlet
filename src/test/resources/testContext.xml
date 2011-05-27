@@ -36,8 +36,7 @@
         <constructor-arg value="antisamy-slashdot-1.3.xml"/>
     </bean>
     
-    <bean class="org.jasig.web.service.AjaxPortletSupportService"/>
-    <bean id="modelPasser" class="org.jasig.web.util.DefaultModelPasser"/>
+    <bean class="org.jasig.portlet.cms.mvc.portlet.ConfigureContentController"/>
     
 
 </beans>

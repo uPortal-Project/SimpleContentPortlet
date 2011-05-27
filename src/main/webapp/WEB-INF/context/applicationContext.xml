@@ -46,9 +46,6 @@
         class="org.springframework.context.support.ResourceBundleMessageSource"
         p:basenames="messages"/>
 
-    <!-- AJAX portlet resources -->
-    <bean class="org.jasig.web.service.AjaxPortletSupportService"/>
-        
     <!-- 
      | View resolvers, look for a named view bean before going to JSP resolution
      +-->
