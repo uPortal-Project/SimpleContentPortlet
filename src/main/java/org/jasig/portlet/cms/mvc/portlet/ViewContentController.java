@@ -28,7 +28,8 @@ import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 
 import org.jasig.portal.search.PortletUrl;
-import org.jasig.portal.search.SearchQuery;
+import org.jasig.portal.search.SearchConstants;
+import org.jasig.portal.search.SearchRequest;
 import org.jasig.portal.search.SearchResult;
 import org.jasig.portal.search.SearchResults;
 import org.jasig.portlet.cms.service.dao.IContentDao;
@@ -62,10 +63,10 @@ public class ViewContentController implements PortletConfigAware {
         this.portletConfig = portletConfig;
     }
 
-    @EventMapping("SearchQuery")
+    @EventMapping(SearchConstants.SEARCH_REQUEST_QNAME_STRING)
     public void searchContent(EventRequest request, EventResponse response) {
         final Event event = request.getEvent();
-        final SearchQuery searchQuery = (SearchQuery)event.getValue();
+        final SearchRequest searchQuery = (SearchRequest)event.getValue();
         
         final String content = getContent(request);
         final String[] searchTerms = searchQuery.getSearchTerms().split(" ");
@@ -74,17 +75,17 @@ public class ViewContentController implements PortletConfigAware {
                 //matched, create results object and copy over the query id
                 final SearchResults searchResults = new SearchResults();
                 searchResults.setQueryId(searchQuery.getQueryId());
+                searchResults.setWindowId(request.getWindowID());
                
                 //Build the result object for the match
                 final SearchResult searchResult = new SearchResult();
-                searchResult.setWindowId(request.getWindowID()); //TODO move to SearchResults
                 searchResult.setTitle(this.portletConfig.getPortletName());
                 searchResult.setSummary(getContentSummary(content));
                 searchResult.setPortletUrl(new PortletUrl());
                 
                 //Add the result to the results and send the event
                 searchResults.getSearchResult().add(searchResult);
-                response.setEvent("SearchResults", searchResults);
+                response.setEvent(SearchConstants.SEARCH_RESULTS_QNAME, searchResults);
                 
                 //Stop processing
                 return;

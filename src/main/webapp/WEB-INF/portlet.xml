@@ -144,12 +144,10 @@
 
     <event-definition>
         <qname xmlns:x="https://source.jasig.org/schemas/uportal/search">x:SearchQuery</qname>
-        <alias>SearchQuery</alias>
         <value-type>org.jasig.portal.search.SearchQuery</value-type>
     </event-definition>
     <event-definition>
         <qname xmlns:x="https://source.jasig.org/schemas/uportal/search">x:SearchResults</qname>
-        <alias>SearchResults</alias>
         <value-type>org.jasig.portal.search.SearchResults</value-type>
     </event-definition>
 </portlet-app>
