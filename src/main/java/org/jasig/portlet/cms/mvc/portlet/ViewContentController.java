@@ -27,7 +27,6 @@ import javax.portlet.EventResponse;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 
-import org.jasig.portal.search.PortletUrl;
 import org.jasig.portal.search.SearchConstants;
 import org.jasig.portal.search.SearchRequest;
 import org.jasig.portal.search.SearchResult;
@@ -81,7 +80,6 @@ public class ViewContentController implements PortletConfigAware {
                 final SearchResult searchResult = new SearchResult();
                 searchResult.setTitle(this.portletConfig.getPortletName());
                 searchResult.setSummary(getContentSummary(content));
-                searchResult.setPortletUrl(new PortletUrl());
                 
                 //Add the result to the results and send the event
                 searchResults.getSearchResult().add(searchResult);
