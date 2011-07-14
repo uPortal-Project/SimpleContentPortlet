@@ -40,6 +40,9 @@
     <bean id="policyFile" class="org.springframework.core.io.ClassPathResource">
         <constructor-arg value="antisamy-configuration.xml"/>
     </bean>
+    <bean id="textOnlyPolicyFile" class="org.springframework.core.io.ClassPathResource">
+        <constructor-arg value="antisamy-textonly-configuration.xml"/>
+    </bean>
 
     <!-- Message source for this context, loaded from localized "messages_xx" files -->
     <bean id="messageSource" 

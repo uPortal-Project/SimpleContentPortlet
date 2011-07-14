@@ -36,5 +36,7 @@ public interface IStringCleaningService {
      * @return
      */
     public String getSafeContent(String content);
+    
+    public String getTextContent(String content);
 
 }

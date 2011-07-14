@@ -62,7 +62,7 @@ public class ConfigureContentController {
     
     private IContentDao contentDao;
     
-    @Autowired(required = true)
+    @Autowired
     public void setContentDao(IContentDao contentDao) {
         this.contentDao = contentDao;
     }

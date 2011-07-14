@@ -21,6 +21,7 @@ package org.jasig.portlet.cms.service;
 
 import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.jasig.portlet.cms.mvc.exception.StringCleaningException;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.CleanResults;
@@ -46,8 +47,10 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
         InitializingBean {
 
     private Policy policy;
+    private Policy textOnlyPolicy;
 
     private Resource resource;
+    private Resource textOnlyResource;
     
     /**
      * Set the resource to be used as the AntiSamy policy file.
@@ -59,6 +62,17 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
     public void setResource(Resource resource) {
         this.resource = resource;
     }
+    
+    /**
+     * Set the resource to be used as the AntiSamy policy file.
+     * 
+     * @param resource
+     */
+    @javax.annotation.Resource(name = "textOnlyPolicyFile")
+    @Required
+    public void setTextOnlyPolicy(Resource resource) {
+        this.textOnlyResource = resource;
+    }
 
     /*
      * (non-Javadoc)
@@ -66,8 +80,21 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
      */
     public void afterPropertiesSet() throws Exception {
         // create an AntiSamy policy object from the configured policy file
-        InputStream stream = resource.getInputStream();
-        policy = Policy.getInstance(stream);
+        final InputStream policyStream = resource.getInputStream();
+        try {
+        	policy = Policy.getInstance(policyStream);
+        }
+        finally {
+        	IOUtils.closeQuietly(policyStream);
+        }
+        
+        final InputStream textOnlyolicyStream = textOnlyResource.getInputStream();
+        try {
+        	textOnlyPolicy = Policy.getInstance(textOnlyolicyStream);
+        }
+        finally {
+        	IOUtils.closeQuietly(textOnlyolicyStream);
+        }
     }
     
     /*
@@ -76,11 +103,9 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
      */
     public String getSafeContent(String content) {
         try {
-            
             AntiSamy as = getAntiSamyInstance();
             CleanResults cr = as.scan(content, policy);
             return cr.getCleanHTML();
-            
         } catch (ScanException e) {
             throw new StringCleaningException("Failed to scan new content", e);
         } catch (PolicyException e) {
@@ -88,7 +113,22 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
         }
     }
     
-    /**
+    /* (non-Javadoc)
+	 * @see org.jasig.portlet.cms.service.IStringCleaningService#getTextContent(java.lang.String)
+	 */
+	public String getTextContent(String content) {
+		try {
+            AntiSamy as = getAntiSamyInstance();
+            CleanResults cr = as.scan(content, textOnlyPolicy);
+            return cr.getCleanHTML();
+        } catch (ScanException e) {
+            throw new StringCleaningException("Failed to scan content for text summary", e);
+        } catch (PolicyException e) {
+            throw new StringCleaningException("Exception while getting text summary of content", e);
+        }
+	}
+
+	/**
      * Just returns a new AntiSamy instance.  This method is mostly to help
      * enable unit tests.
      * 
