@@ -21,6 +21,13 @@
         <developerConnection>scm:svn:https://source.jasig.org/portlets/SimpleContentPortlet/trunk</developerConnection>
         <url>http://developer.jasig.org/source/browse/jasigsvn/portlets/SimpleContentPortlet/trunk</url>
     </scm>
+    
+    <distributionManagement>
+        <site>
+            <id>developer.jasig</id>
+            <url>${jasig-site-dist-base}/SimpleContentPortlet/${project.version}</url>
+        </site>
+    </distributionManagement>
 
     <issueManagement>
         <url>${jasig-issues-base}/CMSPLT</url>
