@@ -37,7 +37,7 @@ configuration is fairly permissive, but bans javascript, frames, and iframes.
     <directives>
         <directive name="omitXmlDeclaration" value="true"/>
         <directive name="omitDoctypeDeclaration" value="true"/>
-        <directive name="maxInputSize" value="20000"/>
+        <directive name="maxInputSize" value="1048576"/> <!-- 1MB max -->
         <directive name="useXHTML" value="true"/>
         <directive name="formatOutput" value="true"/>
 
