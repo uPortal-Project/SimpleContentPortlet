@@ -24,7 +24,7 @@
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
 <portlet:actionURL var="cancelUrl"><portlet:param name="action" value="cancelUpdate"/></portlet:actionURL>
-<portlet:resourceURL var="previewUrl" id="preview"/>
+<portlet:resourceURL var="previewUrl" id="preview" escapeXml="false"/>
 
 <c:if test="${includeJQuery}">
     <script type="text/javascript" src="<rs:resourceURL value="/rs/jquery/1.4.2/jquery-1.4.2.min.js"/>"></script>
@@ -124,7 +124,7 @@
                                 data: { content: newVal },
                                 dataType: "json",
                                 async: false,
-                                type: "GET",
+                                type: "POST",
                                 success: function(data) {
                                     ckEditor.updateModelValue(data.content);
                                 }
