@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.jasig.parent</groupId>
         <artifactId>jasig-parent</artifactId>
-        <version>31</version>
+        <version>33</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -36,8 +36,8 @@
 
     <properties>
         <!-- Dependency versions -->
-        <spring.version>3.0.5.RELEASE</spring.version>
-        <resource-server.version>1.0.18</resource-server.version>
+        <spring.version>3.0.6.RELEASE</spring.version>
+        <resource-server.version>1.0.23</resource-server.version>
     </properties>
 
     <dependencyManagement>
@@ -75,7 +75,7 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.8.2</version>
+                <version>4.10</version>
             </dependency>           
             <dependency>
                 <groupId>log4j</groupId>
@@ -85,7 +85,7 @@
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
-                <version>1.8.3</version>
+                <version>1.9.1</version>
             </dependency>
             <dependency>
                 <groupId>org.jasig.resourceserver</groupId>
@@ -101,7 +101,7 @@
             <dependency>
                 <groupId>org.jasig.portal</groupId>
                 <artifactId>uportal-search-api</artifactId>
-                <version>4.0.0-RC2</version>
+                <version>4.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -328,6 +328,7 @@
                                 <include>rs/jquery/1.4.2/</include>
                                 <include>rs/jqueryui/1.8/</include>
                                 <include>rs/fluid/1.2/</include>
+                                <include>rs/ckeditor/3.6.2/</include>
                             </includes>
                         </overlay>
                     </overlays>
@@ -359,6 +360,27 @@
                 <configuration>
                     <noticeTemplate>NOTICE.template</noticeTemplate>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jasig.resourceserver</groupId>
+                <artifactId>resource-server-plugin</artifactId>
+                <version>${resource-server.version}</version>
+                <executions>
+                    <execution>
+                        <id>aggregate-skin</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>batch-aggregate</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <displayJsWarnings>false</displayJsWarnings>
+                            <includes>
+                                <include>skin.xml</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

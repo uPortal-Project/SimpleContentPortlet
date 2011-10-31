@@ -27,10 +27,7 @@
 <portlet:resourceURL var="previewUrl" id="preview" escapeXml="false"/>
 
 <c:if test="${includeJQuery}">
-    <script type="text/javascript" src="<rs:resourceURL value="/rs/jquery/1.4.2/jquery-1.4.2.min.js"/>"></script>
-    <script type="text/javascript" src="<rs:resourceURL value="/rs/jqueryui/1.8/jquery-ui-1.8.min.js"/>"></script>
-    <script type="text/javascript" src="<rs:resourceURL value="/rs/fluid/1.2/js/fluid-all-1.2.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/ckeditor/ckeditor.js"/>"></script>
+    <rs:aggregatedResources path="skin.xml"/>
 </c:if>
 
 <style type="text/css">
@@ -73,6 +70,7 @@
 </form:form>
     
 <script type="text/javascript">
+<rs:compressJs>
     var ${n} = ${n} || {};
     ${n}.jQuery = jQuery.noConflict(${includeJQuery});
     ${n}.fluid = fluid;
@@ -140,4 +138,5 @@
         });
         
     });
+</rs:compressJs>
 </script>
