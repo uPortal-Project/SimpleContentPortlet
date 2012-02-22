@@ -100,6 +100,12 @@ Slashdot allowed tags taken from "Reply" page:
                 <regexp name="offsiteURL"/>
             </regexp-list>
         </attribute>
+        
+        <attribute name="target" onInvalid="filterTag">
+            <regexp-list>
+                <regexp name="htmlTitle"/>
+            </regexp-list>
+        </attribute>
     
         <attribute name="align" description="The 'align' attribute of an HTML element is a direction word, like 'left', 'right' or 'center'">
             <literal-list>

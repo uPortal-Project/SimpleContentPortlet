@@ -234,6 +234,12 @@ configuration is fairly permissive, but bans javascript, frames, and iframes.
 
             </regexp-list>
          </attribute>
+         
+        <attribute name="target">
+            <regexp-list>
+                <regexp name="htmlId"/>
+            </regexp-list>
+        </attribute>
 
 
         <attribute name="shape" description="The 'shape' attribute defines the shape of the selectable area">
@@ -614,6 +620,8 @@ configuration is fairly permissive, but bans javascript, frames, and iframes.
                 </literal-list>
             </attribute>
             <attribute name="name"/>
+            <attribute name="target"/>
+            <attribute name="onClick"/>
 
         </tag>
 
