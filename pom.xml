@@ -17,9 +17,9 @@
     <url>http://www.jasig.org</url>
 
     <scm>
-        <connection>scm:svn:https://source.jasig.org/portlets/SimpleContentPortlet/trunk</connection>
-        <developerConnection>scm:svn:https://source.jasig.org/portlets/SimpleContentPortlet/trunk</developerConnection>
-        <url>http://developer.jasig.org/source/browse/jasigsvn/portlets/SimpleContentPortlet/trunk</url>
+        <connection>scm:git:git://github.com/Jasig/SimpleContentPortlet.git</connection>
+        <developerConnection>scm:git:git@github.com:Jasig/SimpleContentPortlet.git</developerConnection>
+        <url>https://github.com/Jasig/SimpleContentPortlet</url>
     </scm>
     
     <distributionManagement>
