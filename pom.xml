@@ -37,7 +37,7 @@
     <properties>
         <!-- Dependency versions -->
         <spring.version>3.0.6.RELEASE</spring.version>
-        <resource-server.version>1.0.23</resource-server.version>
+        <resource-server.version>1.0.28</resource-server.version>
     </properties>
 
     <dependencyManagement>
@@ -101,7 +101,7 @@
             <dependency>
                 <groupId>org.jasig.portal</groupId>
                 <artifactId>uportal-search-api</artifactId>
-                <version>4.0.1</version>
+                <version>4.0.10</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -297,7 +297,7 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>1.5</version>
+                                    <version>1.6</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
@@ -325,10 +325,10 @@
                             <groupId>org.jasig.resourceserver</groupId>
                             <artifactId>resource-server-content</artifactId>
                             <includes>
-                                <include>rs/jquery/1.4.2/</include>
-                                <include>rs/jqueryui/1.8/</include>
-                                <include>rs/fluid/1.2/</include>
-                                <include>rs/ckeditor/3.6.2/</include>
+                                <include>rs/jquery/1.6.4/</include>
+                                <include>rs/jqueryui/1.8.13/</include>
+                                <include>rs/fluid/1.4.0/</include>
+                                <include>rs/ckeditor/3.6.6.1/</include>
                             </includes>
                         </overlay>
                     </overlays>
