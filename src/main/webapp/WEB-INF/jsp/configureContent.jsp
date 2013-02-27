@@ -132,7 +132,12 @@
                         }
                         $(".save-configuration-button").show();
                     }
-                }
+                },
+                strings: {
+                    textEditButton: '<spring:message code="configurationForm.textEditButton"/>'
+                },
+                tooltipText: '<spring:message code="configurationForm.editInvitation"/>',
+                defaultViewText: '<spring:message code="configurationForm.editInvitation"/>'
             });
             makeButtons(ckEditor);  
         });
