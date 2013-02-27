@@ -25,6 +25,8 @@
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
 <portlet:actionURL var="cancelUrl"><portlet:param name="action" value="cancelUpdate"/></portlet:actionURL>
 <portlet:resourceURL var="previewUrl" id="preview" escapeXml="false"/>
+<link rel="stylesheet" type="text/css" href="<c:url value="/rs/jquery-tooltip/jquery.tooltip.css"/>" />
+<script type="text/javascript" src="<c:url value="/rs/jquery-tooltip/jquery.ui.tooltip.js"/>"></script>
 
 <c:if test="${includeJQuery}">
     <rs:aggregatedResources path="skin.xml"/>
@@ -32,6 +34,7 @@
 
 <style type="text/css">
     #${n}contentForm .flc-inlineEdit-text { min-height: 100px; border: thin dashed #666; padding: 10px; margin: 10px; }
+    .fl-inlineEdit-tooltip { padding: 3px 5px; position: absolute; }
 </style>
 
 <h2><spring:message code="configurationForm.title"/></h2>
