@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
-import org.jasig.portlet.attachment.dao.jpa.QueryName;
+import org.jasig.portlet.attachment.dao.jpa.Queries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,36 +55,38 @@ import java.util.UUID;
  * @author Chris Waymire (chris@waymire.net)
  */
 @Entity
-@Table(name = "UP_ATTACHMENT")
+@Table(name = "SCM_ATTACHMENT")
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(
-        name="UP_ATTACHMENT_SEQ_GEN",
+        name="SCM_ATTACHMENT_SEQ_GEN",
         sequenceName="UP_ATTACHMENT_SEQ",
         allocationSize=1000
 )
 @TableGenerator(
-        name = "UP_ATTACHMENT_GEN",
+        name = "SCM_ATTACHMENT_GEN",
         pkColumnValue="UP_ATTACHMENT_PROP",
         allocationSize=1000
 )
 @org.hibernate.annotations.Table(
-        appliesTo = "UP_ATTACHMENT",
+        appliesTo = "SCM_ATTACHMENT",
         indexes = {
-                @Index(name = "IDX_UP_ATTACHMENT_FILENAME", columnNames = { "FILENAME"}),
-                @Index(name = "IDX_UP_ATTACHMENT_GUID", columnNames = { "GUID" })
+                @Index(name = "IDX_SCM_ATTACHMENT_FILENAME", columnNames = { "FILENAME"}),
+                @Index(name = "IDX_SCM_ATTACHMENT_GUID", columnNames = { "GUID" })
         }
 )
 @NamedQueries({
-        @NamedQuery(name=QueryName.GET_THIN_ATTACHMENT,
+        @NamedQuery(name= Queries.GET_THIN_ATTACHMENT,
                     query="SELECT NEW Attachment(a.id,a.filename,a.guid) FROM Attachment a WHERE a.id = :id"),
-        @NamedQuery(name= QueryName.GET_ATTACHMENTS_BY_FOLDER,
+        @NamedQuery(name= Queries.GET_ATTACHMENTS_BY_FOLDER,
                     query="SELECT a FROM Attachment a WHERE a.folder = :folder"),
-        @NamedQuery(name=QueryName.GET_ATTACHMENTS,
+        @NamedQuery(name= Queries.GET_ATTACHMENTS,
                     query="SELECT a FROM Attachment a"),
-        @NamedQuery(name=QueryName.GET_ATTACHMENT_CONTENT,
+        @NamedQuery(name= Queries.GET_ATTACHMENT_CONTENT,
                     query="SELECT a.encodedContent FROM Attachment a WHERE a.id = :id"),
-        @NamedQuery(name=QueryName.ATTACHMENT_EXISTS,
-                    query="SELECT a.id AS id FROM Attachment a WHERE a.filename=:filename")
+        @NamedQuery(name= Queries.ATTACHMENT_EXISTS,
+                    query="SELECT a.id AS id FROM Attachment a WHERE a.filename=:filename"),
+        @NamedQuery(name= Queries.UPDATE_ATTACHMENT_LAST_ACCESSED_AT,
+                    query="UPDATE Attachment a SET a.lastAccessedAt=:date WHERE a.id=:id")
 })
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -97,7 +99,7 @@ public class Attachment {
     private final Base64 base64 = new Base64();
 
     @Id
-    @GeneratedValue(generator = "UP_ATTACHMENT_GEN")
+    @GeneratedValue(generator = "SCM_ATTACHMENT_GEN")
     @Column(name="ID")
     private final long id;
 
@@ -137,6 +139,10 @@ public class Attachment {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "MODIFIED_AT", nullable=false)
     private Date modifiedAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_ACCESSED_AT", nullable=false)
+    private Date lastAccessedAt;
 
     public Attachment()
     {
@@ -243,6 +249,14 @@ public class Attachment {
 
     public void setModifiedAt(Date modifiedAt) {
         this.modifiedAt = modifiedAt;
+    }
+
+    public Date getLastAccessedAt() {
+        return lastAccessedAt;
+    }
+
+    public void setLastAccessedAt(Date lastAccessedAt) {
+        this.lastAccessedAt = lastAccessedAt;
     }
 
     private String generateChecksum()

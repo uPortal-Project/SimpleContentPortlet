@@ -38,4 +38,5 @@ public interface IAttachmentDao {
     Attachment saveAttachment(Attachment attachment);
     void deleteAttachment(Attachment attachment);
     void deleteAttachment(long attachmentId);
+    void updateLastAccessedAt(long attachmentId);
 }

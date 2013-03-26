@@ -27,7 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.Date;
 import java.util.List;
 
 
@@ -45,14 +47,14 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
 
     public Attachment getThinAttachmentById(final long attachmentId) {
         final EntityManager em = this.getEntityManager();
-        final TypedQuery<Attachment> query = em.createNamedQuery(QueryName.GET_THIN_ATTACHMENT, Attachment.class);
+        final TypedQuery<Attachment> query = em.createNamedQuery(Queries.GET_THIN_ATTACHMENT, Attachment.class);
         query.setParameter("id", attachmentId);
         return query.getSingleResult();
     }
 
     public String getAttachmentContent(final long attachmentId) {
         final EntityManager em = this.getEntityManager();
-        final TypedQuery<String> query = em.createNamedQuery(QueryName.GET_ATTACHMENT_CONTENT, String.class);
+        final TypedQuery<String> query = em.createNamedQuery(Queries.GET_ATTACHMENT_CONTENT, String.class);
         query.setParameter("id",attachmentId);
         String encoded = query.getSingleResult();
         String decoded =new String(base64.decode(encoded));
@@ -62,7 +64,7 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
     @Transactional
     public List<Attachment> getAttachments() {
         final EntityManager em = this.getEntityManager();
-        final TypedQuery<Attachment> query = em.createNamedQuery(QueryName.GET_ATTACHMENTS, Attachment.class);
+        final TypedQuery<Attachment> query = em.createNamedQuery(Queries.GET_ATTACHMENTS, Attachment.class);
         List<Attachment> results = query.getResultList();
         return results;
     }
@@ -75,7 +77,7 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
     @Transactional
     public List<Attachment> getAttachmentsByFolder(final long folderId) {
         final EntityManager em = this.getEntityManager();
-        final TypedQuery<Attachment> query = em.createNamedQuery(QueryName.GET_ATTACHMENTS_BY_FOLDER, Attachment.class);
+        final TypedQuery<Attachment> query = em.createNamedQuery(Queries.GET_ATTACHMENTS_BY_FOLDER, Attachment.class);
         query.setParameter("folder",folderId);
         List<Attachment> results = query.getResultList();
         return results;
@@ -84,7 +86,7 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
     public long attachmentExists(Attachment attachment)
     {
         final EntityManager em = this.getEntityManager();
-        final TypedQuery<Long> query = em.createNamedQuery(QueryName.ATTACHMENT_EXISTS, Long.class);
+        final TypedQuery<Long> query = em.createNamedQuery(Queries.ATTACHMENT_EXISTS, Long.class);
         //query.setParameter("folder", attachment.getFolder());
         query.setParameter("filename", attachment.getFilename());
         try {
@@ -112,5 +114,15 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
         {
             this.deleteAttachment(attachment);
         }
+    }
+
+    @Transactional
+    public void updateLastAccessedAt(long attachmentId) {
+        final EntityManager em = this.getEntityManager();
+        final Date now = new Date();
+        Query query = em.createNamedQuery(Queries.UPDATE_ATTACHMENT_LAST_ACCESSED_AT);
+        query.setParameter("id",attachmentId);
+        query.setParameter("date",now);
+        query.executeUpdate();
     }
 }

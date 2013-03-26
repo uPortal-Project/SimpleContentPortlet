@@ -78,7 +78,7 @@ public class AttachmentService implements IAttachmentService {
             attachment = a2;
         }
         String user = request.getRemoteUser();
-        updateCreatedModified(attachment, user);
+        updateTimestamps(attachment, user);
         Attachment saved = attachmentDao.saveAttachment(attachment);
         return saved;
     }
@@ -91,7 +91,11 @@ public class AttachmentService implements IAttachmentService {
         attachmentDao.deleteAttachment(attachmentId);
     }
 
-    protected void updateCreatedModified(Attachment attachment,String user)
+    public void updateLastAccessedAt(long attachmentId) {
+        attachmentDao.updateLastAccessedAt(attachmentId);
+    }
+
+    protected void updateTimestamps(Attachment attachment,String user)
     {
         Date now = new Date();
         if(attachment.getCreatedAt() == null)
@@ -101,17 +105,6 @@ public class AttachmentService implements IAttachmentService {
         }
         attachment.setModifiedBy(user);
         attachment.setModifiedAt(now);
-    }
-
-    private String generateChecksum(String content)
-    {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.update(content.getBytes(), 0, content.getBytes().length);
-            return new String(Hex.encodeHex(digest.digest()));
-        } catch(Exception e) {
-            e.printStackTrace();
-            return "0";
-        }
+        attachment.setLastAccessedAt(now);
     }
 }

@@ -21,7 +21,7 @@ package org.jasig.portlet.attachment.model;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
-import org.jasig.portlet.attachment.dao.jpa.QueryName;
+import org.jasig.portlet.attachment.dao.jpa.Queries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,28 +50,28 @@ import java.util.Date;
  * @author Chris Waymire (chris@waymire.net)
  */
 @Entity
-@Table(name = "UP_ATTACHMENT_FOLDER")
+@Table(name = "SCM_ATTACHMENT_FOLDER")
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(
-        name="UP_ATTACHMENT_FOLDER_SEQ_GEN",
-        sequenceName="UP_ATTACHMENT_FOLDER_SEQ",
+        name="SCM_ATTACHMENT_FOLDER_SEQ_GEN",
+        sequenceName="SCM_ATTACHMENT_FOLDER_SEQ",
         allocationSize=1000
 )
 @TableGenerator(
-        name = "UP_ATTACHMENT_FOLDER_GEN",
-        pkColumnValue="UP_ATTACHMENT_FOLDER_PROP",
+        name = "SCM_ATTACHMENT_FOLDER_GEN",
+        pkColumnValue="SCM_ATTACHMENT_FOLDER_PROP",
         allocationSize=1000
 )
 @org.hibernate.annotations.Table(
-        appliesTo = "UP_ATTACHMENT_FOLDER",
+        appliesTo = "SCM_ATTACHMENT_FOLDER",
         indexes = {
-                @Index(name = "IDX_UP_ATTACHMENT_FOLDER_NAME", columnNames = { "NAME"})
+                @Index(name = "IDX_SCM_ATTACHMENT_FOLDER_NAME", columnNames = { "NAME"})
         }
 )
 @NamedQueries({
-        @NamedQuery(name=QueryName.GET_FOLDERS_BY_PARENT,
+        @NamedQuery(name= Queries.GET_FOLDERS_BY_PARENT,
                     query="SELECT f FROM Folder f WHERE f.parent = :parent"),
-        @NamedQuery(name=QueryName.GET_FOLDERS,
+        @NamedQuery(name= Queries.GET_FOLDERS,
                     query="SELECT f FROM Folder f"),
 })
 @Cacheable
@@ -81,7 +81,7 @@ public class Folder {
     private final Logger logger = LoggerFactory.getLogger(Folder.class);
 
     @Id
-    @GeneratedValue(generator = "UP_ATTACHMENT_FOLDER_GEN")
+    @GeneratedValue(generator = "SCM_ATTACHMENT_FOLDER_GEN")
     @Column(name="ID")
     private final long id;
 

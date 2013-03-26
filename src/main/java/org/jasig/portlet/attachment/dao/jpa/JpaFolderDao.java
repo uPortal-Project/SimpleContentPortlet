@@ -45,7 +45,7 @@ public class JpaFolderDao extends BaseJpaDao implements IFolderDao
     @Transactional
     public List<Folder> getFoldersByParent(final long parentId) {
         final EntityManager em = this.getEntityManager();
-        final TypedQuery<Folder> query = em.createNamedQuery(QueryName.GET_FOLDERS_BY_PARENT, Folder.class);
+        final TypedQuery<Folder> query = em.createNamedQuery(Queries.GET_FOLDERS_BY_PARENT, Folder.class);
         query.setParameter("parent",parentId);
         List<Folder> results = query.getResultList();
         return results;
@@ -54,7 +54,7 @@ public class JpaFolderDao extends BaseJpaDao implements IFolderDao
     @Transactional
     public List<Folder> getFolders() {
         final EntityManager em = this.getEntityManager();
-        final TypedQuery<Folder> query = em.createNamedQuery(QueryName.GET_FOLDERS, Folder.class);
+        final TypedQuery<Folder> query = em.createNamedQuery(Queries.GET_FOLDERS, Folder.class);
         List<Folder> results = query.getResultList();
         return results;
     }

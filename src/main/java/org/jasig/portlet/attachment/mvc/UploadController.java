@@ -96,6 +96,8 @@ public class UploadController {
         try
         {
             Attachment attachment = attachmentService.getThinAttachmentById(request,id);
+            attachmentService.updateLastAccessedAt(attachment.getId());
+
             String path = AttachmentHelper.getAttachmentFilesystemPath(attachment,request);
             byte[] bytes = FileHelper.read(path);
             if((bytes == null) || (bytes.length == 0))

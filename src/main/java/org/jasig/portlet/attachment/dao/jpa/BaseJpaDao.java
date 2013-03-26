@@ -20,9 +20,6 @@ package org.jasig.portlet.attachment.dao.jpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,28 +27,18 @@ import javax.persistence.PersistenceContext;
 /**
  * @author Chris Waymire (chris@waymire.net)
  */
-public abstract class BaseJpaDao implements InitializingBean, ApplicationContextAware {
+public abstract class BaseJpaDao {
     public static final String PERSISTENCE_UNIT_NAME = "AttachmentsDb";
 
     private static final String QUERY_SUFFIX = ".Query";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ApplicationContext applicationContext;
-
     @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
 
     protected final EntityManager getEntityManager() {
         return this.entityManager;
-    }
-
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
     }
 
     public void afterPropertiesSet() throws Exception {

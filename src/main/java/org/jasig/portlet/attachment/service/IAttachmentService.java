@@ -38,4 +38,5 @@ public interface IAttachmentService {
     Attachment saveAttachment(HttpServletRequest request,Attachment attachment);
     void deleteAttachment(HttpServletRequest request,Attachment attachment);
     void deleteAttachment(HttpServletRequest request,long attachmentId);
+    void updateLastAccessedAt(long attachmentId);
 }
