@@ -52,6 +52,16 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <filter>
+        <filter-name>localAttachmentFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>localAttachmentFilter</filter-name>
+        <url-pattern>/content/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

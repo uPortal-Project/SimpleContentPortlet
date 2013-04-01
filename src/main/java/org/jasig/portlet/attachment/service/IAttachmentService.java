@@ -19,7 +19,6 @@
 package org.jasig.portlet.attachment.service;
 
 import org.jasig.portlet.attachment.model.Attachment;
-import org.jasig.portlet.attachment.model.Folder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,15 +27,11 @@ import java.util.List;
  * @author Chris Waymire (chris@waymire.net)
  */
 public interface IAttachmentService {
-    Attachment getAttachmentById(HttpServletRequest request,long attachmentId);
-    Attachment getThinAttachmentById(HttpServletRequest request,long attachmentId);
-    String getAttachmentContent(HttpServletRequest request,long attachmentId);
-    List<Attachment> getAttachments(HttpServletRequest request);
-    List<Attachment> getAttachmentsByFolder(HttpServletRequest request,Folder folder);
-    List<Attachment> getAttachmentsByFolder(HttpServletRequest request,long folderId);
-    long attachmentExists(HttpServletRequest request,Attachment attachment);
-    Attachment saveAttachment(HttpServletRequest request,Attachment attachment);
-    void deleteAttachment(HttpServletRequest request,Attachment attachment);
-    void deleteAttachment(HttpServletRequest request,long attachmentId);
-    void updateLastAccessedAt(long attachmentId);
+    Attachment get(long attachmentId, HttpServletRequest request);
+    Attachment get(String guid, HttpServletRequest request);
+    List<Attachment> find(String creator, HttpServletRequest request);
+    List<Attachment> find(String creator, String filename, HttpServletRequest request);
+    Attachment save(Attachment attachment, HttpServletRequest request);
+    void delete(Attachment attachment, HttpServletRequest request);
+    void delete(long attachmentId, HttpServletRequest request);
 }

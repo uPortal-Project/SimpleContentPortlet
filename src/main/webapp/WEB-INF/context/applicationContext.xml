@@ -23,11 +23,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="org.jasig.portlet.cms.service"/>
+    <context:component-scan base-package="org.jasig.portlet.attachment">
+        <context:exclude-filter type="regex" expression="org\.jasig\.portlet\.attachment\.controller"/>
+    </context:component-scan>
     <context:annotation-config/>
 
     <!-- 
@@ -49,7 +54,7 @@
         class="org.springframework.context.support.ResourceBundleMessageSource"
         p:basenames="messages"/>
 
-    <!-- 
+    <!--
      | View resolvers, look for a named view bean before going to JSP resolution
      +-->
     <bean class="org.springframework.web.servlet.view.XmlViewResolver"
@@ -61,4 +66,18 @@
         p:viewClass="org.springframework.web.servlet.view.JstlView"
         p:order="10" p:cache="true" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 
+    <!-- Attachments related configuration -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean" >
+        <property name="persistenceUnitName" value="AttachmentsDb"/>
+    </bean>
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <bean id="localAttachmentFilter" class="org.jasig.portlet.attachment.filter.LocalAttachmentFilter"/>
+
+    <tx:annotation-driven transaction-manager="jpaTransactionManager" proxy-target-class="true"/>
 </beans>

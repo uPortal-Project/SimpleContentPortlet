@@ -19,7 +19,6 @@
 package org.jasig.portlet.attachment.dao;
 
 import org.jasig.portlet.attachment.model.Attachment;
-import org.jasig.portlet.attachment.model.Folder;
 
 import java.util.List;
 
@@ -27,16 +26,11 @@ import java.util.List;
  * @author Chris Waymire (chris@waymire.net)
  */
 public interface IAttachmentDao {
-
-    Attachment getAttachmentById(long attachmentId);
-    Attachment getThinAttachmentById(long attachmentId);
-    String getAttachmentContent(final long attachmentId);
-    List<Attachment> getAttachments();
-    List<Attachment> getAttachmentsByFolder(Folder folder);
-    List<Attachment> getAttachmentsByFolder(long folderId);
-    long attachmentExists(Attachment attachment);
-    Attachment saveAttachment(Attachment attachment);
-    void deleteAttachment(Attachment attachment);
-    void deleteAttachment(long attachmentId);
-    void updateLastAccessedAt(long attachmentId);
+    Attachment get(long attachmentId);
+    Attachment get(String guid);
+    List<Attachment> find(String creator);
+    List<Attachment> find(String creator, String filename);
+    Attachment save(Attachment attachment);
+    void delete(Attachment attachment);
+    void delete(long attachmentId);
 }

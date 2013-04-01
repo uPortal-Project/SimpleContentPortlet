@@ -27,7 +27,6 @@ import java.io.*;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,8 +34,8 @@ import java.util.List;
 /**
  * @author Chris Waymire (chris@waymire)
  */
-public class FileHelper {
-    private static final Log log = LogFactory.getLog(FileHelper.class);
+public class FileUtil {
+    private static final Log log = LogFactory.getLog(FileUtil.class);
     private static final List<String> locks = Collections.synchronizedList(new ArrayList<String>());
 
     public static void write(String file,String content) throws IOException

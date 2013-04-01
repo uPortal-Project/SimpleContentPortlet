@@ -18,16 +18,13 @@
  */
 package org.jasig.portlet.attachment.service.impl;
 
-import org.apache.commons.codec.binary.Hex;
+import javax.servlet.http.HttpServletRequest;
 import org.jasig.portlet.attachment.dao.IAttachmentDao;
 import org.jasig.portlet.attachment.model.Attachment;
-import org.jasig.portlet.attachment.model.Folder;
 import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.MessageDigest;
 import java.util.Date;
 import java.util.List;
 
@@ -39,63 +36,47 @@ public class AttachmentService implements IAttachmentService {
     @Autowired
     private IAttachmentDao attachmentDao;
 
-    public Attachment getAttachmentById(final HttpServletRequest request, final long attachmentId) {
-        return attachmentDao.getAttachmentById(attachmentId);
+    public Attachment get(final long attachmentId,final HttpServletRequest request) {
+        return attachmentDao.get(attachmentId);
     }
 
-    public Attachment getThinAttachmentById(final HttpServletRequest request, final long attachmentId) {
-        return attachmentDao.getThinAttachmentById(attachmentId);
+    public Attachment get(final String guid,final HttpServletRequest request) {
+        return attachmentDao.get(guid);
     }
 
-    public String getAttachmentContent(HttpServletRequest request,long attachmentId) {
-        return attachmentDao.getAttachmentContent(attachmentId);
+    public List<Attachment> find(final String creator,final HttpServletRequest request) {
+        return attachmentDao.find(creator);
     }
 
-    public List<Attachment> getAttachments(final HttpServletRequest request) {
-        return attachmentDao.getAttachments();
+    public List<Attachment> find(final String creator,final String filename,final HttpServletRequest request) {
+        return attachmentDao.find(creator,filename);
     }
 
-    public List<Attachment> getAttachmentsByFolder(final HttpServletRequest request, final Folder folder) {
-        return attachmentDao.getAttachmentsByFolder(folder);
-    }
-
-    public List<Attachment> getAttachmentsByFolder(final HttpServletRequest request, final long folderId) {
-        return attachmentDao.getAttachmentsByFolder(folderId);
-    }
-
-    public long attachmentExists(HttpServletRequest request,Attachment attachment)
-    {
-        return attachmentDao.attachmentExists(attachment);
-    }
-
-    public Attachment saveAttachment(final HttpServletRequest request, Attachment attachment) {
-        long existing = attachmentExists(request,attachment);
-        if(existing > 0)
+    public Attachment save(Attachment attachment,final HttpServletRequest request) {
+        Attachment existing = attachmentDao.get(attachment.getGuid());
+        if(existing != null)
         {
-            Attachment a2 = getAttachmentById(request,existing);
-            a2.setContent(attachment.getContent());
-            a2.setVersion(attachment.getVersion()+1);
-            attachment = a2;
+            existing.setFilename(attachment.getFilename());
+            existing.setPath(attachment.getPath());
+            existing.setData(attachment.getData());
+            attachment = existing;
         }
+
         String user = request.getRemoteUser();
         updateTimestamps(attachment, user);
-        Attachment saved = attachmentDao.saveAttachment(attachment);
+        Attachment saved = attachmentDao.save(attachment);
         return saved;
     }
 
-    public void deleteAttachment(final HttpServletRequest request, Attachment attachment) {
-        attachmentDao.deleteAttachment(attachment);
+    public void delete(Attachment attachment,final HttpServletRequest request) {
+        attachmentDao.delete(attachment);
     }
 
-    public void deleteAttachment(final HttpServletRequest request, final long attachmentId) {
-        attachmentDao.deleteAttachment(attachmentId);
+    public void delete(long attachmentId,final HttpServletRequest request) {
+        attachmentDao.delete(attachmentId);
     }
 
-    public void updateLastAccessedAt(long attachmentId) {
-        attachmentDao.updateLastAccessedAt(attachmentId);
-    }
-
-    protected void updateTimestamps(Attachment attachment,String user)
+    protected void updateTimestamps(final Attachment attachment,final String user)
     {
         Date now = new Date();
         if(attachment.getCreatedAt() == null)
@@ -105,6 +86,5 @@ public class AttachmentService implements IAttachmentService {
         }
         attachment.setModifiedBy(user);
         attachment.setModifiedAt(now);
-        attachment.setLastAccessedAt(now);
     }
 }

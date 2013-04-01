@@ -105,7 +105,7 @@
                 element: $("#${n}file-uploader")[0],
 
                 request: {
-                    endpoint: "<c:url value='/api/upload.json'/>",
+                    endpoint: "<c:url value='/api/content/attach/local.json'/>",
                     forceMultipart: true,
                     paramsInBody: true,
                     params: {
@@ -147,27 +147,10 @@
                 callbacks: {
                     onSubmit: function (id, filename) {
                         var $ = ${n}.jQuery;
-                        var tmp = document.getElementById("${n}filename").value;
-                        filename = tmp ? tmp : filename;
-                        var url = "<c:url value='/api/exists/"+filename+".json'/>";
-                        var failed = false;
-                        $.ajax({
-                            url:     url,
-                            async:   false,
-                            success: function(result) {
-                                if(result.exists == true)
-                                {
-                                    if(!confirm('This will overwrite an existing file. Continue?'))
-                                    {
-                                        failed = true;
-                                    }
-                                }
-                            }
-                        });
-                        if(failed) return false;
                     },
                     onComplete: function (id, fileName, responseJSON) {
                         var $ = ${n}.jQuery;
+                        delete responseJSON.success;
                         callback(responseJSON);
                     },
                     showMessage: function (message) {
@@ -190,20 +173,6 @@
             })
 
             ${n}open_box();
-        },
-        info: function(attachmentId,callback) {
-            var $ = ${n}.jQuery;
-            var url = "<c:url value='/api/details/"+attachmentId+".json'/>";
-            var request = $.ajax({
-                url: url,
-                type: "GET"
-            });
-            request.done(function(data) { callback(data); });
-        },
-        download: function(attachment) {
-            var $ = ${n}.jQuery;
-            var url = "<c:url value='/api/download/"+attachment+".json'/>";
-            $('<form action="'+ url +'" method="GET"></form>').appendTo('body').submit().remove();
         }
     };
 </script>

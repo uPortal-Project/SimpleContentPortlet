@@ -18,18 +18,16 @@
  */
 package org.jasig.portlet.attachment.dao.jpa;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.persistence.NoResultException;
 import org.apache.commons.codec.binary.Base64;
 import org.jasig.portlet.attachment.dao.IAttachmentDao;
 import org.jasig.portlet.attachment.model.Attachment;
-import org.jasig.portlet.attachment.model.Folder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.Date;
 import java.util.List;
 
 
@@ -40,89 +38,75 @@ import java.util.List;
 public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
     private final Base64 base64 = new Base64();
 
-    public Attachment getAttachmentById(final long attachmentId) {
+    public Attachment get(final long attachmentId) {
         final Attachment attachment = this.getEntityManager().find(Attachment.class, attachmentId);
         return attachment;
     }
 
-    public Attachment getThinAttachmentById(final long attachmentId) {
-        final EntityManager em = this.getEntityManager();
-        final TypedQuery<Attachment> query = em.createNamedQuery(Queries.GET_THIN_ATTACHMENT, Attachment.class);
-        query.setParameter("id", attachmentId);
-        return query.getSingleResult();
+    public Attachment get(final String guid) {
+        final Map<String,String> params = new HashMap<String,String>() {{ put("guid",guid); }};
+        final Attachment attachment = this.getResult(Queries.GET_ATTACHMENT_BY_GUID,params);
+        return attachment;
     }
 
-    public String getAttachmentContent(final long attachmentId) {
-        final EntityManager em = this.getEntityManager();
-        final TypedQuery<String> query = em.createNamedQuery(Queries.GET_ATTACHMENT_CONTENT, String.class);
-        query.setParameter("id",attachmentId);
-        String encoded = query.getSingleResult();
-        String decoded =new String(base64.decode(encoded));
-        return decoded;
+    public List<Attachment> find(final String creator) {
+        final Map<String,String> params = new HashMap<String,String>() {{ put("creator",creator); }};
+        final List<Attachment> list = this.getResultList(Queries.FIND_ATTACHMENTS_BY_CREATOR,params);
+        return list;
     }
 
-    @Transactional
-    public List<Attachment> getAttachments() {
-        final EntityManager em = this.getEntityManager();
-        final TypedQuery<Attachment> query = em.createNamedQuery(Queries.GET_ATTACHMENTS, Attachment.class);
-        List<Attachment> results = query.getResultList();
-        return results;
+    public List<Attachment> find(final String creator,final String filename) {
+        final Map<String,String> params = new HashMap<String,String>()
+        {{ put("creator",creator); put("filename",filename); }};
+        final List<Attachment> list = this.getResultList(Queries.FIND_ATTACHMENTS_BY_FILENAME,params);
+        return list;
     }
 
     @Transactional
-    public List<Attachment> getAttachmentsByFolder(Folder folder) {
-        return this.getAttachmentsByFolder(folder.getId());
-    }
-
-    @Transactional
-    public List<Attachment> getAttachmentsByFolder(final long folderId) {
-        final EntityManager em = this.getEntityManager();
-        final TypedQuery<Attachment> query = em.createNamedQuery(Queries.GET_ATTACHMENTS_BY_FOLDER, Attachment.class);
-        query.setParameter("folder",folderId);
-        List<Attachment> results = query.getResultList();
-        return results;
-    }
-
-    public long attachmentExists(Attachment attachment)
-    {
-        final EntityManager em = this.getEntityManager();
-        final TypedQuery<Long> query = em.createNamedQuery(Queries.ATTACHMENT_EXISTS, Long.class);
-        //query.setParameter("folder", attachment.getFolder());
-        query.setParameter("filename", attachment.getFilename());
-        try {
-            long id = query.getSingleResult();
-            return id;
-        } catch(NoResultException noResultException) {
-            return 0;
-        }
-    }
-
-    @Transactional
-    public Attachment saveAttachment(Attachment attachment) {
+    public Attachment save(Attachment attachment) {
         return this.getEntityManager().merge(attachment);
     }
 
     @Transactional
-    public void deleteAttachment(Attachment attachment) {
+    public void delete(Attachment attachment) {
         this.getEntityManager().remove(attachment);
     }
 
     @Transactional
-    public void deleteAttachment(final long attachmentId) {
-        Attachment attachment = this.getAttachmentById(attachmentId);
+    public void delete(final long attachmentId) {
+        Attachment attachment = this.get(attachmentId);
         if(attachment != null)
         {
-            this.deleteAttachment(attachment);
+            this.delete(attachment);
         }
     }
 
-    @Transactional
-    public void updateLastAccessedAt(long attachmentId) {
-        final EntityManager em = this.getEntityManager();
-        final Date now = new Date();
-        Query query = em.createNamedQuery(Queries.UPDATE_ATTACHMENT_LAST_ACCESSED_AT);
-        query.setParameter("id",attachmentId);
-        query.setParameter("date",now);
-        query.executeUpdate();
+    private Attachment getResult(String select,Map<String,String> params) {
+        try {
+            final TypedQuery<Attachment> query = createQuery(select,params);
+            Attachment attachment = query.getSingleResult();
+            return attachment;
+        } catch(NoResultException noResultException) {
+            return null;
+        }
     }
+
+    private List<Attachment> getResultList(String select,Map<String,String> params) {
+        try {
+            final TypedQuery<Attachment> query = createQuery(select,params);
+            List<Attachment> results = query.getResultList();
+            return results;
+        } catch(NoResultException noResultException) {
+            return null;
+        }
+    }
+
+    private TypedQuery<Attachment> createQuery(String select,Map<String,String> params) {
+        final TypedQuery<Attachment> query = this.getEntityManager().createNamedQuery(select,Attachment.class);
+        for(String key : params.keySet()) {
+            query.setParameter(key,params.get(key));
+        }
+        return query;
+    }
+
 }

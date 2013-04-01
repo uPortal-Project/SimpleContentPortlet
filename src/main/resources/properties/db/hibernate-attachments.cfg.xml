@@ -26,7 +26,6 @@
 
 <hibernate-configuration>
     <session-factory name="PortalDb">
-        <mapping class="org.jasig.portlet.attachment.model.Folder" />
         <mapping class="org.jasig.portlet.attachment.model.Attachment" />
     </session-factory>
 </hibernate-configuration>

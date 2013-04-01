@@ -24,30 +24,21 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:util="http://www.springframework.org/schema/util"       
     xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
-                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-    <context:component-scan base-package="org.jasig.portlet.attachment"/>
+
+    <context:component-scan base-package="org.jasig.portlet.attachment">
+        <context:include-filter type="regex" expression="org\.jasig\.portlet\.attachment\.controller"/>
+        <context:exclude-filter type="regex" expression="."/>
+    </context:component-scan>
+
     <context:annotation-config/>
-
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean" >
-        <property name="persistenceUnitName" value="AttachmentsDb"/>
-    </bean>
-
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-
-    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
 
     <bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping">
         <property name="interceptors"><bean class="org.jasig.portlet.cms.mvc.portlet.MinimizedStateHandlerInterceptor"/></property>
     </bean>
-
-    <tx:annotation-driven transaction-manager="jpaTransactionManager" proxy-target-class="true"/>
 
     <bean id="portletMultipartResolver" class= "org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
         <property name="maxUploadSize" value="100000" />
