@@ -18,8 +18,6 @@
  */
 package org.jasig.portlet.attachment.dao.jpa;
 
-import java.util.Map;
-import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +27,8 @@ import javax.persistence.PersistenceContext;
 /**
  * @author Chris Waymire (chris@waymire.net)
  */
-public abstract class BaseJpaDao<T> {
+public abstract class BaseJpaDao {
     public static final String PERSISTENCE_UNIT_NAME = "AttachmentsDb";
-
-    private static final String QUERY_SUFFIX = ".Query";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 

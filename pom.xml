@@ -475,7 +475,8 @@
                     <excludes>
                         <exclude>LICENSE</exclude>
                         <exclude>NOTICE</exclude>
-                        <exclude>src/main/webapp/ckeditor/**</exclude>
+                        <exclude>src/main/webapp/css/**</exclude>
+                        <exclude>src/main/webapp/js/**</exclude>
                     </excludes>
                     <mapping>
                         <tld>XML_STYLE</tld>

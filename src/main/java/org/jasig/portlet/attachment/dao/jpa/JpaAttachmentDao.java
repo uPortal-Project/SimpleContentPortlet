@@ -21,7 +21,6 @@ package org.jasig.portlet.attachment.dao.jpa;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.NoResultException;
-import org.apache.commons.codec.binary.Base64;
 import org.jasig.portlet.attachment.dao.IAttachmentDao;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.springframework.stereotype.Repository;
@@ -36,7 +35,6 @@ import java.util.List;
  */
 @Repository
 public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
-    private final Base64 base64 = new Base64();
 
     public Attachment get(final long attachmentId) {
         final Attachment attachment = this.getEntityManager().find(Attachment.class, attachmentId);
@@ -44,20 +42,23 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
     }
 
     public Attachment get(final String guid) {
-        final Map<String,String> params = new HashMap<String,String>() {{ put("guid",guid); }};
+        final Map<String,String> params = new HashMap<String,String>();
+        params.put("guid",guid);
         final Attachment attachment = this.getResult(Queries.GET_ATTACHMENT_BY_GUID,params);
         return attachment;
     }
 
     public List<Attachment> find(final String creator) {
-        final Map<String,String> params = new HashMap<String,String>() {{ put("creator",creator); }};
+        final Map<String,String> params = new HashMap<String,String>();
+        params.put("creator",creator);
         final List<Attachment> list = this.getResultList(Queries.FIND_ATTACHMENTS_BY_CREATOR,params);
         return list;
     }
 
     public List<Attachment> find(final String creator,final String filename) {
-        final Map<String,String> params = new HashMap<String,String>()
-        {{ put("creator",creator); put("filename",filename); }};
+        final Map<String,String> params = new HashMap<String,String>();
+        params.put("creator",creator);
+        params.put("filename",filename);
         final List<Attachment> list = this.getResultList(Queries.FIND_ATTACHMENTS_BY_FILENAME,params);
         return list;
     }
