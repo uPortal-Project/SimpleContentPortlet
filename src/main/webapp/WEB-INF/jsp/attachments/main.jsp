@@ -68,111 +68,112 @@
             ${n}.jQuery = ${ ns }jQuery;
         </c:otherwise>
     </c:choose>
+    
+    var upAttachments = upAttachments || {};
 
     ${n}.jQuery(function () {
         var $ = ${n}.jQuery;
 
-        $("#${n}attachments .lightbox").click(function () {
-            ${n}open_box();
-        });
-    });
-
-    function ${n}open_box()
-    {
-        var $ = ${n}.jQuery;
-        $("#${n}attachments .lb_backdrop, #${n}attachments .lb_container").animate({'opacity': '.50'}, 300, 'linear');
-        $("#${n}attachments .lb_container").animate({'opacity': '1.00'}, 300, 'linear');
-        $("#${n}attachments .lb_backdrop, #${n}attachments .lb_container").css('display', 'block');
-    }
-
-    function ${n}close_box()
-    {
-        var $ = ${n}.jQuery;
-        $("#${n}attachments .lb_backdrop, #${n}attachments .lb_container").animate({'opacity':'0'}, 300, 'linear', function(){
-            $("#${n}attachments .lb_backdrop, #${n}attachments .lb_container").css('display', 'none');
-        });
-    }
-
-    var upAttachments = {
-        hide: function() {
+        var open_box = function()
+        {
             var $ = ${n}.jQuery;
-            $("#${n}filename").val('');
-            ${n}close_box();
-        },
-        show: function(callback) {
-            var $ = ${n}.jQuery;
-            var uploader = new qq.FineUploader({
-                element: $("#${n}file-uploader")[0],
-
-                request: {
-                    endpoint: "<c:url value='/api/content/attach/local.json'/>",
-                    forceMultipart: true,
-                    paramsInBody: true,
-                    params: {
-                        filename: function () { return $("#${n}filename").val(); }
-                    }
-                },
-
-                multiple: false,
-
-                validation: {
-                    allowedExtensions: [],
-                    sizeLimit: 20971520,
-                    stopOnFirstInvalidFile: true
-                },
-
-                autoUpload: false,
-
-                text: {
-                    uploadButton: "Select File",
-                    cancelButton: 'Cancel',
-                    retryButton: 'Retry',
-                    failUpload: 'Upload failed',
-                    dragZone: 'Drop files here to upload',
-                    formatProgress: "{percent}% of {total_size}",
-                    waitingForResponse: "Processing..."
-                },
-
-                messages: {
-                    typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
-                    sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-                    minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-                    emptyError: "{file} is empty, please select files again without it.",
-                    noFilesError: "No files to upload.",
-                    onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
-                },
-
-                debug: true,
-
-                callbacks: {
-                    onSubmit: function (id, filename) {
-                        var $ = ${n}.jQuery;
-                    },
-                    onComplete: function (id, fileName, responseJSON) {
-                        var $ = ${n}.jQuery;
-                        delete responseJSON.success;
-                        callback(responseJSON);
-                    },
-                    showMessage: function (message) {
-                        var $ = ${n}.jQuery;
-                        $("#${n}file-uploader").append('<div class="alert alert-error">' + message + '</div>');
-                    }
-                }
-
-            });
-
-            $("#${n}attachments .lb_close, #${n}attachments .lb_backdrop").click(function () {
-                var $ = ${n}.jQuery;
-                uploader.reset();
-                $("#${n}filename").val('');
-                ${n}close_box();
-            });
-
-            $("#${n}triggerUpload").click(function () {
-                uploader.uploadStoredFiles();
-            })
-
-            ${n}open_box();
+            $("#${n}attachments .lb_backdrop, #${n}attachments .lb_container").animate({'opacity': '.50'}, 300, 'linear');
+            $("#${n}attachments .lb_container").animate({'opacity': '1.00'}, 300, 'linear');
+            $("#${n}attachments .lb_backdrop, #${n}attachments .lb_container").css('display', 'block');
         }
-    };
+
+        var close_box = function()
+        {
+            var $ = ${n}.jQuery;
+            $("#${n}attachments .lb_backdrop, #${n}attachments .lb_container").animate({'opacity':'0'}, 300, 'linear', function(){
+                $("#${n}attachments .lb_backdrop, #${n}attachments .lb_container").css('display', 'none');
+            });
+        }
+        
+        if (!upAttachments.show) {
+        	upAttachments = {
+        		hide: function() {
+        	        var $ = ${n}.jQuery;
+        	        $("#${n}filename").val('');
+        	        ${n}close_box();
+        	    },
+        	    show: function(callback) {
+        	        var $ = ${n}.jQuery;
+        	        var uploader = new qq.FineUploader({
+        	            element: $("#${n}file-uploader")[0],
+
+    	                request: {
+        	                endpoint: "<c:url value='/api/content/attach/local.json'/>",
+        	                forceMultipart: true,
+        	                paramsInBody: true,
+        	                params: {
+        	                    filename: function () { return $("#${n}filename").val(); }
+        	                }
+        	            },
+
+        	            multiple: false,
+
+        	            validation: {
+        	                allowedExtensions: [],
+        	                sizeLimit: 20971520,
+        	                stopOnFirstInvalidFile: true
+        	            },
+
+        	            autoUpload: false,
+
+        	            text: {
+        	                uploadButton: "Select File",
+        	                cancelButton: 'Cancel',
+        	                retryButton: 'Retry',
+        	                failUpload: 'Upload failed',
+        	                dragZone: 'Drop files here to upload',
+        	                formatProgress: "{percent}% of {total_size}",
+        	                waitingForResponse: "Processing..."
+        	            },
+
+        	            messages: {
+        	                typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
+        	                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+        	                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+        	                emptyError: "{file} is empty, please select files again without it.",
+        	                noFilesError: "No files to upload.",
+        	                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+        	            },
+
+        	            debug: true,
+
+        	            callbacks: {
+        	                onSubmit: function (id, filename) {
+        	                    var $ = ${n}.jQuery;
+        	                },
+        	                onComplete: function (id, fileName, responseJSON) {
+        	                    var $ = ${n}.jQuery;
+        	                    delete responseJSON.success;
+        	                    callback(responseJSON);
+        	                },
+        	                showMessage: function (message) {
+        	                    var $ = ${n}.jQuery;
+        	                    $("#${n}file-uploader").append('<div class="alert alert-error">' + message + '</div>');
+        	                }
+        	            }
+
+        	        });
+
+        	        $("#${n}attachments .lb_close, #${n}attachments .lb_backdrop").click(function () {
+        	            var $ = ${n}.jQuery;
+        	            uploader.reset();
+        	            $("#${n}filename").val('');
+        	            close_box();
+        	        });
+
+        	        $("#${n}triggerUpload").click(function () {
+        	            uploader.uploadStoredFiles();
+        	        })
+
+        	        open_box();
+        	    }
+        	};
+        }
+
+    });
 </script>
