@@ -34,8 +34,8 @@
     #${n}contentForm .flc-inlineEdit-text { min-height: 100px; border: thin dashed #666; padding: 10px; margin: 10px; }
 </style>
 
-<h2>Content Preview</h2>
-<p>Click the content below to begin editing</p>
+<h2><spring:message code="configurationForm.title"/></h2>
+<p><spring:message code="configurationForm.editInvitation"/></p>
 
 <form:form id="${n}contentForm" commandName="form" action="${formUrl}" method="post">
 
@@ -132,7 +132,12 @@
                         }
                         $(".save-configuration-button").show();
                     }
-                }
+                },
+                strings: {
+                    textEditButton: '<spring:message code="configurationForm.textEditButton"/>'
+                },
+                tooltipText: '<spring:message code="configurationForm.editInvitation"/>',
+                defaultViewText: '<spring:message code="configurationForm.editInvitation"/>'
             });
             makeButtons(ckEditor);  
         });
