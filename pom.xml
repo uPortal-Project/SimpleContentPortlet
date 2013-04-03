@@ -20,16 +20,8 @@
         <connection>scm:git:git://github.com/Jasig/SimpleContentPortlet.git</connection>
         <developerConnection>scm:git:git@github.com:Jasig/SimpleContentPortlet.git</developerConnection>
         <url>https://github.com/Jasig/SimpleContentPortlet</url>
-      <tag>HEAD</tag>
-  </scm>
+    </scm>
     
-    <distributionManagement>
-        <site>
-            <id>developer.jasig</id>
-            <url>${jasig-site-dist-base}/SimpleContentPortlet/${project.version}</url>
-        </site>
-    </distributionManagement>
-
     <issueManagement>
         <url>${jasig-issues-base}/CMSPLT</url>
         <system>${jasig-issues-system}</system>
