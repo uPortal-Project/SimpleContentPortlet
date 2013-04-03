@@ -116,7 +116,7 @@
                 multiple: false,
 
                 validation: {
-                    allowedExtensions: ['gif', 'txt'],
+                    allowedExtensions: [],
                     sizeLimit: 20971520,
                     stopOnFirstInvalidFile: true
                 },
