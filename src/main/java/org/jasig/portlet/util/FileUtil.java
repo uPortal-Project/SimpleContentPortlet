@@ -102,12 +102,21 @@ public class FileUtil {
             try { Thread.sleep(100); } catch (InterruptedException ie) { }
         }
 
-        FileInputStream input = new FileInputStream(file);
-        int available = input.available();
-        FileChannel channel = input.getChannel();
-        ByteBuffer bytes = ByteBuffer.allocate(available);
-        channel.read(bytes,available);
-        bytes.flip();
-        return bytes.array();
+        FileInputStream input = null;
+        try {
+            input = new FileInputStream(file);
+            int available = input.available();
+            FileChannel channel = input.getChannel();
+            ByteBuffer bytes = ByteBuffer.allocate(available);
+            channel.read(bytes,available);
+            bytes.flip();
+            return bytes.array();
+        } finally {
+            if (input != null) {
+                input.close();
+            }
+        }
+
     }
+
 }
