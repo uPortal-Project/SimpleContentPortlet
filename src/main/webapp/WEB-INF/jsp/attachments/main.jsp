@@ -95,7 +95,7 @@
         		hide: function() {
         	        var $ = ${n}.jQuery;
         	        $("#${n}filename").val('');
-        	        ${n}close_box();
+        	        close_box();
         	    },
         	    show: function(callback) {
         	        var $ = ${n}.jQuery;
