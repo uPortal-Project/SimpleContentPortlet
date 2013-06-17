@@ -19,6 +19,8 @@
 package org.jasig.portlet.attachment.service.impl;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.dao.IAttachmentDao;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
@@ -62,7 +64,13 @@ public class AttachmentService implements IAttachmentService {
             attachment = existing;
         }
 
+        // The username must be present
         String user = request.getRemoteUser();
+        if (StringUtils.isBlank(user)) {
+            throw new IllegalArgumentException("Value for username cannot be blank;  " +
+                    "is Tomcat's session path configured for shared sessions?");
+        }
+
         updateTimestamps(attachment, user);
         Attachment saved = attachmentDao.save(attachment);
         return saved;
