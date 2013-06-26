@@ -18,7 +18,6 @@
  */
 package org.jasig.portlet.attachment.mvc;
 
-import java.io.File;
 import java.text.MessageFormat;
 import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.controller.AttachmentsController;
@@ -43,12 +42,11 @@ import java.util.Map;
  * @author Chris Waymire (chris@waymire)
  */
 @Controller
-public class LocalAttachmentController {
+public final class LocalAttachmentController {
 
-    public static String RELATIVE_ROOT = "/content";
+    private static final String RELATIVE_ROOT = "/content";
 
-    public static final MessageFormat RELATIVE_PATH_FORMAT =
-            new MessageFormat(RELATIVE_ROOT + File.separator + "{0}" + File.separator + "{1}");
+    private static final MessageFormat PATH_FORMAT = new MessageFormat(RELATIVE_ROOT + "/{0}/{1}");
 
     @Autowired
     private IAttachmentService attachmentService = null;
@@ -83,7 +81,7 @@ public class LocalAttachmentController {
 
     private String getAttachmentAbsolutePath(Attachment attachment,HttpServletRequest request)
     {
-        String relative = RELATIVE_PATH_FORMAT.format(new Object[]{attachment.getGuid(), attachment.getFilename()});
+        String relative = PATH_FORMAT.format(new Object[]{attachment.getGuid(), attachment.getFilename()});
         String path = request.getSession().getServletContext().getRealPath(relative);
         return path;
     }
@@ -94,7 +92,7 @@ public class LocalAttachmentController {
         final String filename = StringUtils.isEmpty(fileNameParam) ? file.getOriginalFilename() : fileNameParam;
         final String content = DataUtil.encodeAsString(file.getBytes());
         final String context = request.getContextPath();
-        final String path = context + RELATIVE_PATH_FORMAT.format(new Object[]{ attachment.getGuid(),filename });
+        final String path = context + PATH_FORMAT.format(new Object[]{ attachment.getGuid(),filename });
 
         attachment.setFilename(filename);
         attachment.setPath(path);
