@@ -93,6 +93,7 @@ public class SearchContentController implements PortletConfigAware {
                 final SearchResult searchResult = new SearchResult();
                 searchResult.setTitle(this.portletConfig.getPortletName());
                 searchResult.setSummary(getContentSummary(textContent));
+                searchResult.getType().add("Portlet Content");
                 
                 //Add the result to the results and send the event
                 searchResults.getSearchResult().add(searchResult);
