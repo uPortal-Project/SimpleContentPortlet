@@ -137,7 +137,11 @@
                     textEditButton: '<spring:message code="configurationForm.textEditButton"/>'
                 },
                 tooltipText: '<spring:message code="configurationForm.editInvitation"/>',
-                defaultViewText: '<spring:message code="configurationForm.editInvitation"/>'
+                defaultViewText: '<spring:message code="configurationForm.editInvitation"/>',
+                CKEditor: {
+                    // CKEditor-specific configuration goes here.
+                    filebrowserUploadUrl : '/SimpleContentPortlet/api/content/attach/local'
+                }
             });
             makeButtons(ckEditor);  
         });

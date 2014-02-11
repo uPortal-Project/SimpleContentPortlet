@@ -19,6 +19,7 @@
 package org.jasig.portlet.attachment.mvc;
 
 import java.text.MessageFormat;
+
 import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.controller.AttachmentsController;
 import org.jasig.portlet.attachment.model.Attachment;
@@ -30,10 +31,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,6 +82,41 @@ public final class LocalAttachmentController {
         return new ModelAndView("jsonView",model);
     }
 
+    // Method Added to Work with ckEditor uploads
+    // Callback is javascript to be called from iFrame to let ckeditor know the url the server created
+    @RequestMapping(value = "/content/attach/local", method = RequestMethod.POST, produces="text/plain")
+    @ResponseBody
+    public String uploadDocument(@RequestParam(value = "upload") MultipartFile file,
+    		                     @RequestParam(value = "CKEditorFuncNum") String functionNumber,
+                                  HttpServletRequest servletRequest)
+            throws IOException
+    {
+        final Map<String, String> model = new HashMap<String, String>();
+        final String user = (String)servletRequest.getSession().getAttribute(AttachmentsController.REMOTE_USER_ATTR);
+        final HttpServletRequest request = new AttachmentServletRequestWrapper(servletRequest,user);
+        StringBuilder callBackFunction = new StringBuilder();
+        if(file != null)
+        {
+            Attachment attachment = generateAttachment(file, request);
+            attachment = attachmentService.save(attachment, request);
+            if(attachment.getId() > 0)
+            {
+                String path = getAttachmentAbsolutePath(attachment, request);
+                FileUtil.write(path,file.getBytes());
+                
+                callBackFunction.append("<script type='text/javascript'>\n")
+                                .append("    parent.CKEDITOR.tools.callFunction(")
+                                .append(functionNumber)
+                                .append(",")
+                                .append("'" + attachment.getPath() + "'")
+                                .append(");\n")
+                                .append("</script>");
+            }
+        }
+
+        return callBackFunction.toString();
+    }
+    
     private String getAttachmentAbsolutePath(Attachment attachment,HttpServletRequest request)
     {
         String relative = PATH_FORMAT.format(new Object[]{attachment.getGuid(), attachment.getFilename()});
