@@ -451,7 +451,7 @@
                                 <include>rs/jquery/1.6.4/</include>
                                 <include>rs/jqueryui/1.8.13/</include>
                                 <include>rs/fluid/1.4.0/</include>
-                                <include>rs/ckeditor/3.6.6.1/</include>
+                                <include>rs/ckeditor/4.3.2/</include>
                             </includes>
                         </overlay>
                     </overlays>
