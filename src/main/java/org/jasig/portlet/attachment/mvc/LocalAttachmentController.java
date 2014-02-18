@@ -31,7 +31,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -85,51 +84,43 @@ public final class LocalAttachmentController {
     // Method Added to Work with ckEditor uploads
     // Callback is javascript to be called from iFrame to let ckeditor know the url the server created
     @RequestMapping(value = "/content/attach/local", method = RequestMethod.POST, produces="text/plain")
-    @ResponseBody
-    public String uploadDocument(@RequestParam(value = "upload") MultipartFile file,
-    		                     @RequestParam(value = "CKEditorFuncNum") String functionNumber,
-                                  HttpServletRequest servletRequest)
-            throws IOException
-    {
-        final Map<String, String> model = new HashMap<String, String>();
+    public ModelAndView cKEditorUpload(@RequestParam(value = "upload") MultipartFile file,
+                                 @RequestParam(value = "CKEditorFuncNum") String functionNumber,
+                                  HttpServletRequest servletRequest) throws IOException {
+
+        final Map<String,Object> model = new HashMap<String,Object>(); 
         final String user = (String)servletRequest.getSession().getAttribute(AttachmentsController.REMOTE_USER_ATTR);
         final HttpServletRequest request = new AttachmentServletRequestWrapper(servletRequest,user);
-        StringBuilder callBackFunction = new StringBuilder();
-        if(file != null)
-        {
+
+        if(file != null) {
             Attachment attachment = generateAttachment(file, request);
             attachment = attachmentService.save(attachment, request);
-            if(attachment.getId() > 0)
-            {
+            if(attachment.getId() > 0) {
                 String path = getAttachmentAbsolutePath(attachment, request);
                 FileUtil.write(path,file.getBytes());
-                
-                callBackFunction.append("<script type='text/javascript'>\n")
-                                .append("    parent.CKEDITOR.tools.callFunction(")
-                                .append(functionNumber)
-                                .append(",")
-                                .append("'" + attachment.getPath() + "'")
-                                .append(");\n")
-                                .append("</script>");
+
+                model.put("functionNumber", functionNumber);
+                model.put("attachment", attachment);
+            } else {
+                throw new RuntimeException("Failure to upload attachment:  " + attachment.getFilename());
             }
         }
 
-        return callBackFunction.toString();
+        return new ModelAndView("ckeditor-callback", model);
     }
-    
-    private String getAttachmentAbsolutePath(Attachment attachment,HttpServletRequest request)
-    {
+
+    private String getAttachmentAbsolutePath(Attachment attachment, HttpServletRequest req) {
         String relative = PATH_FORMAT.format(new Object[]{attachment.getGuid(), attachment.getFilename()});
-        String path = request.getSession().getServletContext().getRealPath(relative);
+        String path = req.getSession().getServletContext().getRealPath(relative);
         return path;
     }
 
-    private static Attachment generateAttachment(MultipartFile file,HttpServletRequest request) throws IOException {
+    private static Attachment generateAttachment(MultipartFile file,HttpServletRequest req) throws IOException {
         final Attachment attachment = new Attachment();
-        final String fileNameParam = request.getParameter("filename");
+        final String fileNameParam = req.getParameter("filename");
         final String filename = StringUtils.isEmpty(fileNameParam) ? file.getOriginalFilename() : fileNameParam;
         final String content = DataUtil.encodeAsString(file.getBytes());
-        final String context = request.getContextPath();
+        final String context = req.getContextPath();
         final String path = context + PATH_FORMAT.format(new Object[]{ attachment.getGuid(),filename });
 
         attachment.setFilename(filename);
