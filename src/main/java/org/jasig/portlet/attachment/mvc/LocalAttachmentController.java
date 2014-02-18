@@ -97,7 +97,7 @@ public final class LocalAttachmentController {
             attachment = attachmentService.save(attachment, request);
             if(attachment.getId() > 0) {
                 String path = getAttachmentAbsolutePath(attachment, request);
-                FileUtil.write(path,file.getBytes());
+                FileUtil.write(path, file.getBytes());
 
                 model.put("functionNumber", functionNumber);
                 model.put("attachment", attachment);

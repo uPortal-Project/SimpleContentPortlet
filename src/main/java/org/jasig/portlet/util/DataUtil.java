@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.jasig.portlet.util;
 
 import org.apache.commons.codec.binary.Base64;
@@ -55,7 +56,7 @@ public class DataUtil {
 
     public static byte[] decode(String encoded)
     {
-        return BASE64.decode(encoded.getBytes());
+        return Base64.decodeBase64(encoded);
     }
 
     public static String decodeAsString(String encoded)

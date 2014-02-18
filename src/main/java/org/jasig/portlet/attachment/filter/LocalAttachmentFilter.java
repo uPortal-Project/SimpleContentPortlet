@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 package org.jasig.portlet.attachment.filter;
 
 import java.io.File;
@@ -27,6 +28,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.jasig.portlet.util.DataUtil;
@@ -36,32 +40,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author Chris Waymire (chris@waymire.net)
  */
-public class LocalAttachmentFilter implements Filter {
+public final class LocalAttachmentFilter implements Filter {
+
+    private final Log log = LogFactory.getLog(getClass());
+
     @Autowired
     private IAttachmentService attachmentService = null;
 
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+    public void init(FilterConfig filterConfig) throws ServletException {}
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String relative = httpServletRequest.getServletPath();
         String path = httpServletRequest.getSession().getServletContext().getRealPath(relative);
         File file = new File(path);
-        if(!file.exists())
-        {
+
+        if(!file.exists()) {
             String[] parts = path.split("/");
             int guidIndex = parts.length - 2;
             String guid = parts[guidIndex];
-            Attachment attachment = attachmentService.get(guid,httpServletRequest);
-            String content = DataUtil.decodeAsString(attachment.getData());
-            FileUtil.write(path,content);
+
+            Attachment attachment = attachmentService.get(guid, httpServletRequest);
+            if (attachment != null) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Restoring the following  attachment to the server file system:  " + path);
+                }
+                byte[] content = DataUtil.decode(attachment.getData());
+                FileUtil.write(path, content);
+            } else {
+                if (log.isInfoEnabled()) {
+                    log.info("Attachment not found:  " + path);
+                }
+            }
         }
 
         chain.doFilter(request,response);
+
     }
 
-    public void destroy() {
-    }
+    public void destroy() {}
+
 }
