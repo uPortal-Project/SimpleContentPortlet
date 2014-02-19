@@ -18,18 +18,23 @@
  */
 package org.jasig.portlet.util;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Chris Waymire (chris@waymire)
@@ -108,7 +113,7 @@ public class FileUtil {
             int available = input.available();
             FileChannel channel = input.getChannel();
             ByteBuffer bytes = ByteBuffer.allocate(available);
-            channel.read(bytes,available);
+            channel.read(bytes);
             bytes.flip();
             return bytes.array();
         } finally {
