@@ -33,5 +33,5 @@
     <js resource="true" included="aggregated">/rs/fluid/1.4.0/js/fluid-all-1.4.0.min.js</js>
     <js resource="true" included="plain">/rs/fluid/1.4.0/js/fluid-all-1.4.0.js</js>
     
-    <js resource="true">/rs/ckeditor/3.6.6.1/ckeditor.js</js>
+    <js resource="true">/rs/ckeditor/4.3.2/ckeditor.js</js>
 </resources>
