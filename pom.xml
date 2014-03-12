@@ -31,9 +31,11 @@
     <properties>
         <!-- Dependency versions -->
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
+        <c3p0.version>0.9.5-pre6</c3p0.version>
         <ehcache.version>2.6.2</ehcache.version>
         <ehcache-web.version>2.0.4</ehcache-web.version>
-        <hibernate.version>4.1.9.Final</hibernate.version>
+        <hibernate-c3p0.version>4.2.8.Final</hibernate-c3p0.version>
+        <hibernate.version>4.2.8.Final</hibernate.version>
         <hibernate-jpamodelgen.version>1.2.0.Final</hibernate-jpamodelgen.version>
         <hibernate-jpa-api.version>1.0.1.Final</hibernate-jpa-api.version>
         <hsqldb.version>2.2.9</hsqldb.version>
@@ -69,6 +71,16 @@
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
                 <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mchange</groupId>
+                <artifactId>c3p0</artifactId>
+                <version>${c3p0.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-c3p0</artifactId>
+                <version>${hibernate-c3p0.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hsqldb</groupId>
@@ -349,6 +361,16 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
