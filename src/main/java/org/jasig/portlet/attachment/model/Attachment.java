@@ -49,7 +49,7 @@ import java.util.UUID;
 @Table(name = "SCM_ATTACHMENT")
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(
-        name="SCM_ATTACHMENT_SEQ_GEN",
+        name="SCM_ATTACHMENT_GEN",
         sequenceName="UP_ATTACHMENT_SEQ",
         allocationSize=1000
 )
