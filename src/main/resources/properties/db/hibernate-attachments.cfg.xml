@@ -26,6 +26,22 @@
 
 <hibernate-configuration>
     <session-factory name="PortalDb">
+        <property name="hibernate.connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>                
+        <property name="hibernate.session_factory_name_is_jndi">false</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.generate_statistics">true</property>
+        <property name="hibernate.max_fetch_depth">3</property>
+        <property name="hibernate.default_batch_fetch_size">4</property>
+        <property name="hibernate.jdbc.batch_size">25</property>
+        <property name="hibernate.id.new_generator_mappings">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <property name="hibernate.cache.use_second_level_cache">true></property>
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property>
+        <property name="hibernate.cache.use_minimal_puts">true></property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        
         <mapping class="org.jasig.portlet.attachment.model.Attachment" />
     </session-factory>
 </hibernate-configuration>
