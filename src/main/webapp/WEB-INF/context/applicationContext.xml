@@ -35,6 +35,7 @@
     </context:component-scan>
     <context:annotation-config/>
 
+    <context:property-placeholder location="classpath:hibernate.properties"/>
     <!-- 
      | OWASP AntiSamy policy file.
      |  
@@ -66,18 +67,34 @@
         p:viewClass="org.springframework.web.servlet.view.JstlView"
         p:order="10" p:cache="true" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+        p:driverClassName="${hibernate.connection.driver_class}"
+        p:url="${hibernate.connection.url}"
+        p:username="${hibernate.connection.username}"
+        p:password="${hibernate.connection.password}" />
+
     <!-- Attachments related configuration -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean" >
-        <property name="persistenceUnitName" value="AttachmentsDb"/>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+        <property name="persistenceUnitName" value="AttachmentsDb" />
     </bean>
+
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
+        <property name="generateDdl" value="false" />
+    </bean> 
+    
+    <bean id="jpaInterceptor" class="org.springframework.orm.jpa.JpaInterceptor">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>    
 
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
     <bean id="localAttachmentFilter" class="org.jasig.portlet.attachment.filter.LocalAttachmentFilter"/>
 
-    <tx:annotation-driven transaction-manager="jpaTransactionManager" proxy-target-class="true"/>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 </beans>
