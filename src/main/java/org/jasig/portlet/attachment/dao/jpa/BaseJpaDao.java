@@ -18,11 +18,11 @@
  */
 package org.jasig.portlet.attachment.dao.jpa;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Chris Waymire (chris@waymire.net)
@@ -32,8 +32,12 @@ public abstract class BaseJpaDao {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
+
+    @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     protected final EntityManager getEntityManager() {
         return this.entityManager;

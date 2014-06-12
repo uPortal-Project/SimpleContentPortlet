@@ -19,15 +19,16 @@
 package org.jasig.portlet.attachment.dao.jpa;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+
 import org.jasig.portlet.attachment.dao.IAttachmentDao;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.TypedQuery;
-import java.util.List;
 
 
 /**

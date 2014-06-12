@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jasig.portlet.util;
+package org.jasig.portlet.attachment.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

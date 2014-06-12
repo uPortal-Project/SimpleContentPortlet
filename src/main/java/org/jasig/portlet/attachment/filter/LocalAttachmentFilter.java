@@ -33,8 +33,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
-import org.jasig.portlet.util.DataUtil;
-import org.jasig.portlet.util.FileUtil;
+import org.jasig.portlet.attachment.util.DataUtil;
+import org.jasig.portlet.attachment.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

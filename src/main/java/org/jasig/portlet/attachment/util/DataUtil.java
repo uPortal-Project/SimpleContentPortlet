@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.jasig.portlet.util;
+package org.jasig.portlet.attachment.util;
 
 import org.apache.commons.codec.binary.Base64;
 

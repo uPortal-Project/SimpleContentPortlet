@@ -19,28 +19,15 @@
 package org.jasig.portlet.attachment.model;
 
 
+import java.util.Date;
+import java.util.UUID;
+
+import javax.persistence.*;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 import org.jasig.portlet.attachment.dao.jpa.Queries;
-
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * @author Chris Waymire (chris@waymire.net)
@@ -51,12 +38,12 @@ import java.util.UUID;
 @SequenceGenerator(
         name="SCM_ATTACHMENT_GEN",
         sequenceName="UP_ATTACHMENT_SEQ",
-        allocationSize=1000
+        allocationSize=10
 )
 @TableGenerator(
         name = "SCM_ATTACHMENT_GEN",
         pkColumnValue="UP_ATTACHMENT_PROP",
-        allocationSize=1000
+        allocationSize=10
 )
 @org.hibernate.annotations.Table(
         appliesTo = "SCM_ATTACHMENT",
