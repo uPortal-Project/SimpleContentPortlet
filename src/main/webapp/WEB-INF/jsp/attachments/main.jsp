@@ -22,7 +22,7 @@
 <jsp:directive.include file="/WEB-INF/jsp/include.jsp"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <c:if test="${!usePortalJsLibs}">
-    <script src="<rs:resourceURL value='/rs/jquery/1.6.1/jquery-1.6.1.min.js'/>" type="text/javascript"></script>
+    <script src="<rs:resourceURL value='/rs/jquery/1.10.2/jquery-1.10.2.min.js'/>" type="text/javascript"></script>
 </c:if>
 
 <script src="<c:url value='/js/fineuploader/fineuploader-3.3.0.js'/>"></script>

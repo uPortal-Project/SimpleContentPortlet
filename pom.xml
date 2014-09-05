@@ -464,9 +464,8 @@
                             <groupId>org.jasig.resourceserver</groupId>
                             <artifactId>resource-server-content</artifactId>
                             <includes>
-                                <include>rs/jquery/1.6.4/</include>
-                                <include>rs/jqueryui/1.8.13/</include>
-                                <include>rs/fluid/1.4.0/</include>
+                                <include>rs/jquery/1.10.2/</include>
+                                <include>rs/jqueryui/1.10.3/</include>
                                 <include>rs/ckeditor/4.3.2/</include>
                             </includes>
                         </overlay>
