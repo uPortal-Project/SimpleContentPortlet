@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.portlet.simplecontent</groupId>
     <artifactId>SimpleContentPortlet</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Simple Content Management Portlet</name>
@@ -20,7 +20,7 @@
         <connection>scm:git:git://github.com/Jasig/SimpleContentPortlet.git</connection>
         <developerConnection>scm:git:git@github.com:Jasig/SimpleContentPortlet.git</developerConnection>
         <url>https://github.com/Jasig/SimpleContentPortlet</url>
-      <tag>SimpleContentPortlet-1.1.0</tag>
+      <tag>HEAD</tag>
   </scm>
     
     <issueManagement>
