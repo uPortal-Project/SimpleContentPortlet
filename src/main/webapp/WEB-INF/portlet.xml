@@ -58,28 +58,6 @@
             </preference>
 
             <preference>
-                <name>editorConfigOptions</name>
-                <value>
-                    toolbarGroups : [
-                    { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
-                    { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-                    { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-                    { name: 'tools' },
-                    { name: 'others' },
-                    { name: 'about' },
-                    '/',
-                    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-                    { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
-                    { name: 'links' },
-                    '/',
-                    { name: 'styles' },
-                    { name: 'colors' },
-                    { name: 'insert' }
-                    ]
-                </value>
-            </preference>
-
-            <preference>
                 <name>supportedLocales</name>
                 <value>en_US</value>
                 <value>ja_JP</value>

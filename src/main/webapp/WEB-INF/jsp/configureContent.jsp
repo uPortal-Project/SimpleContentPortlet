@@ -62,7 +62,25 @@
         var $ = ${n}.jQuery;
         $(document).ready(function(){
             // Create an CKEditor 4.x Editor
-            CKEDITOR.replace('${n}content', { <c:out value="${renderRequest.preferences.map['editorConfigOptions'][0]}" escapeXml="false"/> });
+            CKEDITOR.replace('${n}content', {
+                toolbarGroups : [
+                    { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
+                    { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+                    { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+                    { name: 'tools' },
+                    { name: 'others' },
+                    { name: 'about' },
+                    '/',
+                    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+                    { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+                    { name: 'links' },
+                    '/',
+                    { name: 'styles' },
+                    { name: 'colors' },
+                    { name: 'insert' }
+                ],
+                filebrowserUploadUrl : '/SimpleContentPortlet/api/content/attach/local'
+            });
         });
         
     });
