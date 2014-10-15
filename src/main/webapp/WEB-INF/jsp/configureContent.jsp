@@ -79,7 +79,8 @@
                     { name: 'colors' },
                     { name: 'insert' }
                 ],
-                filebrowserUploadUrl : '/SimpleContentPortlet/api/content/attach/local'
+                filebrowserUploadUrl : '/SimpleContentPortlet/api/content/attach/local',
+                extraAllowedContent : '*(*)'
             });
         });
         
