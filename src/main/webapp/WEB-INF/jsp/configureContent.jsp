@@ -61,6 +61,7 @@
     ${n}.jQuery(function(){
         var $ = ${n}.jQuery;
         $(document).ready(function(){
+            CKEDITOR.dtd.$removeEmpty['span'] = false;  // allow empty span elements for font-awesome
             // Create an CKEditor 4.x Editor
             CKEDITOR.replace('${n}content', {
                 toolbarGroups : [
@@ -80,7 +81,7 @@
                     { name: 'insert' }
                 ],
                 filebrowserUploadUrl : '/SimpleContentPortlet/api/content/attach/local',
-                extraAllowedContent : '*(*)'
+                extraAllowedContent : 'span *(*)'
             });
         });
         
