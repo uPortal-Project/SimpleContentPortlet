@@ -24,7 +24,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <!-- JSON data view -->
-    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
     </bean>
 
 </beans>
