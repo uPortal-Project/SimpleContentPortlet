@@ -493,6 +493,7 @@
                         <exclude>**/*.channel-type</exclude>
                         <exclude>.idea/**</exclude> <!-- Exclude intelliJ files -->
                         <exclude>overlays/**</exclude> <!-- Exclude intelliJ files -->
+                        <exclude>.gitignore</exclude>
                     </excludes>
                     <mapping>
                         <tld>XML_STYLE</tld>
