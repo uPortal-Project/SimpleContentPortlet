@@ -37,11 +37,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
 
+    @Transactional
     public Attachment get(final long attachmentId) {
         final Attachment attachment = this.getEntityManager().find(Attachment.class, attachmentId);
         return attachment;
     }
 
+    @Transactional
     public Attachment get(final String guid) {
         final Map<String,String> params = new HashMap<String,String>();
         params.put("guid",guid);
@@ -49,6 +51,7 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
         return attachment;
     }
 
+    @Transactional
     public List<Attachment> find(final String creator) {
         final Map<String,String> params = new HashMap<String,String>();
         params.put("creator",creator);
@@ -56,6 +59,7 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
         return list;
     }
 
+    @Transactional
     public List<Attachment> find(final String creator,final String filename) {
         final Map<String,String> params = new HashMap<String,String>();
         params.put("creator",creator);
