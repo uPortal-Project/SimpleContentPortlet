@@ -79,6 +79,14 @@
                 <value>true</value>
             </preference>
 
+            <!-- Value to return as the title for portal search results.  The default is a token supported by
+                 uPortal 4.2.0+ to dynamically replace the title with the published portlet's title.  Use of
+                 this portlet on versions prior to uPortal 4.2.0 can set this to a static string such as 'cms'. -->
+            <preference>
+                <name>searchResultsTitle</name>
+                <value>${portlet.title}</value>
+            </preference>
+
         </portlet-preferences>
         
         <supported-processing-event>
