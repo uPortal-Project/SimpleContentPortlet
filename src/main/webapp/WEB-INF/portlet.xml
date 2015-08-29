@@ -30,7 +30,7 @@
         <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
-            <value>/WEB-INF/context/portlet/cms.xml</value>
+            <value>classpath:/context/portlet/cms.xml</value>
         </init-param>
         
         <supports>
@@ -102,7 +102,7 @@
         <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
-            <value>/WEB-INF/context/portlet/attachments.xml</value>
+            <value>classpath:/context/portlet/attachments.xml</value>
         </init-param>
 
         <supports>

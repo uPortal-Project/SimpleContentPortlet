@@ -20,6 +20,7 @@ package org.jasig.portlet.attachment.filter;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -28,12 +29,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.jasig.portlet.attachment.util.DataUtil;
 import org.jasig.portlet.attachment.util.FileUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -41,7 +42,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public final class LocalAttachmentFilter implements Filter {
 
-    private final Log log = LogFactory.getLog(getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private IAttachmentService attachmentService = null;
@@ -53,6 +54,7 @@ public final class LocalAttachmentFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String relative = httpServletRequest.getServletPath();
         String path = httpServletRequest.getSession().getServletContext().getRealPath(relative);
+        log.debug("Looking up file {}", path);
         File file = new File(path);
 
         if(!file.exists()) {
@@ -60,17 +62,13 @@ public final class LocalAttachmentFilter implements Filter {
             int guidIndex = parts.length - 2;
             String guid = parts[guidIndex];
 
-            Attachment attachment = attachmentService.get(guid, httpServletRequest);
+            Attachment attachment = attachmentService.get(guid);
             if (attachment != null) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Restoring the following  attachment to the server file system:  " + path);
-                }
+                log.debug("Restoring the following  attachment to the server file system:  {}", path);
                 byte[] content = DataUtil.decode(attachment.getData());
                 FileUtil.write(path, content);
             } else {
-                if (log.isInfoEnabled()) {
-                    log.info("Attachment not found:  " + path);
-                }
+                log.info("Attachment not found: {}", path);
             }
         }
 

@@ -64,7 +64,7 @@ public final class LocalAttachmentController {
         if(file != null)
         {
             Attachment attachment = generateAttachment(file, request);
-            attachment = attachmentService.save(attachment, request);
+            attachment = attachmentService.save(attachment, request.getRemoteUser());
             if(attachment.getId() > 0)
             {
                 String path = getAttachmentAbsolutePath(attachment, request);
@@ -93,7 +93,7 @@ public final class LocalAttachmentController {
 
         if(file != null) {
             Attachment attachment = generateAttachment(file, request);
-            attachment = attachmentService.save(attachment, request);
+            attachment = attachmentService.save(attachment, request.getRemoteUser());
             if(attachment.getId() > 0) {
                 String path = getAttachmentAbsolutePath(attachment, request);
                 FileUtil.write(path, file.getBytes());

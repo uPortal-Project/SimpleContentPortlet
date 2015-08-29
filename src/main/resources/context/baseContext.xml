@@ -1,0 +1,82 @@
+<!--
+
+    Licensed to Apereo under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Apereo licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License.  You may obtain a
+    copy of the License at the following location:
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:component-scan base-package="org.jasig.portlet.attachment.dao"/>
+    <context:component-scan base-package="org.jasig.portlet.attachment.service"/>
+
+    <context:property-placeholder location="classpath:hibernate.properties"/>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
+          p:driverClass="${hibernate.connection.driver_class}"
+          p:jdbcUrl="${hibernate.connection.url}"
+          p:user="${hibernate.connection.username}"
+          p:password="${hibernate.connection.password}">
+
+        <!-- These are C3P0 properties.  See http://www.mchange.com/projects/c3p0/#configuration_properties -->
+        <property name="acquireIncrement" value="1"/>
+        <property name="minPoolSize" value="1"/>
+        <property name="initialPoolSize" value="1"/>
+        <property name="maxPoolSize" value="5"/>
+        <property name="maxIdleTime" value="900"/>
+        <property name="testConnectionOnCheckout" value="true"/>
+        <!-- Per c3p0 documentation, if using type4 driver which we generally do, it should have a
+             Connection.isValid method to test the connection, so we don't need to specify a test query.
+             If you aren't using a JDBC type4 driver, uncomment this. -->
+        <!--<property name="preferredTestQuery" value="${hibernate.connection.validationQuery}"/>-->
+
+        <!-- Fix hot deploy connection pool issues on Tomcat. Requires c3p0 v0.9.5.
+             See http://www.mchange.com/projects/c3p0/#configuring_to_avoid_memory_leaks_on_redeploy. -->
+        <property name="contextClassLoaderSource" value="library"/>
+        <property name="privilegeSpawnedThreads" value="true"/>
+        <!-- End of c3p0 properties -->
+    </bean>
+
+    <!-- Attachments related configuration -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+        <property name="persistenceUnitName" value="AttachmentsDb" />
+    </bean>
+
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
+        <property name="generateDdl" value="false" />
+    </bean>
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+</beans>

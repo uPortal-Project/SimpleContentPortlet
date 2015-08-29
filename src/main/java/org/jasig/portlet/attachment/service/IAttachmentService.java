@@ -18,20 +18,20 @@
  */
 package org.jasig.portlet.attachment.service;
 
-import org.jasig.portlet.attachment.model.Attachment;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import org.jasig.portlet.attachment.model.Attachment;
 
 /**
  * @author Chris Waymire (chris@waymire.net)
  */
 public interface IAttachmentService {
-    Attachment get(long attachmentId, HttpServletRequest request);
-    Attachment get(String guid, HttpServletRequest request);
-    List<Attachment> find(String creator, HttpServletRequest request);
-    List<Attachment> find(String creator, String filename, HttpServletRequest request);
-    Attachment save(Attachment attachment, HttpServletRequest request);
-    void delete(Attachment attachment, HttpServletRequest request);
-    void delete(long attachmentId, HttpServletRequest request);
+    Attachment get(long attachmentId);
+    Attachment get(String guid);
+    List<Attachment> find(String creator);
+    List<Attachment> find(String creator, String filename);
+    List<Attachment> findAll(int offset, int maxresults);
+    Attachment save(Attachment attachment, String username);
+    void delete(Attachment attachment);
+    void delete(long attachmentId);
 }
