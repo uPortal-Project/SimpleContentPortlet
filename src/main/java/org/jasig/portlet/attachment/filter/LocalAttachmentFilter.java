@@ -27,6 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -67,6 +68,23 @@ public final class LocalAttachmentFilter implements Filter {
                 }
                 byte[] content = DataUtil.decode(attachment.getData());
                 FileUtil.write(path, content);
+
+                // CMSPLT-38 First time request for a file is not found after file creation. For some reason,
+                // Tomcat's default servlet does not return the file even though it is hydrated onto the file system.
+                // Attempted to return a 302 with the same URL hoping Tomcat's default servlet would return the
+                // file but the file is still not returned. Unfortunately, we have to duplicate what Tomcat's
+                // default servlet will do and return the content.
+                file = new File(path);
+                HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+                String contentType = httpServletRequest.getSession().getServletContext().getMimeType(path);
+                httpResponse.setHeader("Content-Type", contentType);
+                httpResponse.setDateHeader("Last-Modified", file.lastModified());
+                httpResponse.setHeader("Content-Length", Long.toString(file.length()));
+                httpResponse.setStatus(HttpServletResponse.SC_OK);
+                httpResponse.getOutputStream().write(content);
+                httpResponse.flushBuffer();
+                return;
             } else {
                 if (log.isInfoEnabled()) {
                     log.info("Attachment not found:  " + path);
