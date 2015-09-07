@@ -29,7 +29,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/context/applicationContext.xml
+            classpath:/context/applicationContext.xml
         </param-value>
     </context-param>
     <context-param>
@@ -67,7 +67,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                /WEB-INF/context/mvc.xml
+                classpath:/context/mvc.xml
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>

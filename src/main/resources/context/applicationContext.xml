@@ -28,13 +28,12 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <import resource="classpath:/context/baseContext.xml"/>
+
     <context:component-scan base-package="org.jasig.portlet.cms.service"/>
-    <context:component-scan base-package="org.jasig.portlet.attachment.dao"/>
-    <context:component-scan base-package="org.jasig.portlet.attachment.service"/>
     <context:annotation-config/>
 
-    <context:property-placeholder location="classpath:hibernate.properties"/>
-    <!-- 
+    <!--
      | OWASP AntiSamy policy file.
      |  
      | Used at content submission time to validate and sanitize submitted HTML. 
@@ -57,7 +56,7 @@
      | View resolvers, look for a named view bean before going to JSP resolution
      +-->
     <bean class="org.springframework.web.servlet.view.XmlViewResolver"
-            p:order="0" p:location="/WEB-INF/context/views.xml"/>
+            p:order="0" p:location="classpath:/context/views.xml"/>
             
     <!-- JSP view resolver -->
     <bean id="viewResolver"
@@ -65,51 +64,5 @@
         p:viewClass="org.springframework.web.servlet.view.JstlView"
         p:order="10" p:cache="true" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
-        p:driverClass="${hibernate.connection.driver_class}"
-        p:jdbcUrl="${hibernate.connection.url}"
-        p:user="${hibernate.connection.username}"
-        p:password="${hibernate.connection.password}">
-
-        <!-- These are C3P0 properties.  See http://www.mchange.com/projects/c3p0/#configuration_properties -->
-        <property name="acquireIncrement" value="1"/>
-        <property name="minPoolSize" value="1"/>
-        <property name="initialPoolSize" value="1"/>
-        <property name="maxPoolSize" value="5"/>
-        <property name="maxIdleTime" value="900"/>
-        <property name="testConnectionOnCheckout" value="true"/>
-        <!-- Per c3p0 documentation, if using type4 driver which we generally do, it should have a
-             Connection.isValid method to test the connection, so we don't need to specify a test query.
-             If you aren't using a JDBC type4 driver, uncomment this. -->
-        <!--<property name="preferredTestQuery" value="${hibernate.connection.validationQuery}"/>-->
-
-        <!-- Fix hot deploy connection pool issues on Tomcat. Requires c3p0 v0.9.5.
-             See http://www.mchange.com/projects/c3p0/#configuring_to_avoid_memory_leaks_on_redeploy. -->
-        <property name="contextClassLoaderSource" value="library"/>
-        <property name="privilegeSpawnedThreads" value="true"/>
-        <!-- End of c3p0 properties -->
-    </bean>
-
-    <!-- Attachments related configuration -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-        <property name="persistenceUnitName" value="AttachmentsDb" />
-    </bean>
-
-    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
-        <property name="generateDdl" value="false" />
-    </bean> 
-
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
-
     <bean id="localAttachmentFilter" class="org.jasig.portlet.attachment.filter.LocalAttachmentFilter"/>
-
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 </beans>

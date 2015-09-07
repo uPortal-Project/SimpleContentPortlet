@@ -58,7 +58,9 @@ import org.jasig.portlet.attachment.dao.jpa.Queries;
         @NamedQuery(name=Queries.FIND_ATTACHMENTS_BY_CREATOR,
                     query="SELECT a FROM Attachment a WHERE a.createdBy = :creator"),
         @NamedQuery(name=Queries.FIND_ATTACHMENTS_BY_FILENAME,
-                    query="SELECT a FROM Attachment a WHERE a.createdBy = :creator AND a.filename = :filename")
+                    query="SELECT a FROM Attachment a WHERE a.createdBy = :creator AND a.filename = :filename"),
+        @NamedQuery(name=Queries.FIND_ALL_ATTACHMENTS,
+        query="SELECT a FROM Attachment a order by a.id")
 })
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

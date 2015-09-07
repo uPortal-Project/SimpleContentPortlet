@@ -47,7 +47,7 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
     public Attachment get(final String guid) {
         final Map<String,String> params = new HashMap<String,String>();
         params.put("guid",guid);
-        final Attachment attachment = this.getResult(Queries.GET_ATTACHMENT_BY_GUID,params);
+        final Attachment attachment = this.getResult(Queries.GET_ATTACHMENT_BY_GUID, params);
         return attachment;
     }
 
@@ -55,7 +55,7 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
     public List<Attachment> find(final String creator) {
         final Map<String,String> params = new HashMap<String,String>();
         params.put("creator",creator);
-        final List<Attachment> list = this.getResultList(Queries.FIND_ATTACHMENTS_BY_CREATOR,params);
+        final List<Attachment> list = this.getResultList(Queries.FIND_ATTACHMENTS_BY_CREATOR, params);
         return list;
     }
 
@@ -65,6 +65,13 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
         params.put("creator",creator);
         params.put("filename",filename);
         final List<Attachment> list = this.getResultList(Queries.FIND_ATTACHMENTS_BY_FILENAME,params);
+        return list;
+    }
+
+    @Transactional
+    public List<Attachment> findAll(int offset, int maxresults) {
+        final List<Attachment> list = this.getResultListPaged(Queries.FIND_ALL_ATTACHMENTS,
+                new HashMap<String, String>(), offset, maxresults);
         return list;
     }
 
@@ -99,7 +106,19 @@ public class JpaAttachmentDao extends BaseJpaDao implements IAttachmentDao {
 
     private List<Attachment> getResultList(String select,Map<String,String> params) {
         try {
-            final TypedQuery<Attachment> query = createQuery(select,params);
+            final TypedQuery<Attachment> query = createQuery(select, params);
+            List<Attachment> results = query.getResultList();
+            return results;
+        } catch(NoResultException noResultException) {
+            return null;
+        }
+    }
+
+    private List<Attachment> getResultListPaged(String select,Map<String,String> params, int offset, int maxresults) {
+        try {
+            final TypedQuery<Attachment> query = createQuery(select, params);
+            query.setFirstResult(offset);
+            query.setMaxResults(maxresults);
             List<Attachment> results = query.getResultList();
             return results;
         } catch(NoResultException noResultException) {

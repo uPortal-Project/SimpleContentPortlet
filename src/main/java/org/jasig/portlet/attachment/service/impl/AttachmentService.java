@@ -18,7 +18,8 @@
  */
 package org.jasig.portlet.attachment.service.impl;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.dao.IAttachmentDao;
@@ -26,9 +27,6 @@ import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author Chris Waymire (chris@waymire.net)
@@ -38,23 +36,33 @@ public class AttachmentService implements IAttachmentService {
     @Autowired
     private IAttachmentDao attachmentDao;
 
-    public Attachment get(final long attachmentId,final HttpServletRequest request) {
+    public Attachment get(final long attachmentId) {
         return attachmentDao.get(attachmentId);
     }
 
-    public Attachment get(final String guid,final HttpServletRequest request) {
+    public Attachment get(final String guid) {
         return attachmentDao.get(guid);
     }
 
-    public List<Attachment> find(final String creator,final HttpServletRequest request) {
+    public List<Attachment> find(final String creator) {
         return attachmentDao.find(creator);
     }
 
-    public List<Attachment> find(final String creator,final String filename,final HttpServletRequest request) {
+    public List<Attachment> find(final String creator,final String filename) {
         return attachmentDao.find(creator,filename);
     }
 
-    public Attachment save(Attachment attachment,final HttpServletRequest request) {
+    public List<Attachment> findAll(int offset, int maxresults) {
+        return attachmentDao.findAll(offset, maxresults);
+    }
+
+    public Attachment save(Attachment attachment, String username) {
+        // The username must be present
+        if (StringUtils.isBlank(username)) {
+            throw new IllegalArgumentException("Value for username cannot be blank;  " +
+                    "is Tomcat's session path configured for shared sessions?");
+        }
+
         Attachment existing = attachmentDao.get(attachment.getGuid());
         if(existing != null)
         {
@@ -64,23 +72,16 @@ public class AttachmentService implements IAttachmentService {
             attachment = existing;
         }
 
-        // The username must be present
-        String user = request.getRemoteUser();
-        if (StringUtils.isBlank(user)) {
-            throw new IllegalArgumentException("Value for username cannot be blank;  " +
-                    "is Tomcat's session path configured for shared sessions?");
-        }
-
-        updateTimestamps(attachment, user);
+        updateTimestamps(attachment, username);
         Attachment saved = attachmentDao.save(attachment);
         return saved;
     }
 
-    public void delete(Attachment attachment,final HttpServletRequest request) {
+    public void delete(Attachment attachment) {
         attachmentDao.delete(attachment);
     }
 
-    public void delete(long attachmentId,final HttpServletRequest request) {
+    public void delete(long attachmentId) {
         attachmentDao.delete(attachmentId);
     }
 

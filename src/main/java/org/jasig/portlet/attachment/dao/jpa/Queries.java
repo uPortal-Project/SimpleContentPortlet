@@ -22,6 +22,7 @@ public class Queries {
     public static final String GET_ATTACHMENT_BY_GUID = "Attachment.getByGuid";
     public static final String FIND_ATTACHMENTS_BY_CREATOR = "Attachment.findByCreator";
     public static final String FIND_ATTACHMENTS_BY_FILENAME = "Attachment.findByFilename";
+    public static final String FIND_ALL_ATTACHMENTS = "Attachment.findAll";
 
     private Queries() {}
 }
