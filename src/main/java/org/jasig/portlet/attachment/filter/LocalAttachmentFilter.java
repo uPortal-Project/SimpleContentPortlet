@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
-import org.jasig.portlet.attachment.util.DataUtil;
 import org.jasig.portlet.attachment.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +57,8 @@ public final class LocalAttachmentFilter implements Filter {
         log.debug("Looking up file {}", path);
         File file = new File(path);
 
+        // If file is present on the hard drive, let the Tomcat default servlet serve it up.  Otherwise, hydrate
+        // it from the database onto the file system.
         if(!file.exists()) {
             String[] parts = path.split("/");
             int guidIndex = parts.length - 2;
@@ -66,25 +67,47 @@ public final class LocalAttachmentFilter implements Filter {
             Attachment attachment = attachmentService.get(guid);
             if (attachment != null) {
                 log.debug("Restoring the following  attachment to the server file system:  {}", path);
-                byte[] content = DataUtil.decode(attachment.getData());
-                FileUtil.write(path, content);
+                byte[] content = attachment.getData();
+                // If the content is not null, save it to the file system.  If the content is null, the
+                // attachment may have been saved with v1.2.x or prior which used a Base64-encoded text field
+                // to hold the content instead of a BLOB. In that case, return an error and message.
+                if (content != null) {
+                    FileUtil.write(path, content);
 
-                // CMSPLT-38 First time request for a file is not found after file creation. For some reason,
-                // Tomcat's default servlet does not return the file even though it is hydrated onto the file system.
-                // Attempted to return a 302 with the same URL hoping Tomcat's default servlet would return the
-                // file but the file is still not returned. Unfortunately, we have to duplicate what Tomcat's
-                // default servlet will do and return the content.
-                file = new File(path);
-                HttpServletResponse httpResponse = (HttpServletResponse) response;
+                    // CMSPLT-38 First time request for a file is not found after file creation. For some reason,
+                    // Tomcat's default servlet does not return the file even though it is hydrated onto the file system.
+                    // Attempted to return a 302 with the same URL hoping Tomcat's default servlet would return the
+                    // file but the file is still not returned. Unfortunately, we have to duplicate what Tomcat's
+                    // default servlet will do and return the content. Next time though, Tomcat's default servlet
+                    // will return the content just fine.
+                    file = new File(path);
+                    HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-                String contentType = httpServletRequest.getSession().getServletContext().getMimeType(path);
-                httpResponse.setHeader("Content-Type", contentType);
-                httpResponse.setDateHeader("Last-Modified", file.lastModified());
-                httpResponse.setHeader("Content-Length", Long.toString(file.length()));
-                httpResponse.setStatus(HttpServletResponse.SC_OK);
-                httpResponse.getOutputStream().write(content);
-                httpResponse.flushBuffer();
-                return;
+                    String contentType = httpServletRequest.getSession().getServletContext().getMimeType(path);
+                    httpResponse.setHeader("Content-Type", contentType);
+                    httpResponse.setDateHeader("Last-Modified", file.lastModified());
+                    httpResponse.setHeader("Content-Length", Long.toString(file.length()));
+                    httpResponse.setStatus(HttpServletResponse.SC_OK);
+                    httpResponse.getOutputStream().write(content);
+                    httpResponse.flushBuffer();
+                    return;
+                } else {
+                    log.error("Attachment guid {} has no data.  If you were using SimpleContent 1.2.x or prior, you must"
+                                    + " export the data from your database using v1.2.x and import it using v2.0.0+. Follow the"
+                                    + " instructions at https://wiki.jasig.org/display/PLT/Upgrading+from+1.2.x+or+prior+to+2.0.0",
+                            attachment.getGuid());
+
+                    String notFoundResponse = "<HTML><BODY><P>File content not found. Report issue to system"
+                            + " administrator. They may need to export attachments from"
+                            + " prior version and import into new version</P></BODY></HTML>";
+                    HttpServletResponse httpResponse = (HttpServletResponse) response;
+                    httpResponse.setHeader("Content-Type", "text/html");
+                    httpResponse.setHeader("Content-Length", Long.toString(notFoundResponse.length()));
+                    httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    httpResponse.getOutputStream().write(notFoundResponse.getBytes());
+                    httpResponse.flushBuffer();
+                    return;
+                }
             } else {
                 log.info("Attachment not found: {}", path);
             }

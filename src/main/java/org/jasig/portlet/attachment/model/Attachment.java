@@ -82,9 +82,12 @@ public class Attachment {
     @Column(name="SOURCE",nullable=true,length=255)
     private String source;
 
+    /**
+     * In v2.0.0 switched from base64-encoded text field in column DATA to a binary BLOB field.
+     */
     @Lob
-    @Column(name="DATA",nullable=true,length=Integer.MAX_VALUE)
-    private String data;
+    @Column(name="BDATA",nullable=true,length=Integer.MAX_VALUE)
+    private byte[] data;
 
     @Column(name = "CHECKSUM", nullable=false, length=64)
     private String checksum;
@@ -147,14 +150,14 @@ public class Attachment {
         this.source = source;
     }
 
-    public String getData()
+    public byte[] getData()
     {
         return data;
     }
 
-    public void setData(String data)
+    public void setData(byte[] bdata)
     {
-        this.data = data;
+        this.data = bdata;
     }
 
     public String getChecksum() {

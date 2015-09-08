@@ -104,23 +104,41 @@ public class ImportExport {
         if (files.size() == 0) {
             log.info("No files of form {} to import in {}", "*" + FILENAME_SUFFIX, directoryName);
         }
+        boolean importSucceeded = true;
         for (File file : files) {
-            importFile(file);
+            importSucceeded &= importFile(file);
+        }
+        if (!importSucceeded) {
+            System.exit(1);
         }
     }
 
-    private void importFile(File filename) {
+    private boolean importFile(File filename) {
         try {
             JAXBContext jc = JAXBContext.newInstance(Attachment.class);
             StreamSource xml = new StreamSource(filename);
             Unmarshaller unmarshaller = jc.createUnmarshaller();
             JAXBElement<Attachment> je1 = unmarshaller.unmarshal(xml, Attachment.class);
             Attachment attachment = je1.getValue();
+
+            // An export run after having added SCP v2.0.0+ and uploading some attachments (which would populate
+            // column bdata, not data) would
+            if (attachment.getData() == null && System.getProperty("importEmpty") == null) {
+                log.warn("Attachment with guid {} has no data and will be skipped.  This can occur if you had put"
+                        + " SimpleContentPortlet v2.0.0+ on, uploaded attachments which wrote the data to the"
+                        + " BDATA column instead of the deprecated DATA column, then went back to a pre 2.0.0"
+                        + " version to do the data-export.  Typically you do not want these records imported; they"
+                        + " will be correct in the database if you are running import on the same database"
+                        + " you ran export on.",
+                        attachment.getGuid());
+                return false;
+            }
             saveOrUpdate(attachment);
         } catch (JAXBException e) {
             log.error("Unable to import attachment {}", filename.getAbsolutePath(), e);
-            System.exit(1);
+            return false;
         }
+        return true;
     }
 
     private void saveOrUpdate(Attachment attachment) {
@@ -133,7 +151,7 @@ public class ImportExport {
         }
     }
 
-    private boolean export(String directoryName) {
+    private void export(String directoryName) {
         boolean operationSucceeded = true;
         File dir = checkIfDirExists(directoryName, true);
 
@@ -149,7 +167,17 @@ public class ImportExport {
 
                     for (Attachment attachment : attachments) {
                         File entityFile = new File(dir, attachment.getGuid() + FILENAME_SUFFIX);
-                        log.info("Creating file " + entityFile.getAbsolutePath());
+
+                        if (attachment.getData() == null) {
+                            log.error("File {}, guid {} has no data.  This typically occurs if you are running export"
+                                    + " against a SimpleContentPortlet database prior to v2.0.0. You probably want"
+                                    + " to delete this file before running import and instead run export using"
+                                    + " a version prior to 2.0.0",
+                                    entityFile.getAbsolutePath(), attachment.getGuid());
+                            operationSucceeded = false;
+                        } else {
+                            log.info("Creating file {}", entityFile.getAbsolutePath());
+                        }
                         try {
                             JAXBElement<Attachment> je2 = new JAXBElement<>(new QName("Attachment"), Attachment.class, attachment);
                             marshaller.marshal(je2, new FileWriter(entityFile));
@@ -172,7 +200,9 @@ public class ImportExport {
             log.info("No attachments found in the database.");
         }
 
-        return operationSucceeded;
+        if (!operationSucceeded) {
+            System.exit(1);
+        }
     }
 
     private File checkIfDirExists(String directoryName, boolean createIfAbsent) {

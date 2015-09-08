@@ -69,6 +69,7 @@ public class AttachmentService implements IAttachmentService {
             existing.setFilename(attachment.getFilename());
             existing.setPath(attachment.getPath());
             existing.setData(attachment.getData());
+            existing.setSource(attachment.getSource());
             attachment = existing;
         }
 
@@ -96,4 +97,5 @@ public class AttachmentService implements IAttachmentService {
         attachment.setModifiedBy(user);
         attachment.setModifiedAt(now);
     }
+
 }
