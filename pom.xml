@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.portlet.simplecontent</groupId>
     <artifactId>SimpleContentPortlet</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
     <packaging>war</packaging>
 
     <name>Simple Content Management Portlet</name>
@@ -20,7 +20,7 @@
         <connection>scm:git:git://github.com/Jasig/SimpleContentPortlet.git</connection>
         <developerConnection>scm:git:git@github.com:Jasig/SimpleContentPortlet.git</developerConnection>
         <url>https://github.com/Jasig/SimpleContentPortlet</url>
-      <tag>HEAD</tag>
+      <tag>SimpleContentPortlet-1.2.0</tag>
   </scm>
     
     <issueManagement>
@@ -676,7 +676,7 @@
                                         <!--<pathelement path="${project.build.directory}/${project.artifactId}/WEB-INF/classes" />-->
                                     </classpath>
 
-                                    <arg value="import"/>
+                                    <arg value="import" />
                                     <arg value="${dir}" />
                                 </java>
                             </tasks>
@@ -711,7 +711,7 @@
                                         <!--<pathelement path="${project.build.directory}/${project.artifactId}/WEB-INF/classes" />-->
                                     </classpath>
 
-                                    <arg value="export"/>
+                                    <arg value="export" />
                                     <arg value="${dir}" />
                                 </java>
                             </tasks>
