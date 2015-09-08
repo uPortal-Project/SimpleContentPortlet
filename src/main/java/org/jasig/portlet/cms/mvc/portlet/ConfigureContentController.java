@@ -76,7 +76,7 @@ public class ConfigureContentController {
     /**
      * Show the main configuration view.
      * 
-     * @return
+     * @return main configuration view
      */
     @RequestMapping
     public String showContentForm() {
@@ -87,10 +87,10 @@ public class ConfigureContentController {
      * Update the portlet's configuration according to the submitted form
      * object.
      * 
-     * @param request
-     * @param response
-     * @param form
-     * @throws PortletModeException 
+     * @param request ActionRequest
+     * @param response ActionResponse
+     * @param form configuration form
+     * @throws PortletModeException exception
      */
     @RequestMapping(params="action=updateConfiguration")
     public void updateConfiguration(ActionRequest request, ActionResponse response, 
@@ -116,9 +116,9 @@ public class ConfigureContentController {
     /**
      * Cancel any pending portlet configuration edits and exit configuration mode.
      * 
-     * @param request
-     * @param response
-     * @throws PortletModeException
+     * @param request ActionRequest
+     * @param response ActionResponse
+     * @throws PortletModeException exception
      */
     @RequestMapping(params="action=cancelUpdate")
     public void cancelUpdate(ActionRequest request, ActionResponse response) 
@@ -144,8 +144,8 @@ public class ConfigureContentController {
      * pre-populated into the form object.  If this is a new portlet, the 
      * initial content will be an empty string.
      * 
-     * @param request
-     * @return
+     * @param request PortletRequest
+     * @return form object for the portlet configuration
      */
     @ModelAttribute("form")
     public ContentForm getForm(PortletRequest request) {
@@ -159,9 +159,9 @@ public class ConfigureContentController {
     }
 
     /**
-     * 
-     * @param request
-     * @return
+     * Adds clean content attribute to the model.
+     * @param request PortletRequest
+     * @return true if the clean content portlet preference is set
      */
     @ModelAttribute("cleanContent")
     public boolean isCleanContent(PortletRequest request) {
@@ -172,8 +172,8 @@ public class ConfigureContentController {
     /**
      * Get the list of supported locales to populate the drop-down list with.
      * 
-     * @param request
-     * @return
+     * @param request PortletRequest
+     * @return list of supported locals
      */
 //    @ModelAttribute("supportedLocales")
     public HashMap<String, String> getLocales(PortletRequest request) {

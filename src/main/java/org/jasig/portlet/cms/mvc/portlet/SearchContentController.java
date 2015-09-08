@@ -55,6 +55,7 @@ public class SearchContentController implements PortletConfigAware {
     
 	/**
 	 * Length of search summary to return
+     * @param searchSummaryLength length of search summary
 	 */
 	public void setSearchSummaryLength(int searchSummaryLength) {
 		this.searchSummaryLength = searchSummaryLength;

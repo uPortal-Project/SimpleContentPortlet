@@ -31,11 +31,17 @@ public interface IStringCleaningService {
     /**
      * Return a safe HTML string version of the provided content.
      * 
-     * @param content
-     * @return
+     * @param content content to clean
+     * @return cleaned content
      */
-    public String getSafeContent(String content);
-    
-    public String getTextContent(String content);
+    String getSafeContent(String content);
+
+    /**
+     * Return a safe text string version of the provided content.
+     *
+     * @param content content to clean
+     * @return cleaned content
+     */
+    String getTextContent(String content);
 
 }

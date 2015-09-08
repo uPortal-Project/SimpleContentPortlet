@@ -93,8 +93,8 @@ public class PortletPreferencesContentDaoImpl implements IContentDao {
     /**
      * Return a locale-specific content preference key.
      * 
-     * @param localeKey
-     * @return
+     * @param localeKey local key
+     * @return locale-specific content preference key
      */
     protected String getLocaleSpecificKey(String localeKey) {
         return CONTENT_KEY.concat("-").concat(localeKey);

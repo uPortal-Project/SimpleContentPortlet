@@ -48,8 +48,7 @@ public class ViewContentController {
     /**
      * Display the main user-facing view of the portlet.
      * 
-     * @param request
-     * @return
+     * @return view name
      */
     @RequestMapping
     public String viewContent() {
@@ -59,8 +58,8 @@ public class ViewContentController {
     /**
      * Get the configured user-facing content for this portlet configuration.
      * 
-     * @param request
-     * @return
+     * @param request PortletRequest
+     * @return content for portlet configuration
      */
     @ModelAttribute("content")
     public String getContent(PortletRequest request){

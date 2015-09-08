@@ -54,7 +54,7 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
     /**
      * Set the resource to be used as the AntiSamy policy file.
      * 
-     * @param resource
+     * @param resource resource to use
      */
     @javax.annotation.Resource(name = "policyFile")
     @Required
@@ -65,7 +65,7 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
     /**
      * Set the resource to be used as the AntiSamy policy file.
      * 
-     * @param resource
+     * @param resource resource to use
      */
     @javax.annotation.Resource(name = "textOnlyPolicyFile")
     @Required

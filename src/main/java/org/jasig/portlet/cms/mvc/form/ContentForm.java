@@ -32,7 +32,7 @@ public class ContentForm {
     /**
      * Get the HTML content to be displayed by this portlet.
      * 
-     * @return
+     * @return HTML content
      */
     public String getContent() {
         return content;
@@ -41,7 +41,7 @@ public class ContentForm {
     /**
      * Set the HTML content to be displayed by this portlet.
      * 
-     * @param content
+     * @param content HTML content
      */
     public void setContent(String content) {
         this.content = content;
@@ -50,7 +50,7 @@ public class ContentForm {
     /**
      * Get the locale string associated with the content.
      * 
-     * @return
+     * @return local string associated with the content
      */
     public String getLocale() {
         return locale;
@@ -59,7 +59,7 @@ public class ContentForm {
     /**
      * Set the locale string associated with the content.
      * 
-     * @param locale
+     * @param locale local string associated with the content
      */
     public void setLocale(String locale) {
         this.locale = locale;
