@@ -244,7 +244,7 @@
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>1.2.17</version>
-                <!--<scope>provided</scope>--> <!-- temporarily removed to use log4j in 1.2 release -->
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -271,12 +271,6 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
                 <scope>runtime</scope>
-            </dependency>
-            <!-- Temporarily added to use log4j in 1.2 release -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
             </dependency>
             <!-- End of logging section -->
         </dependencies>
@@ -401,24 +395,17 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
         </dependency>
-        <!-- Temporarily removed to use log4j in 1.2 release -->
-        <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>log4j-over-slf4j</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
-        <!-- Temporarily removed to use log4j in 1.2 release -->
-        <!--<dependency>-->
-            <!--<groupId>ch.qos.logback</groupId>-->
-            <!--<artifactId>logback-classic</artifactId>-->
-        <!--</dependency>-->
-        <!-- Temporarily added to use log4j in 1.2 release -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
         <!-- End of logging section -->
 
@@ -667,8 +654,7 @@
                                 <!--<property name="servlet.jar" value="${maven.dependency.javax.servlet.servlet-api.jar.path}" />-->
 
                                 <java failonerror="true" fork="true" classname="org.jasig.portlet.attachment.util.ImportExport">
-                                    <!--<sysproperty key="logback.configurationFile" value="command-line.logback.xml" />-->
-                                    <sysproperty key="log4j.configuration" value="commandline-log4j.properties" />
+                                    <sysproperty key="logback.configurationFile" value="command-line.logback.xml" />
                                     <classpath>
                                         <pathelement path="${runtime_classpath}" />
                                         <pathelement path="${plugin_classpath}" />
@@ -702,8 +688,7 @@
                                 <!--<property name="servlet.jar" value="${maven.dependency.javax.servlet.servlet-api.jar.path}" />-->
 
                                 <java failonerror="true" fork="true" classname="org.jasig.portlet.attachment.util.ImportExport">
-                                    <!--<sysproperty key="logback.configurationFile" value="command-line.logback.xml" />-->
-                                    <sysproperty key="log4j.configuration" value="commandline-log4j.properties" />
+                                    <sysproperty key="logback.configurationFile" value="command-line.logback.xml" />
                                     <classpath>
                                         <pathelement path="${runtime_classpath}" />
                                         <pathelement path="${plugin_classpath}" />
