@@ -121,8 +121,12 @@ public class ImportExport {
             JAXBElement<Attachment> je1 = unmarshaller.unmarshal(xml, Attachment.class);
             Attachment attachment = je1.getValue();
 
+            // JAXB stores binary data in Base64-encoding, so we can import either an SCP v1.2.x export or an
+            // SCP 2.0.0+ export without having to worry about trying to detect the encoding scheme.
+
             // An export run after having added SCP v2.0.0+ and uploading some attachments (which would populate
-            // column bdata, not data) would
+            // column bdata, not data) and then backing down to a version of SCP prior to 2.0.0 and doing an
+            // export would find no data for the attachments added with v2.0.0.  Notify the user.
             if (attachment.getData() == null && System.getProperty("importEmpty") == null) {
                 log.warn("Attachment with guid {} has no data and will be skipped.  This can occur if you had put"
                         + " SimpleContentPortlet v2.0.0+ on, uploaded attachments which wrote the data to the"
