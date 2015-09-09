@@ -29,7 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.controller.AttachmentsController;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
-import org.jasig.portlet.attachment.util.DataUtil;
 import org.jasig.portlet.attachment.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,7 +53,7 @@ public final class LocalAttachmentController {
 
     @RequestMapping(value = "/content/attach/local.json", method = RequestMethod.POST)
     public ModelAndView uploadForm(@RequestParam(value = "qqfile") MultipartFile file,
-                                  HttpServletRequest servletRequest)
+                                   HttpServletRequest servletRequest)
             throws IOException
     {
         final Map<String, String> model = new HashMap<String, String>();
@@ -84,7 +83,7 @@ public final class LocalAttachmentController {
     // Callback is javascript to be called from iFrame to let ckeditor know the url the server created
     @RequestMapping(value = "/content/attach/local", method = RequestMethod.POST, produces="text/plain")
     public ModelAndView cKEditorUpload(@RequestParam(value = "upload") MultipartFile file,
-                                 @RequestParam(value = "CKEditorFuncNum") String functionNumber,
+                                  @RequestParam(value = "CKEditorFuncNum") String functionNumber,
                                   HttpServletRequest servletRequest) throws IOException {
 
         final Map<String,Object> model = new HashMap<String,Object>(); 
@@ -118,13 +117,14 @@ public final class LocalAttachmentController {
         final Attachment attachment = new Attachment();
         final String fileNameParam = req.getParameter("filename");
         final String filename = StringUtils.isEmpty(fileNameParam) ? file.getOriginalFilename() : fileNameParam;
-        final String content = DataUtil.encodeAsString(file.getBytes());
         final String context = req.getContextPath();
         final String path = context + PATH_FORMAT.format(new Object[]{ attachment.getGuid(),filename });
+        final String source = req.getParameter("source");
 
         attachment.setFilename(filename);
         attachment.setPath(path);
-        attachment.setData(content);
+        attachment.setData(file.getBytes());
+        attachment.setSource(StringUtils.isBlank(source) ? null : source);
         return attachment;
     }
 }

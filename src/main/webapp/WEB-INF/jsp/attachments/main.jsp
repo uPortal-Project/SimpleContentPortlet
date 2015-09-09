@@ -38,8 +38,10 @@
             <div class="fl-widget-content portlet-body" role="main">
                 <div class="portlet-section" role="region">
                     <div class="lb_body">
-                        <label>Filename</label>(optional)<br/>
-                        <input id="${n}filename" type="text"/>
+                        <label>Filename</label> (optional)<br/>
+                        <input id="${n}filename" type="text"/><br/>
+						<label>Source</label> (optional)<br/>
+						<input id="${n}source" type="text"/>
                         <br/><br/>
                         <div id="${n}file-uploader"></div>
                     </div>
@@ -94,6 +96,7 @@
         		hide: function() {
         	        var $ = ${n}.jQuery;
         	        $("#${n}filename").val('');
+					$("#${n}source").val('');
         	        close_box();
         	    },
         	    show: function(callback) {
@@ -106,7 +109,8 @@
         	                forceMultipart: true,
         	                paramsInBody: true,
         	                params: {
-        	                    filename: function () { return $("#${n}filename").val(); }
+        	                    filename: function () { return $("#${n}filename").val(); },
+								source: function () { return $("#${n}source").val(); }
         	                }
         	            },
 
