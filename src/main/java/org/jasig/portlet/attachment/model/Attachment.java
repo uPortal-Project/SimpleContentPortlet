@@ -35,15 +35,22 @@ import org.jasig.portlet.attachment.dao.jpa.Queries;
 @Entity
 @Table(name = "SCM_ATTACHMENT")
 @Inheritance(strategy = InheritanceType.JOINED)
+
+// CMSPLT-54 For Oracle and Postrgres, sequence generator in the DB had allocationSize=1 even though annotation
+// had allocationSize=10 and this was causing negative ID numbers and ID conflicts (because Hibernate would
+// get the sequence value returned, subtract 10 to get the first ID in the range, and end up with a negative
+// number).  Fixed by changing allocationSize=1 since attachment inserts are fairly infrequent and doing an extra
+// fetch of the next sequence # per insert is not that big a deal.
+
 @SequenceGenerator(
         name="SCM_ATTACHMENT_GEN",
         sequenceName="UP_ATTACHMENT_SEQ",
-        allocationSize=10
+        allocationSize=1
 )
 @TableGenerator(
         name = "SCM_ATTACHMENT_GEN",
         pkColumnValue="UP_ATTACHMENT_PROP",
-        allocationSize=10
+        allocationSize=1
 )
 @org.hibernate.annotations.Table(
         appliesTo = "SCM_ATTACHMENT",
