@@ -80,7 +80,7 @@
                     { name: 'insert' }
                 ],
                 filebrowserUploadUrl : '/SimpleContentPortlet/api/content/attach/local',
-                extraAllowedContent : 'span *(*)'
+                allowedContent: true
             });
         });
         
