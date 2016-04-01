@@ -21,6 +21,8 @@ package org.jasig.portlet.attachment.util;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,6 +36,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.slf4j.Logger;
@@ -127,16 +130,47 @@ public class ImportExport {
             // An export run after having added SCP v2.0.0+ and uploading some attachments (which would populate
             // column bdata, not data) and then backing down to a version of SCP prior to 2.0.0 and doing an
             // export would find no data for the attachments added with v2.0.0.  Notify the user.
-            if (attachment.getData() == null && System.getProperty("importEmpty") == null) {
-                log.warn("Attachment with guid {} has no data and will be skipped.  This can occur if you had put"
-                        + " SimpleContentPortlet v2.0.0+ on, uploaded attachments which wrote the data to the"
-                        + " BDATA column instead of the deprecated DATA column, then went back to a pre 2.0.0"
-                        + " version to do the data-export.  Typically you do not want these records imported; they"
-                        + " will be correct in the database if you are running import on the same database"
-                        + " you ran export on.",
-                        attachment.getGuid());
-                return false;
+            if (attachment.getData() == null &&
+                    !"true".equalsIgnoreCase(System.getProperty("importEmptySimpleContentData"))) {
+                if (attachmentService.isPersistenceIntoDatabaseRequired()) {
+                    log.error("Attachment with guid {} has no data and will be skipped.  This can occur if you had put"
+                                    + " SimpleContentPortlet v2.0.0+ on, uploaded attachments which wrote the data to the"
+                                    + " BDATA column instead of the deprecated DATA column, then went back to a pre 2.0.0"
+                                    + " version to do the data-export.  Typically you do not want these records imported; they"
+                                    + " will be correct in the database if you are running import on the same database"
+                                    + " you ran export on.",
+                            attachment.getGuid());
+                    return false;
+                } else {
+                    log.info("Attachment with guid {} has no data. Should be OK since configured persistence store"
+                            + " does not require persisting attachment data into a database. Saving attachment"
+                            + " metadata into the database. Assume file is present at external location.",
+                            attachment.getGuid());
+                }
             }
+
+            // Prior to v2.0.3 the contentType was optional.  If it is not present, try to guess it from the
+            // filename.
+            if (StringUtils.isBlank(attachment.getContentType())) {
+                try {
+                    String contentType = Files.probeContentType(
+                            FileSystems.getDefault().getPath(attachment.getFilename()));
+                    if (StringUtils.isNotBlank(contentType)) {
+                        log.info("Guid {}, guessed content type {} for file {}", attachment.getGuid(),
+                                contentType, attachment.getFilename());
+                        attachment.setContentType(contentType);
+                    } else {
+                        log.error("Unable to guess content type for item guid {}, filename {}",
+                                attachment.getGuid(), attachment.getFilename());
+                        return false;
+                    }
+                } catch (IOException e) {
+                    log.error("Unable to guess content type for item guid {}, filename {}",
+                            attachment.getGuid(), attachment.getFilename(), e);
+                    return false;
+                }
+            }
+
             saveOrUpdate(attachment);
         } catch (JAXBException e) {
             log.error("Unable to import attachment {}", filename.getAbsolutePath(), e);
@@ -147,7 +181,8 @@ public class ImportExport {
 
     private void saveOrUpdate(Attachment attachment) {
         try {
-            attachmentService.save(attachment, attachment.getModifiedBy() != null ? attachment.getModifiedBy() : "system");
+            attachmentService.save(attachment, attachment.getModifiedBy() != null ? attachment.getModifiedBy() : "system",
+                    null);
             log.info("Imported attachment with guid {}", attachment.getGuid());
         } catch (DataAccessException e) {
             log.error("Unable to import attachment with guid {}", attachment.getGuid(), e);
@@ -172,7 +207,7 @@ public class ImportExport {
                     for (Attachment attachment : attachments) {
                         File entityFile = new File(dir, attachment.getGuid() + FILENAME_SUFFIX);
 
-                        if (attachment.getData() == null) {
+                        if (attachment.getData() == null && attachmentService.isPersistenceIntoDatabaseRequired()) {
                             log.error("File {}, guid {} has no data.  This typically occurs if you are running export"
                                     + " against a SimpleContentPortlet database prior to v2.0.0. You probably want"
                                     + " to delete this file before running import and instead run export using"

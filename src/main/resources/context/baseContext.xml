@@ -31,10 +31,14 @@
     <context:component-scan base-package="org.jasig.portlet.attachment.dao"/>
     <context:component-scan base-package="org.jasig.portlet.attachment.service"/>
 
+    <!-- Configured document persistence strategy to use for attachments. -->
+    <alias alias="documentPersistenceStrategy" name="${attachment.document.persistence.bean}"/>
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:hibernate.properties</value>
+                <value>classpath:configuration.properties</value>
                 <!--
                  |  The following files optionally allow deployers to set or override many uPortal
                  |  configuration settings in a outside the control of the build/deploy cycle, SCM,

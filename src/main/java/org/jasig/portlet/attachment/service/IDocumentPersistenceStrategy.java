@@ -6,9 +6,9 @@
  * Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License.  You may obtain a
  * copy of the License at the following location:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,33 +18,27 @@
  */
 package org.jasig.portlet.attachment.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.jasig.portlet.attachment.model.Attachment;
 
 /**
- * @author Chris Waymire (chris@waymire.net)
+ * Defines persistence strategies for Attachment binary data.
+ *
+ * @author James Wennmacher, jwennmacher@unicon.net
  */
-public interface IAttachmentService {
-    Attachment get(long attachmentId);
-    Attachment get(String guid);
-    List<Attachment> find(String creator);
-    List<Attachment> find(String creator, String filename);
-    List<Attachment> findAll(int offset, int maxresults);
+
+public interface IDocumentPersistenceStrategy {
 
     /**
-     * Saves the metadata about the attachment to the database and persists the attachment to the
-     * configured documentPersistenceStrategy store.
-     * @param attachment  Attachment to persist
-     * @param username username of the user uploading the document
-     * @param request HttpServlet request.  Will be null with a data import operation
-     * @return Updated attachment object
+     * Accepts an attachment to save and persists the attachment binary data using the implemented persistence strategy.
+     *
+     * @param request HTTPServletRequest.  May be null to indicate a data import operation.
+     * @param attachment attachment containing data to save
+     * @return URL to access the attachment with.  Null means did not persist the attachment.
+     * @throws PersistenceException Exception persisting the document to the persistence store
      */
-    Attachment save(Attachment attachment, String username, HttpServletRequest request);
-    void delete(Attachment attachment);
-    void delete(long attachmentId);
+    String persistAttachmentBinary(HttpServletRequest request, Attachment attachment) throws PersistenceException;
 
     /**
      * Boolean indicating whether or not attachment data is stored into the database.  Some persistence stores,

@@ -19,17 +19,16 @@
 package org.jasig.portlet.attachment.mvc;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.controller.AttachmentsController;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
-import org.jasig.portlet.attachment.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,10 +42,6 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public final class LocalAttachmentController {
-
-    private static final String RELATIVE_ROOT = "/content";
-
-    private static final MessageFormat PATH_FORMAT = new MessageFormat(RELATIVE_ROOT + "/{0}/{1}");
 
     @Autowired
     private IAttachmentService attachmentService = null;
@@ -63,16 +58,16 @@ public final class LocalAttachmentController {
         if(file != null)
         {
             Attachment attachment = generateAttachment(file, request);
-            attachment = attachmentService.save(attachment, request.getRemoteUser());
+            attachment = attachmentService.save(attachment, request.getRemoteUser(), servletRequest);
             if(attachment.getId() > 0)
             {
-                String path = getAttachmentAbsolutePath(attachment, request);
-                FileUtil.write(path,file.getBytes());
                 model.put("id",Long.toString(attachment.getId()));
                 model.put("guid",attachment.getGuid());
                 model.put("path", attachment.getPath());
                 model.put("filename",attachment.getFilename());
                 model.put("success","true");
+            } else {
+                throw new RuntimeException("Failure to upload attachment:  " + attachment.getFilename());
             }
         }
 
@@ -92,11 +87,8 @@ public final class LocalAttachmentController {
 
         if(file != null) {
             Attachment attachment = generateAttachment(file, request);
-            attachment = attachmentService.save(attachment, request.getRemoteUser());
+            attachment = attachmentService.save(attachment, request.getRemoteUser(), servletRequest);
             if(attachment.getId() > 0) {
-                String path = getAttachmentAbsolutePath(attachment, request);
-                FileUtil.write(path, file.getBytes());
-
                 model.put("functionNumber", functionNumber);
                 model.put("attachment", attachment);
             } else {
@@ -107,23 +99,23 @@ public final class LocalAttachmentController {
         return new ModelAndView("ckeditor-callback", model);
     }
 
-    private String getAttachmentAbsolutePath(Attachment attachment, HttpServletRequest req) {
-        String relative = PATH_FORMAT.format(new Object[]{attachment.getGuid(), attachment.getFilename()});
-        String path = req.getSession().getServletContext().getRealPath(relative);
-        return path;
-    }
-
+    /**
+     * Generates the attachment, all except the path which is filled in by the AttachmentService.
+     * @param file file to attach
+     * @param req HttpServletRequest
+     * @return Attachment object (without path)
+     * @throws IOException Exception obtaining file from request
+     */
     private static Attachment generateAttachment(MultipartFile file,HttpServletRequest req) throws IOException {
         final Attachment attachment = new Attachment();
         final String fileNameParam = req.getParameter("filename");
         final String filename = StringUtils.isEmpty(fileNameParam) ? file.getOriginalFilename() : fileNameParam;
-        final String context = req.getContextPath();
-        final String path = context + PATH_FORMAT.format(new Object[]{ attachment.getGuid(),filename });
         final String source = req.getParameter("source");
 
         attachment.setFilename(filename);
-        attachment.setPath(path);
         attachment.setData(file.getBytes());
+        attachment.setChecksum(DigestUtils.md5Hex(attachment.getData()));
+        attachment.setContentType(file.getContentType());
         attachment.setSource(StringUtils.isBlank(source) ? null : source);
         return attachment;
     }

@@ -30,6 +30,7 @@
 
     <properties>
         <!-- Dependency versions -->
+        <aws.version>1.10.65</aws.version>
         <c3p0.version>0.9.5-pre8</c3p0.version>
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
         <commons-io.version>2.4</commons-io.version>
@@ -56,6 +57,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk</artifactId>
+                <version>${aws.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.mchange</groupId>
                 <artifactId>c3p0</artifactId>
@@ -278,6 +284,10 @@
 
     <dependencies>
         <!-- ===== Compile Time Dependencies ============================== -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
@@ -651,14 +661,14 @@
                                 <property name="plugin_classpath" refid="maven.plugin.classpath" />
                                 <!-- Provided jars don't seem to be added to the runtime
                                      classpath, so we manually add in servlet.jar here  -->
-                                <!--<property name="servlet.jar" value="${maven.dependency.javax.servlet.servlet-api.jar.path}" />-->
+                                <property name="servlet.jar" value="${maven.dependency.javax.servlet.servlet-api.jar.path}" />
 
                                 <java failonerror="true" fork="true" classname="org.jasig.portlet.attachment.util.ImportExport">
                                     <sysproperty key="logback.configurationFile" value="command-line.logback.xml" />
                                     <classpath>
                                         <pathelement path="${runtime_classpath}" />
                                         <pathelement path="${plugin_classpath}" />
-                                        <!--<pathelement location="${servlet.jar}" />-->
+                                        <pathelement location="${servlet.jar}" />
                                         <!--<pathelement path="${project.build.directory}/${project.artifactId}/WEB-INF/classes" />-->
                                     </classpath>
 
@@ -685,14 +695,14 @@
                                 <property name="plugin_classpath" refid="maven.plugin.classpath" />
                                 <!-- Provided jars don't seem to be added to the runtime
                                      classpath, so we manually add in servlet.jar here  -->
-                                <!--<property name="servlet.jar" value="${maven.dependency.javax.servlet.servlet-api.jar.path}" />-->
+                                <property name="servlet.jar" value="${maven.dependency.javax.servlet.servlet-api.jar.path}" />
 
                                 <java failonerror="true" fork="true" classname="org.jasig.portlet.attachment.util.ImportExport">
                                     <sysproperty key="logback.configurationFile" value="command-line.logback.xml" />
                                     <classpath>
                                         <pathelement path="${runtime_classpath}" />
                                         <pathelement path="${plugin_classpath}" />
-                                        <!--<pathelement location="${servlet.jar}" />-->
+                                        <pathelement location="${servlet.jar}" />
                                         <!--<pathelement path="${project.build.directory}/${project.artifactId}/WEB-INF/classes" />-->
                                     </classpath>
 
