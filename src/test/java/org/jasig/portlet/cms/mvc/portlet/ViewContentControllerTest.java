@@ -24,7 +24,7 @@ import java.util.Locale;
 
 import javax.portlet.PortletRequest;
 
-import org.jasig.portlet.cms.service.dao.IContentDao;
+import org.jasig.portlet.cms.service.IContentService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -33,7 +33,7 @@ import org.mockito.MockitoAnnotations;
 public class ViewContentControllerTest {
 
     @Mock PortletRequest request;
-    @Mock IContentDao contentDao;
+    @Mock IContentService contentService;
     
     String content = "<h1>Title</h1><p>content</p>";
     ViewContentController controller = new ViewContentController();
@@ -42,8 +42,8 @@ public class ViewContentControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         
-        controller.setContentDao(contentDao);
-        when(contentDao.getContent(request, Locale.US.toString())).thenReturn(content);
+        controller.setContentService(contentService);
+        when(contentService.getContent(request, Locale.US.toString())).thenReturn(content);
         when(request.getLocale()).thenReturn(Locale.US);
     }
     

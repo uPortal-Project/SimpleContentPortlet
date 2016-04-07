@@ -29,8 +29,8 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 
 import org.jasig.portlet.cms.mvc.form.ContentForm;
+import org.jasig.portlet.cms.service.IContentService;
 import org.jasig.portlet.cms.service.IStringCleaningService;
-import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -40,7 +40,7 @@ public class ConfigureContentControllerTest {
 
     @Mock ActionRequest request;
     @Mock ActionResponse response;
-    @Mock IContentDao contentDao;
+    @Mock IContentService contentService;
     @Mock IStringCleaningService cleaningService;
     @Mock PortletPreferences preferences;
     
@@ -55,8 +55,8 @@ public class ConfigureContentControllerTest {
         when(request.getPreferences()).thenReturn(preferences);
         when(preferences.getValue("cleanContent", "true")).thenReturn("true");
         
-        controller.setContentDao(contentDao);
-        when(contentDao.getContent(request, null)).thenReturn(cleanContent);
+        controller.setContentService(contentService);
+        when(contentService.getContent(request, null)).thenReturn(cleanContent);
         
         controller.setStringCleaningService(cleaningService);
         when(cleaningService.getSafeContent(content)).thenReturn(cleanContent);
@@ -86,7 +86,7 @@ public class ConfigureContentControllerTest {
         form.setContent(content);
         
         controller.updateConfiguration(request, response, form);
-        verify(contentDao).saveContent(request, cleanContent, null);
+        verify(contentService).saveContent(request, cleanContent, null);
         
         verify(response).setPortletMode(PortletMode.VIEW);
         
@@ -101,7 +101,7 @@ public class ConfigureContentControllerTest {
         form.setContent(content);
         controller.updateConfiguration(request, response, form);
         
-        verify(contentDao).saveContent(request, content, null);
+        verify(contentService).saveContent(request, content, null);
 
     }
 

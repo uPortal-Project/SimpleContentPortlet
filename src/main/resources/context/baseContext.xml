@@ -24,8 +24,8 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="org.jasig.portlet.attachment.dao"/>
@@ -35,6 +35,8 @@
         <property name="locations">
             <list>
                 <value>classpath:hibernate.properties</value>
+                <value>classpath:/properties/aws-credentials.properties</value>
+                <value>classpath:/properties/content-aws-s3-bucket.properties</value>
                 <!--
                  |  The following files optionally allow deployers to set or override many uPortal
                  |  configuration settings in a outside the control of the build/deploy cycle, SCM,

@@ -29,18 +29,17 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.ValidatorException;
 
-import org.jasig.portlet.cms.mvc.exception.ContentPersistenceException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class PortletPreferencesContentDaoImplTest {
+public class PortletPreferencesContentDaoTest {
 
     @Mock ActionRequest request;
     @Mock PortletPreferences preferences;
-    IContentDao contentDao = new PortletPreferencesContentDaoImpl();
+    IContentDao contentDao = new PortletPreferencesContentDao();
     
     String content = "<h1>Title</h1><p>content</p>";
     
@@ -49,7 +48,7 @@ public class PortletPreferencesContentDaoImplTest {
         MockitoAnnotations.initMocks(this);
         
         when(request.getPreferences()).thenReturn(preferences);
-        when(preferences.getValue(PortletPreferencesContentDaoImpl.CONTENT_KEY, "")).thenReturn(content);
+        when(preferences.getValue(PortletPreferencesContentDao.CONTENT_KEY, "")).thenReturn(content);
     }
     
     @Test
@@ -61,14 +60,14 @@ public class PortletPreferencesContentDaoImplTest {
     @Test
     public void testSaveContent() throws ReadOnlyException {
         contentDao.saveContent(request, content, null);
-        verify(preferences).setValue(PortletPreferencesContentDaoImpl.CONTENT_KEY, content);
+        verify(preferences).setValue(PortletPreferencesContentDao.CONTENT_KEY, content);
     }
 
     @Test
     public void testReadOnlyError() {
         
         try {
-            doThrow(new ReadOnlyException("")).when(preferences).setValue(PortletPreferencesContentDaoImpl.CONTENT_KEY, content);
+            doThrow(new ReadOnlyException("")).when(preferences).setValue(PortletPreferencesContentDao.CONTENT_KEY, content);
             contentDao.saveContent(request, content, null);
             
             Assert.fail("Should have thrown an exception");

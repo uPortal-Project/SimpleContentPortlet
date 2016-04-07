@@ -32,8 +32,8 @@ import javax.portlet.PortletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.cms.mvc.form.ContentForm;
+import org.jasig.portlet.cms.service.IContentService;
 import org.jasig.portlet.cms.service.IStringCleaningService;
-import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -59,11 +59,11 @@ public class ConfigureContentController {
 
     protected final Log log = LogFactory.getLog(getClass());
     
-    private IContentDao contentDao;
+    private IContentService contentService;
     
     @Autowired
-    public void setContentDao(IContentDao contentDao) {
-        this.contentDao = contentDao;
+    public void setContentService(IContentService service) {
+        this.contentService = service;
     }
     
     private IStringCleaningService cleaningService;
@@ -107,7 +107,7 @@ public class ConfigureContentController {
         }
         
         // save the new content to the portlet preferences
-        this.contentDao.saveContent(request, content, locale);
+        this.contentService.saveContent(request, content, locale);
         
         // exit the portlet's configuration mode
         response.setPortletMode(PortletMode.VIEW);
@@ -151,7 +151,7 @@ public class ConfigureContentController {
     public ContentForm getForm(PortletRequest request) {
         
         // TODO: Get the locale specified in the drop-down list
-        String content = this.contentDao.getContent(request, null);
+        String content = this.contentService.getContent(request, null);
         
         ContentForm form = new ContentForm();
         form.setContent(content);

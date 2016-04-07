@@ -30,8 +30,8 @@ import org.jasig.portal.search.SearchConstants;
 import org.jasig.portal.search.SearchRequest;
 import org.jasig.portal.search.SearchResult;
 import org.jasig.portal.search.SearchResults;
+import org.jasig.portlet.cms.service.IContentService;
 import org.jasig.portlet.cms.service.IStringCleaningService;
-import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +50,7 @@ public class SearchContentController implements PortletConfigAware {
     
     private int searchSummaryLength = 1000;
     private PortletConfig portletConfig;
-    private IContentDao contentDao;
+    private IContentService contentService;
     private IStringCleaningService stringCleaningService;
     
 	/**
@@ -62,8 +62,8 @@ public class SearchContentController implements PortletConfigAware {
 	}
     
     @Autowired
-    public void setContentDao(IContentDao contentDao) {
-        this.contentDao = contentDao;
+    public void setContentDao(IContentService service) {
+        this.contentService = service;
     }
 
     @Autowired
@@ -116,7 +116,7 @@ public class SearchContentController implements PortletConfigAware {
     
     public String getTextContent(PortletRequest request){
     	final Locale locale = request.getLocale();
-        final String content = this.contentDao.getContent(request, locale.toString());
+        final String content = this.contentService.getContent(request, locale.toString());
         return this.stringCleaningService.getTextContent(content);
     }
 }
