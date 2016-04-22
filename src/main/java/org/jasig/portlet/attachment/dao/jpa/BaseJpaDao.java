@@ -39,7 +39,7 @@ public abstract class BaseJpaDao {
         this.entityManager = entityManager;
     }
 
-    protected final EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         return this.entityManager;
     }
 }
