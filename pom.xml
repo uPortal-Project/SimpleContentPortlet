@@ -477,6 +477,23 @@
     <build>
         <plugins>
             <plugin>
+              <artifactId>maven-enforcer-plugin</artifactId>
+              <executions>
+                <execution>
+                  <goals><goal>enforce</goal></goals>
+                  <configuration>
+                    <rules>
+                      <bannedDependencies>
+                        <excludes>
+                          <exclude>commons-collections:commons-collections:[3.2.1]</exclude>
+                        </excludes>
+                      </bannedDependencies>
+                    </rules>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.4.2</version>
