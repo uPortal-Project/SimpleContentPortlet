@@ -96,7 +96,10 @@ public class Attachment {
     @Column(name="BDATA",nullable=true,length=Integer.MAX_VALUE)
     private byte[] data;
 
-    @Column(name = "CHECKSUM", nullable=false, length=64)
+    /**
+     * Checksum as 32-digit hex value
+     */
+    @Column(name = "CHECKSUM", nullable=false, length=32)
     private String checksum;
 
     @Column(name = "CREATED_BY", nullable=false, length=128)
@@ -112,6 +115,18 @@ public class Attachment {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "MODIFIED_AT", nullable=false)
     private Date modifiedAt;
+
+    /**
+     * Mime content type. Typically not needed unless persisting the attachment to S3 since most web
+     * servers will return a content type based on the filename extension, and value not needed for
+     * attachments maintenance. Field is made nullable since pre-2.0.3 it did not exist.  Data import of
+     * a data export will populate the field's value on old data since data import guesses at content type
+     * based on file extension.
+     *
+     * @since 2.0.3
+     */
+    @Column(name = "CONTENT_TYPE", nullable = true, length=128)
+    private String contentType;
 
     public Attachment()
     {
@@ -205,5 +220,13 @@ public class Attachment {
 
     public void setModifiedAt(Date modifiedAt) {
         this.modifiedAt = modifiedAt;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 }
