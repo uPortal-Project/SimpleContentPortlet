@@ -22,7 +22,7 @@ import java.util.Locale;
 
 import javax.portlet.PortletRequest;
 
-import org.jasig.portlet.cms.service.dao.IContentDao;
+import org.jasig.portlet.cms.service.IContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,11 +38,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("VIEW")
 public class ViewContentController {
     
-    private IContentDao contentDao;
+    private IContentService contentService;
     
     @Autowired
-    public void setContentDao(IContentDao contentDao) {
-        this.contentDao = contentDao;
+    public void setContentService(IContentService service) {
+        this.contentService = service;
     }
     
     /**
@@ -64,7 +64,7 @@ public class ViewContentController {
     @ModelAttribute("content")
     public String getContent(PortletRequest request){
     	Locale locale = request.getLocale();
-        return this.contentDao.getContent(request, locale.toString());
+        return this.contentService.getContent(request, locale.toString());
     }
     
 }

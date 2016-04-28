@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jasig.portlet.cms.mvc.exception;
+package org.jasig.portlet.cms.service.dao;
 
 /**
  * @author Jen Bourey, jbourey@unicon.net

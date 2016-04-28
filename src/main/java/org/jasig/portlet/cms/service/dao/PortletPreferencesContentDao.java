@@ -27,10 +27,8 @@ import javax.portlet.ReadOnlyException;
 import javax.portlet.ValidatorException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jasig.portlet.cms.mvc.exception.ContentPersistenceException;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * PortletPreferencesContentDaoImpl is an implementation of the IContentDao
@@ -40,17 +38,14 @@ import org.springframework.stereotype.Component;
  * stripping of HTML content.
  * 
  * @author Jen Bourey, jbourey@unicon.net
- * @version $Revision$
  */
-@Component
-public class PortletPreferencesContentDaoImpl implements IContentDao {
+public class PortletPreferencesContentDao implements IContentDao {
     
     protected static final String CONTENT_KEY = "content";
     
-    protected final Log log = LogFactory.getLog(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /*
-     * (non-Javadoc)
+    /**
      * @see org.jasig.portlet.cms.service.dao.IContentDao#getContent(javax.portlet.PortletRequest, java.lang.String)
      */
     public String getContent(PortletRequest request, String localeKey) {
@@ -66,8 +61,7 @@ public class PortletPreferencesContentDaoImpl implements IContentDao {
         return content;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * @see org.jasig.portlet.cms.service.dao.IContentDao#saveContent(javax.portlet.ActionRequest, java.lang.String, java.lang.String)
      */
     public void saveContent(ActionRequest request, String content, String localeKey) {
@@ -100,5 +94,4 @@ public class PortletPreferencesContentDaoImpl implements IContentDao {
         return CONTENT_KEY.concat("-").concat(localeKey);
     }
 
-    
 }

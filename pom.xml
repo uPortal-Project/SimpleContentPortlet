@@ -30,6 +30,7 @@
 
     <properties>
         <!-- Dependency versions -->
+        <aws.version>1.10.65</aws.version>
         <c3p0.version>0.9.5-pre8</c3p0.version>
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
         <commons-io.version>2.4</commons-io.version>
@@ -56,6 +57,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk</artifactId>
+                <version>${aws.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.mchange</groupId>
                 <artifactId>c3p0</artifactId>
@@ -278,6 +284,10 @@
 
     <dependencies>
         <!-- ===== Compile Time Dependencies ============================== -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
