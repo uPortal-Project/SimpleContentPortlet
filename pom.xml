@@ -695,6 +695,7 @@
                             </tasks>
                         </configuration>
                     </execution>
+                    <!-- To export the db tables, use mvn [-Ddir=dir] data-export. -->
                     <execution>
                         <id>data-export</id>
                         <phase>data-export</phase>

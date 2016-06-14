@@ -35,6 +35,7 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.model.Attachment;
@@ -103,7 +104,8 @@ public class ImportExport {
 
     private void importDir(String directoryName) {
         File dir = checkIfDirExists(directoryName, false);
-        Collection<File> files = FileUtils.listFiles(dir, new WildcardFileFilter("*" + FILENAME_SUFFIX), null);
+        Collection<File> files = FileUtils.listFiles(dir, new WildcardFileFilter("*" + FILENAME_SUFFIX),
+                TrueFileFilter.INSTANCE );
         if (files.size() == 0) {
             log.info("No files of form {} to import in {}", "*" + FILENAME_SUFFIX, directoryName);
         }
