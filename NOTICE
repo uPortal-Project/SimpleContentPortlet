@@ -24,11 +24,77 @@ This project includes:
   AntLR Parser Generator under BSD License
   AOP alliance under Public Domain
   Apache Commons Collections under Apache License, Version 2.0
+  Apache HttpClient under Apache License, Version 2.0
+  Apache HttpCore under Apache License, Version 2.0
   Apache Pluto Portlet Tag Library under The Apache Software License, Version 2.0
+  AWS Java SDK for Amazon API Gateway under Apache License, Version 2.0
+  AWS Java SDK for Amazon CloudFront under Apache License, Version 2.0
+  AWS Java SDK for Amazon CloudSearch under Apache License, Version 2.0
+  AWS Java SDK for Amazon CloudWatch under Apache License, Version 2.0
+  AWS Java SDK for Amazon CloudWatch Events under Apache License, Version 2.0
+  AWS Java SDK for Amazon CloudWatch Logs under Apache License, Version 2.0
+  AWS Java SDK for Amazon Cognito Identity under Apache License, Version 2.0
+  AWS Java SDK for Amazon Cognito Sync under Apache License, Version 2.0
+  AWS Java SDK for Amazon DynamoDB under Apache License, Version 2.0
+  AWS Java SDK for Amazon EC2 under Apache License, Version 2.0
+  AWS Java SDK for Amazon Elastic File System under Apache License, Version 2.0
+  AWS Java SDK for Amazon Elastic Transcoder under Apache License, Version 2.0
+  AWS Java SDK for Amazon ElastiCache under Apache License, Version 2.0
+  AWS Java SDK for Amazon Elasticsearch Service under Apache License, Version 2.0
+  AWS Java SDK for Amazon EMR under Apache License, Version 2.0
+  AWS Java SDK for Amazon Glacier under Apache License, Version 2.0
+  AWS Java SDK for Amazon Inspector Service under Apache License, Version 2.0
+  AWS Java SDK for Amazon Kinesis under Apache License, Version 2.0
+  AWS Java SDK for Amazon Machine Learning under Apache License, Version 2.0
+  AWS Java SDK for Amazon RDS under Apache License, Version 2.0
+  AWS Java SDK for Amazon Redshift under Apache License, Version 2.0
+  AWS Java SDK for Amazon Route53 under Apache License, Version 2.0
+  AWS Java SDK for Amazon S3 under Apache License, Version 2.0
+  AWS Java SDK for Amazon SES under Apache License, Version 2.0
+  AWS Java SDK for Amazon SimpleDB under Apache License, Version 2.0
+  AWS Java SDK for Amazon SNS under Apache License, Version 2.0
+  AWS Java SDK for Amazon SQS under Apache License, Version 2.0
+  AWS Java SDK for Amazon SWF under Apache License, Version 2.0
+  AWS Java SDK for Amazon WorkSpaces under Apache License, Version 2.0
+  AWS Java SDK for Auto Scaling under Apache License, Version 2.0
+  AWS Java SDK for AWS Certificate Manager under Apache License, Version 2.0
+  AWS Java SDK for AWS CloudFormation under Apache License, Version 2.0
+  AWS Java SDK for AWS CloudTrail under Apache License, Version 2.0
+  AWS Java SDK for AWS CodeCommit under Apache License, Version 2.0
+  AWS Java SDK for AWS CodeDeploy under Apache License, Version 2.0
+  AWS Java SDK for AWS CodePipeline under Apache License, Version 2.0
+  AWS Java SDK for AWS Config under Apache License, Version 2.0
+  AWS Java SDK for AWS Data Pipeline under Apache License, Version 2.0
+  AWS Java SDK for AWS Database Migration Service under Apache License, Version 2.0
+  AWS Java SDK for AWS Device Farm under Apache License, Version 2.0
+  AWS Java SDK for AWS Direct Connect under Apache License, Version 2.0
+  AWS Java SDK for AWS Directory Service under Apache License, Version 2.0
+  AWS Java SDK for AWS Elastic Beanstalk under Apache License, Version 2.0
+  AWS Java SDK for AWS GameLift under Apache License, Version 2.0
+  AWS Java SDK for AWS IAM under Apache License, Version 2.0
+  AWS Java SDK for AWS Import/Export under Apache License, Version 2.0
+  AWS Java SDK for AWS IoT under Apache License, Version 2.0
+  AWS Java SDK for AWS KMS under Apache License, Version 2.0
+  AWS Java SDK for AWS Lambda under Apache License, Version 2.0
+  AWS Java SDK for AWS Marketplace Commerce Analytics under Apache License, Version 2.0
+  AWS Java SDK for AWS Marketplace Metering Service under Apache License, Version 2.0
+  AWS Java SDK for AWS OpsWorks under Apache License, Version 2.0
+  AWS Java SDK for AWS Storage Gateway under Apache License, Version 2.0
+  AWS Java SDK for AWS STS under Apache License, Version 2.0
+  AWS Java SDK for AWS Support under Apache License, Version 2.0
+  AWS Java SDK for AWS WAF under Apache License, Version 2.0
+  AWS Java SDK for Elastic Load Balancing under Apache License, Version 2.0
+  AWS Java SDK for the Amazon EC2 Container Registry under Apache License, Version 2.0
+  AWS Java SDK for the Amazon EC2 Container Service under Apache License, Version 2.0
+  AWS Java SDK for the AWS CloudHSM under Apache License, Version 2.0
+  AWS Java SDK for the AWS Simple Systems Management (SSM) Service under Apache License, Version 2.0
+  AWS SDK For Java under Apache License, Version 2.0
+  AWS SDK for Java - Core under Apache License, Version 2.0
   Batik CSS engine under The Apache Software License, Version 2.0
   Batik external code under The Apache Software License, Version 2.0
   Batik utility library under The Apache Software License, Version 2.0
   c3p0 under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
+  CloudWatch Metrics for AWS Java SDK under Apache License, Version 2.0
   Commons Codec under The Apache Software License, Version 2.0
   Commons FileUpload under The Apache Software License, Version 2.0
   Commons IO under The Apache Software License, Version 2.0
@@ -46,11 +112,13 @@ This project includes:
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
+  Java Libraries for Amazon Simple WorkFlow under Apache License, Version 2.0
   Java Portlet Specification V2.0 under Commons Development and Distribution License, Version 1.0
   Javassist under MPL 1.1 or LGPL 2.1 or Apache License 2.0
   JAXB2 Basics - Runtime under BSD-Style License
   JBoss Logging 3 under GNU Lesser General Public License, version 2.1
   JCL 1.1.1 implemented over SLF4J under MIT License
+  Joda-Time under Apache 2
   JPA 2.0 API under Sun Binary Code License
   JSR-250 Common Annotations for the JavaTM Platform under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   jstl under Commons Development and Distribution License, Version 1.0
