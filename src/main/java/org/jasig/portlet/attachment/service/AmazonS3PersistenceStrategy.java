@@ -107,7 +107,7 @@ public class AmazonS3PersistenceStrategy implements IDocumentPersistenceStrategy
      * has the data external to the portal server in a stable persistent location so there is no need to have the
      * file data stored into a database.
      *
-     * @return True to store the file data in the database, else false.
+     * @param persistenceIntoDatabaseRequired True to store the file data in the database, else false.
      */
     public void setPersistenceIntoDatabaseRequired(boolean persistenceIntoDatabaseRequired) {
         this.persistenceIntoDatabaseRequired = persistenceIntoDatabaseRequired;
