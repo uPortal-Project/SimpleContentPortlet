@@ -32,13 +32,13 @@
             <name>contextConfigLocation</name>
             <value>classpath:/context/portlet/cms.xml</value>
         </init-param>
-        
+
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
             <portlet-mode>config</portlet-mode>
         </supports>
-        
+
         <portlet-info>
             <title>Content Management</title>
         </portlet-info>
@@ -88,7 +88,7 @@
             </preference>
 
         </portlet-preferences>
-        
+
         <supported-processing-event>
             <qname xmlns:x="https://source.jasig.org/schemas/uportal/search">x:SearchRequest</qname>
         </supported-processing-event>

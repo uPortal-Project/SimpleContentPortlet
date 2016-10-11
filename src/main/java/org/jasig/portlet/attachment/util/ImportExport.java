@@ -76,8 +76,8 @@ public class ImportExport {
             usage();
         }
 
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext(new String[] {"context/importExportContext.xml"});
+        ApplicationContext context = bootstrapApplicationContext();
+
         ImportExport importExport = (ImportExport) context.getBean("importExport");
 
         importExport.notifyUserIfUsingInMemoryDb();
@@ -89,6 +89,11 @@ public class ImportExport {
         } else {
             usage();
         }
+
+    }
+
+    public static ApplicationContext bootstrapApplicationContext() {
+        return new ClassPathXmlApplicationContext(new String[] {"context/importExportContext.xml"});
     }
 
     private void notifyUserIfUsingInMemoryDb() {
