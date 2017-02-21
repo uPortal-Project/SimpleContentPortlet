@@ -59,7 +59,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk</artifactId>
+                <artifactId>aws-java-sdk-s3</artifactId>
                 <version>${aws.version}</version>
             </dependency>
             <dependency>
@@ -291,7 +291,7 @@
         <!-- ===== Compile Time Dependencies ============================== -->
         <dependency>
             <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk</artifactId>
+            <artifactId>aws-java-sdk-s3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mchange</groupId>
