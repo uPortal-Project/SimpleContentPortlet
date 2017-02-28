@@ -1,5 +1,7 @@
 # Apereo Simple Content Management Portlet
 
+[![Build Status](https://travis-ci.org/Jasig/SimpleContentPortlet.svg?branch=master)](https://travis-ci.org/Jasig/SimpleContentPortlet)
+
 This Java Portlet is a [Sponsored Portlet][] in the uPortal ecosystem.
 
 ## Configuration
