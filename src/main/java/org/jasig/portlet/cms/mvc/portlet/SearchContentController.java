@@ -26,6 +26,7 @@ import javax.portlet.EventResponse;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.jasig.portal.search.SearchConstants;
 import org.jasig.portal.search.SearchRequest;
 import org.jasig.portal.search.SearchResult;
@@ -83,7 +84,8 @@ public class SearchContentController implements PortletConfigAware {
         final String textContent = getTextContent(request);
         final String[] searchTerms = searchQuery.getSearchTerms().split(" ");
         for (final String term : searchTerms) {
-            if (textContent.contains(term)) {
+
+            if (StringUtils.containsIgnoreCase(textContent, term)) {
                 //matched, create results object and copy over the query id
                 final SearchResults searchResults = new SearchResults();
                 searchResults.setQueryId(searchQuery.getQueryId());
