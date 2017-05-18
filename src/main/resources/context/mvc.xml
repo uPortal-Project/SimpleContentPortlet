@@ -30,7 +30,7 @@
                         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="org.jasig.portlet.attachment.mvc"/>
+    <context:component-scan base-package="org.jasig.portlet.attachment.mvc,org.jasig.portlet.prefimage.mvc"/>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
