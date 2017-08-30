@@ -22,7 +22,7 @@
         <url>https://github.com/Jasig/SimpleContentPortlet</url>
       <tag>HEAD</tag>
   </scm>
-    
+
     <issueManagement>
         <url>${jasig-issues-base}/CMSPLT</url>
         <system>${jasig-issues-system}</system>
@@ -47,6 +47,7 @@
         <slf4j.version>1.7.11</slf4j.version>
         <spring.version>4.1.5.RELEASE</spring.version>
         <uportal-maven-plugin.version>1.0.0</uportal-maven-plugin.version>
+        <uportal-libs.version>5.0.0-M4</uportal-libs.version>
 
         <!-- The JDBC Driver used by the portlet for data import/export-->
         <jdbc.groupId>org.hsqldb</jdbc.groupId>
@@ -157,7 +158,7 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.11</version>
-            </dependency>           
+            </dependency>
             <dependency>
                 <groupId>org.jasig.resourceserver</groupId>
                 <artifactId>resource-server-content</artifactId>
@@ -168,6 +169,39 @@
                 <groupId>org.jasig.resourceserver</groupId>
                 <artifactId>resource-server-utils</artifactId>
                 <version>${resource-server.version}</version>
+            </dependency>
+            <!-- Provides the PortalPropertySourcesPlaceholderConfigurer
+                 that supports global.properties and Jasypt encryption-->
+            <dependency>
+                <groupId>org.jasig.portal</groupId>
+                <artifactId>uPortal-spring</artifactId>
+                <version>${uportal-libs.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-api-internal</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-security-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-security-mvc</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-tools</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>net.oauth.core</groupId>
+                        <artifactId>oauth</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-webmvc</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.jasig.portal</groupId>
@@ -354,6 +388,10 @@
             <artifactId>jstl</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.jasig.portal</groupId>
+            <artifactId>uPortal-spring</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.jasig.resourceserver</groupId>
             <artifactId>resource-server-content</artifactId>
             <type>war</type>
@@ -464,7 +502,7 @@
             <artifactId>jackson-databind</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <!-- ===== Provided Dependencies ================================== -->
         <dependency>
             <groupId>javax.portlet</groupId>
