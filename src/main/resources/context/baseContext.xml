@@ -107,6 +107,7 @@
 
     <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
         <property name="generateDdl" value="false" />
+        <property name="databasePlatform" value="${hibernate.dialect}" />
     </bean>
 
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
