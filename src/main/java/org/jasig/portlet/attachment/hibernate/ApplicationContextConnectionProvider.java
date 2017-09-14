@@ -35,8 +35,9 @@ import org.springframework.context.ApplicationContext;
  * provides connections from the Spring ApplicationContext, which is capable of
  * using encrypted database connection settings (in datasource.properties).
  *
- * @author drewwills
+ * @deprecated Because this class is not necessary for Import/Export based on Gradle
  */
+@Deprecated
 public class ApplicationContextConnectionProvider implements ConnectionProvider {
 
     private static final long serialVersionUID = 1L;

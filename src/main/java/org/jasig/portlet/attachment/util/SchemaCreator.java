@@ -24,11 +24,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jasig.portlet.attachment.model.Attachment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -50,7 +52,14 @@ public class SchemaCreator implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    private final Logger logger = Logger.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    /**
+     * We <em>must</em> obtain the value of this property from the PropertySourcesPlaceholderConfigurer;
+     * not from hibernate.properties or any static resource within the war file.
+     */
+    @Value("${hibernate.dialect}")
+    private String hibernateDialect;
 
     public static void main(String[] args) {
 
@@ -84,8 +93,12 @@ public class SchemaCreator implements ApplicationContextAware {
 
         try (final Connection conn = dataSource.getConnection()) {
 
-            Configuration config = new Configuration();
+            final Configuration config = new Configuration();
+            config.setProperty("hibernate.dialect", hibernateDialect);
             config.addAnnotatedClass(Attachment.class);
+
+            logger.info("Creating database schema based on the following Configuration:\n{}",
+                    config);
 
             final SchemaExport schemaExport = new SchemaExport(config, conn);
             schemaExport.execute(true, true, false, false);
