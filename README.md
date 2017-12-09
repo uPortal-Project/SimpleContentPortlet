@@ -1,5 +1,6 @@
 # Apereo Simple Content Management Portlet
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.jasig.portlet.simplecontent/SimpleContentPortlet/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.jasig.portlet.simplecontent/SimpleContentPortlet)
 [![Build Status](https://travis-ci.org/Jasig/SimpleContentPortlet.svg?branch=master)](https://travis-ci.org/Jasig/SimpleContentPortlet)
 
 This Java Portlet is a [Sponsored Portlet][] in the uPortal ecosystem.
