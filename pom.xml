@@ -47,7 +47,7 @@
         <slf4j.version>1.7.11</slf4j.version>
         <spring.version>4.1.5.RELEASE</spring.version>
         <uportal-maven-plugin.version>1.0.0</uportal-maven-plugin.version>
-        <uportal-libs.version>5.0.0-M5</uportal-libs.version>
+        <uportal-libs.version>5.0.5</uportal-libs.version>
 
         <!-- The JDBC Driver used by the portlet for data import/export-->
         <jdbc.groupId>org.hsqldb</jdbc.groupId>
