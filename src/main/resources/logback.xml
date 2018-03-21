@@ -27,7 +27,7 @@
 <!--    http://www.qos.ch/shop/products/professionalSupport         -->
 <!--                                                                -->
 <configuration scan="true" scanPeriod="30 seconds">
-  <contextName>simple-cms</contextName>
+  <contextName>SimpleContentPortlet</contextName>
 
   <!-- 
    | Propagate log levels to java.util.logging 

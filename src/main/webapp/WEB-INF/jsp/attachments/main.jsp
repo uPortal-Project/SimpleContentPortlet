@@ -40,8 +40,8 @@
                     <div class="lb_body">
                         <label>Filename</label> (optional)<br/>
                         <input id="${n}filename" type="text"/><br/>
-						<label>Source</label> (optional)<br/>
-						<input id="${n}source" type="text"/>
+                        <label>Source</label> (optional)<br/>
+                        <input id="${n}source" type="text"/>
                         <br/><br/>
                         <div id="${n}file-uploader"></div>
                     </div>
@@ -92,90 +92,90 @@
         }
         
         if (!upAttachments.show) {
-        	upAttachments = {
-        		hide: function() {
-        	        var $ = ${n}.jQuery;
-        	        $("#${n}filename").val('');
-					$("#${n}source").val('');
-        	        close_box();
-        	    },
-        	    show: function(callback) {
-        	        var $ = ${n}.jQuery;
-        	        var uploader = new qq.FineUploader({
-        	            element: $("#${n}file-uploader")[0],
+            upAttachments = {
+                hide: function() {
+                    var $ = ${n}.jQuery;
+                    $("#${n}filename").val('');
+                    $("#${n}source").val('');
+                    close_box();
+                },
+                show: function(callback) {
+                    var $ = ${n}.jQuery;
+                    var uploader = new qq.FineUploader({
+                        element: $("#${n}file-uploader")[0],
 
-    	                request: {
-        	                endpoint: "<c:url value='/api/content/attach/local.json'/>",
-        	                forceMultipart: true,
-        	                paramsInBody: true,
-        	                params: {
-        	                    filename: function () { return $("#${n}filename").val(); },
-								source: function () { return $("#${n}source").val(); }
-        	                }
-        	            },
+                        request: {
+                            endpoint: "<c:url value='/api/content/attach/local.json'/>",
+                            forceMultipart: true,
+                            paramsInBody: true,
+                            params: {
+                                filename: function () { return $("#${n}filename").val(); },
+                                source: function () { return $("#${n}source").val(); }
+                            }
+                        },
 
-        	            multiple: false,
+                        multiple: false,
 
-        	            validation: {
-        	                allowedExtensions: [],
-        	                sizeLimit: 20971520,
-        	                stopOnFirstInvalidFile: true
-        	            },
+                        validation: {
+                            allowedExtensions: [],
+                            sizeLimit: 20971520,
+                            stopOnFirstInvalidFile: true
+                        },
 
-        	            autoUpload: false,
+                        autoUpload: false,
 
-        	            text: {
-        	                uploadButton: "Select File",
-        	                cancelButton: 'Cancel',
-        	                retryButton: 'Retry',
-        	                failUpload: 'Upload failed',
-        	                dragZone: 'Drop files here to upload',
-        	                formatProgress: "{percent}% of {total_size}",
-        	                waitingForResponse: "Processing..."
-        	            },
+                        text: {
+                            uploadButton: "Select File",
+                            cancelButton: 'Cancel',
+                            retryButton: 'Retry',
+                            failUpload: 'Upload failed',
+                            dragZone: 'Drop files here to upload',
+                            formatProgress: "{percent}% of {total_size}",
+                            waitingForResponse: "Processing..."
+                        },
 
-        	            messages: {
-        	                typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
-        	                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-        	                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-        	                emptyError: "{file} is empty, please select files again without it.",
-        	                noFilesError: "No files to upload.",
-        	                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
-        	            },
+                        messages: {
+                            typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
+                            sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                            minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                            emptyError: "{file} is empty, please select files again without it.",
+                            noFilesError: "No files to upload.",
+                            onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+                        },
 
-        	            debug: true,
+                        debug: true,
 
-        	            callbacks: {
-        	                onSubmit: function (id, filename) {
-        	                    var $ = ${n}.jQuery;
-        	                },
-        	                onComplete: function (id, fileName, responseJSON) {
-        	                    var $ = ${n}.jQuery;
-        	                    delete responseJSON.success;
-        	                    callback(responseJSON);
-        	                },
-        	                showMessage: function (message) {
-        	                    var $ = ${n}.jQuery;
-        	                    $("#${n}file-uploader").append('<div class="alert alert-error">' + message + '</div>');
-        	                }
-        	            }
+                        callbacks: {
+                            onSubmit: function (id, filename) {
+                                var $ = ${n}.jQuery;
+                            },
+                            onComplete: function (id, fileName, responseJSON) {
+                                var $ = ${n}.jQuery;
+                                delete responseJSON.success;
+                                callback(responseJSON);
+                            },
+                            showMessage: function (message) {
+                                var $ = ${n}.jQuery;
+                                $("#${n}file-uploader").append('<div class="alert alert-error">' + message + '</div>');
+                            }
+                        }
 
-        	        });
+                    });
 
-        	        $("#${n}attachments .lb_close, #${n}attachments .lb_backdrop").click(function () {
-        	            var $ = ${n}.jQuery;
-        	            uploader.reset();
-        	            $("#${n}filename").val('');
-        	            close_box();
-        	        });
+                    $("#${n}attachments .lb_close, #${n}attachments .lb_backdrop").click(function () {
+                        var $ = ${n}.jQuery;
+                        uploader.reset();
+                        $("#${n}filename").val('');
+                        close_box();
+                    });
 
-        	        $("#${n}triggerUpload").click(function () {
-        	            uploader.uploadStoredFiles();
-        	        })
+                    $("#${n}triggerUpload").click(function () {
+                        uploader.uploadStoredFiles();
+                    })
 
-        	        open_box();
-        	    }
-        	};
+                    open_box();
+                }
+            };
         }
 
     });

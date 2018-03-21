@@ -42,10 +42,10 @@
 
     <p>
         <a href="${ cancelUrl }"><spring:message code="configurationForm.return"/></a>
-    </p>   
-     
+    </p>
+
 </form:form>
-    
+
 <script type="text/javascript">
 <rs:compressJs>
     var ${n} = ${n} || {};
