@@ -37,7 +37,7 @@ import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.jasig.portlet.attachment.service.impl.AttachmentService;
 
 /**
- * @author Chris Waymire (chris@waymire)
+ * @author Toben Archer
  */
 @Controller
 @RequestMapping("VIEW")
@@ -49,11 +49,9 @@ public class AttachmentsManagerController {
 
 	@RenderMapping
 	public ModelAndView main(final PortletRequest request) {
-//		request.getPortletSession().setAttribute(REMOTE_USER_ATTR,request.getRemoteUser(),PortletSession.APPLICATION_SCOPE);
 		final Map<String,Object> model = new HashMap<String,Object>();
 		model.put("attachments",attachmentService.findAll(0,65536));
 		ModelAndView view = new ModelAndView("view",model);
-		logger.info("+++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		return view;
 	}
 }

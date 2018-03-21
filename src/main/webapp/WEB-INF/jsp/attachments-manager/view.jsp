@@ -13,17 +13,6 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<!-- Fine Uploader Gallery CSS file
-	====================================================================== -->
-<!--	<link href="client/fine-uploader-gallery.css" rel="stylesheet">-->
-
-<!--	<!-- Fine Uploader JS file-->
-<!--	====================================================================== -->
-<!--	<script src="client/fine-uploader.js"></script>-->
-
-	<!-- Fine Uploader Gallery template
-	====================================================================== -->
 	<script type="text/template" id="qq-template-gallery">
 		<div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
 			<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -306,6 +295,3 @@ $(document).ready(function(){
 	});
 	
 </script>
-<!--		},
-		validation: {
-			allowedExtensions: ['jpeg', 'jpg', 'gif', 'png']-->
