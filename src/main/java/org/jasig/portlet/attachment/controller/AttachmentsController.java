@@ -34,29 +34,29 @@ import java.util.Map;
 @Controller
 @RequestMapping("VIEW")
 public class AttachmentsController {
-	public static final String REMOTE_USER_ATTR = AttachmentsController.class.getName() + "_REMOTE_USER";
-	private static final String USE_PPORTAL_JS_LIBS_PREFERENCE = "Attachments.usePortalJsLibs";
-	private static final String PPORTAL_JS_NAMESPACE_PREFERENCE = "Attachments.portalJsNamespace";
-	private static final String VIEW_MAIN = "main";
+    public static final String REMOTE_USER_ATTR = AttachmentsController.class.getName() + "_REMOTE_USER";
+    private static final String USE_PPORTAL_JS_LIBS_PREFERENCE = "Attachments.usePortalJsLibs";
+    private static final String PPORTAL_JS_NAMESPACE_PREFERENCE = "Attachments.portalJsNamespace";
+    private static final String VIEW_MAIN = "main";
 
-	@RenderMapping
-	public ModelAndView main(final PortletRequest request) {
-		request.getPortletSession().setAttribute(REMOTE_USER_ATTR,request.getRemoteUser(),PortletSession.APPLICATION_SCOPE);
-		ModelAndView view = createModelAndView(request, VIEW_MAIN);
-		return view;
-	}
+    @RenderMapping
+    public ModelAndView main(final PortletRequest request) {
+        request.getPortletSession().setAttribute(REMOTE_USER_ATTR,request.getRemoteUser(),PortletSession.APPLICATION_SCOPE);
+        ModelAndView view = createModelAndView(request, VIEW_MAIN);
+        return view;
+    }
 
-	private ModelAndView createModelAndView(final PortletRequest request, final String view)
-	{
-		final Map<String,Object> model = new HashMap<String,Object>();
-		final PortletPreferences prefs = request.getPreferences();
+    private ModelAndView createModelAndView(final PortletRequest request, final String view)
+    {
+        final Map<String,Object> model = new HashMap<String,Object>();
+        final PortletPreferences prefs = request.getPreferences();
 
-		final boolean usePortalJsLibs = Boolean.valueOf(prefs.getValue(USE_PPORTAL_JS_LIBS_PREFERENCE, "true"));  // default is true
-		model.put("usePortalJsLibs", usePortalJsLibs);
+        final boolean usePortalJsLibs = Boolean.valueOf(prefs.getValue(USE_PPORTAL_JS_LIBS_PREFERENCE, "true"));  // default is true
+        model.put("usePortalJsLibs", usePortalJsLibs);
 
-		final String portalJsNamespace = prefs.getValue(PPORTAL_JS_NAMESPACE_PREFERENCE, "up");  // Matches the current convention in uPortal
-		model.put("portalJsNamespace", portalJsNamespace);
+        final String portalJsNamespace = prefs.getValue(PPORTAL_JS_NAMESPACE_PREFERENCE, "up");  // Matches the current convention in uPortal
+        model.put("portalJsNamespace", portalJsNamespace);
 
-		return new ModelAndView(view,model);
-	}
+        return new ModelAndView(view,model);
+    }
 }

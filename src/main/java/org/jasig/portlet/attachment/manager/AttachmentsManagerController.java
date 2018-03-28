@@ -42,16 +42,16 @@ import org.jasig.portlet.attachment.service.impl.AttachmentService;
 @Controller
 @RequestMapping("VIEW")
 public class AttachmentsManagerController {
-	protected final Log logger = LogFactory.getLog(this.getClass());
+    protected final Log logger = LogFactory.getLog(this.getClass());
 
-	@Autowired
-	private IAttachmentService attachmentService;
+    @Autowired
+    private IAttachmentService attachmentService;
 
-	@RenderMapping
-	public ModelAndView main(final PortletRequest request) {
-		final Map<String,Object> model = new HashMap<String,Object>();
-		model.put("attachments",attachmentService.findAll(0,65536));
-		ModelAndView view = new ModelAndView("view",model);
-		return view;
-	}
+    @RenderMapping
+    public ModelAndView main(final PortletRequest request) {
+        final Map<String,Object> model = new HashMap<String,Object>();
+        model.put("attachments",attachmentService.findAll(0,65536));
+        ModelAndView view = new ModelAndView("view",model);
+        return view;
+    }
 }

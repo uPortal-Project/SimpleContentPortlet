@@ -54,13 +54,13 @@ public class SearchContentController implements PortletConfigAware {
     private IContentDao contentDao;
     private IStringCleaningService stringCleaningService;
     
-	/**
-	 * Length of search summary to return
+    /**
+     * Length of search summary to return
      * @param searchSummaryLength length of search summary
-	 */
-	public void setSearchSummaryLength(int searchSummaryLength) {
-		this.searchSummaryLength = searchSummaryLength;
-	}
+     */
+    public void setSearchSummaryLength(int searchSummaryLength) {
+        this.searchSummaryLength = searchSummaryLength;
+    }
     
     @Autowired
     public void setContentDao(IContentDao contentDao) {
@@ -69,10 +69,10 @@ public class SearchContentController implements PortletConfigAware {
 
     @Autowired
     public void setStringCleaningService(IStringCleaningService stringCleaningService) {
-		this.stringCleaningService = stringCleaningService;
-	}
+        this.stringCleaningService = stringCleaningService;
+    }
 
-	public void setPortletConfig(PortletConfig portletConfig) {
+    public void setPortletConfig(PortletConfig portletConfig) {
         this.portletConfig = portletConfig;
     }
 
@@ -117,7 +117,7 @@ public class SearchContentController implements PortletConfigAware {
     }
     
     public String getTextContent(PortletRequest request){
-    	final Locale locale = request.getLocale();
+        final Locale locale = request.getLocale();
         final String content = this.contentDao.getContent(request, locale.toString());
         return this.stringCleaningService.getTextContent(content);
     }

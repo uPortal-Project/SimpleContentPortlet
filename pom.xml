@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jasig.portlet.simplecontent</groupId>
     <artifactId>SimpleContentPortlet</artifactId>
-    <version>2.2.1-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Simple Content Management Portlet</name>
@@ -48,6 +48,8 @@
         <spring.version>4.1.5.RELEASE</spring.version>
         <uportal-maven-plugin.version>1.0.0</uportal-maven-plugin.version>
         <uportal-libs.version>5.0.0-M5</uportal-libs.version>
+        <fineuploader.version>5.13.0</fineuploader.version>
+        <pdfobject.version>2.0.201604172</pdfobject.version>
 
         <!-- The JDBC Driver used by the portlet for data import/export-->
         <jdbc.groupId>org.hsqldb</jdbc.groupId>
@@ -323,6 +325,16 @@
                 <version>${logback.version}</version>
                 <scope>runtime</scope>
             </dependency>
+            <dependency>
+                <groupId>org.webjars.bower</groupId>
+                <artifactId>fine-uploader</artifactId>
+                <version>${fineuploader.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars.npm</groupId>
+                <artifactId>pdfobject</artifactId>
+                <version>${pdfobject.version}</version>
+            </dependency>
             <!-- End of logging section -->
         </dependencies>
     </dependencyManagement>
@@ -451,6 +463,14 @@
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>fine-uploader</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>pdfobject</artifactId>
         </dependency>
 
         <!-- Logging section -->
