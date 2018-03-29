@@ -24,7 +24,7 @@
     <script src="<rs:resourceURL value='/rs/jquery/1.11.0/jquery-1.11.0.min.js'/>" type="text/javascript"></script>
 </c:if>
 
-<script src="<c:url value='/js/fineuploader/fineuploader-3.3.0.js'/>"></script>
+<script src="<c:url value='/webjars/fine-uploader/5.13.0/dist/fine-uploader.min.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/js/fineuploader/fineuploader-3.3.0.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/attachments.css'/>" />
 

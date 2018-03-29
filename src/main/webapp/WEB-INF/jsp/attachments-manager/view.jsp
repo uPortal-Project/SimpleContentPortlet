@@ -251,13 +251,13 @@ $(document).ready(function(){
             },
             onComplete: function (id, fileName, responseJSON) {
                 var table = document.getElementById("filetable");
-                var row = table.insertRow(-1);                
+                var row = table.insertRow(-1);
                 var namecell = row.insertCell(0);
                 var typecell = row.insertCell(1);
                 namecell.innerHTML = responseJSON['filename'];
                 var extloc = responseJSON['filename'].lastIndexOf(".");
                 typecell.innerHTML = responseJSON['filename'].substring(extloc);
-                
+
                 row.setAttribute("id",responseJSON['id']);
                 row.setAttribute("data-filename",responseJSON['filename']);
                 row.setAttribute("data-contentType",responseJSON['filename'].substring(extloc));
@@ -278,7 +278,6 @@ $(document).ready(function(){
                 row.onclick = createClickHandler(row);
                 
                 var $ = ${n}.jQuery;
-                delete responseJSON.success;
                 callback(responseJSON);
             },
             showMessage: function (message) {
