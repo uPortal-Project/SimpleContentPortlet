@@ -63,7 +63,7 @@ public class ViewContentController {
      */
     @ModelAttribute("content")
     public String getContent(PortletRequest request){
-    	Locale locale = request.getLocale();
+        Locale locale = request.getLocale();
         return this.contentDao.getContent(request, locale.toString());
     }
     
