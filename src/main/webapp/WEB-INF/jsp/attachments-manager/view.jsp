@@ -7,7 +7,7 @@
 
 <script src="<c:url value='/webjars/fine-uploader/5.13.0/dist/fine-uploader.min.js'/>"></script>
 <script src="<c:url value='/webjars/pdfobject/2.0.201604172/pdfobject.min.js'/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value='/js/fine-uploader5/fine-uploader.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/webjars/fine-uploader/5.13.0/dist/fine-uploader.min.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/attachments.css'/>" />
 
 <head>
