@@ -25,7 +25,7 @@
 </c:if>
 
 <script src="<c:url value='/webjars/fine-uploader/5.13.0/dist/fine-uploader.min.js'/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value='/js/fineuploader/fineuploader-3.3.0.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/webjars/fine-uploader/5.13.0/dist/fine-uploader.min.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/attachments.css'/>" />
 
 <div id="${n}attachments">
