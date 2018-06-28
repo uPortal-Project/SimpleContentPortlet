@@ -138,6 +138,10 @@ div.col_content{
                     </tr>
                 </c:forEach>
             </table>
+            <c:if test="${page > 0}">
+                <a class="btn btn-default" href="/uPortal/p/${fname}/render.uP?page=${page-1}">Previous Page</a>
+            </c:if>
+            <a class="btn btn-default" href="https://${hostname}/uPortal/p/${fname}/render.uP?page=${page+1}" style="float: right;">Next Page</a>
         </div>
         <div id="right_col">
             <table id="detailstable" class="table">

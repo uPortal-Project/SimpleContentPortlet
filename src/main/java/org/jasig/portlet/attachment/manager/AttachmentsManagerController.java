@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.portlet.PortletPreferences;
@@ -48,9 +49,16 @@ public class AttachmentsManagerController {
     private IAttachmentService attachmentService;
 
     @RenderMapping
-    public ModelAndView main(final PortletRequest request) {
+    public ModelAndView main(final PortletRequest request,@RequestParam(value="page",defaultValue="0") String spage) {
+        int page = Integer.parseInt(spage);
         final Map<String,Object> model = new HashMap<String,Object>();
-        model.put("attachments",attachmentService.findAll(0,65536));
+        model.put("page",page);
+        model.put("attachments",attachmentService.findAll(page*100,100));
+        
+        //We assume that you put the fname as attman, but you can over ride this with a property.
+        PortletPreferences prefs = request.getPreferences();
+        model.put("fname",prefs.getValue("fname","attman"));
+        
         ModelAndView view = new ModelAndView("view",model);
         return view;
     }
