@@ -126,6 +126,13 @@ div.col_content{
 }
 </style>
 
+<portlet:renderURL var="prevPage">
+    <portlet:param name="page" value="${page-1}"/>
+</portlet:renderURL>
+<portlet:renderURL var="nextPage">
+    <portlet:param name="page" value="${page+1}"/>
+</portlet:renderURL>
+
 <div>
     <div id="content">
         <div style="height:100px;overflow:auto;" id="left_col">
@@ -139,9 +146,9 @@ div.col_content{
                 </c:forEach>
             </table>
             <c:if test="${page > 0}">
-                <a class="btn btn-default" href="/uPortal/p/${fname}/render.uP?page=${page-1}">Previous Page</a>
+                <a class="btn btn-default" href="${prevPage}">Previous Page</a>
             </c:if>
-            <a class="btn btn-default" href="/uPortal/p/${fname}/render.uP?page=${page+1}" style="float: right;">Next Page</a>
+            <a class="btn btn-default" href="${nextPage}" style="float: right;">Next Page</a>
         </div>
         <div id="right_col">
             <table id="detailstable" class="table">

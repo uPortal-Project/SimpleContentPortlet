@@ -54,11 +54,7 @@ public class AttachmentsManagerController {
         final Map<String,Object> model = new HashMap<String,Object>();
         model.put("page",page);
         model.put("attachments",attachmentService.findAll(page*100,100));
-        
-        //We assume that you put the fname as attman, but you can over ride this with a property.
-        PortletPreferences prefs = request.getPreferences();
-        model.put("fname",prefs.getValue("fname","attman"));
-        
+
         ModelAndView view = new ModelAndView("view",model);
         return view;
     }
