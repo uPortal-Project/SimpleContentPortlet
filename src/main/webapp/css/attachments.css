@@ -19,7 +19,7 @@
     top:20%;
     left:40%;
     width:500px;
-    height:325px;
+    height:auto;
     z-index:65538;
     padding:10px;
     -webkit-border-radius: 5px;
@@ -45,8 +45,11 @@
 }
 
 .lb_controls {
-    position:absolute;
-    bottom:20px;
+    margin-top: 20px;
+}
+
+.qq-total-progress-bar-container {
+    display: none !important;
 }
 
 .lb_close
