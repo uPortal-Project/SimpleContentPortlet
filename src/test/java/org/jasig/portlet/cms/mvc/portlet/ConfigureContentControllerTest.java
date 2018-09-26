@@ -74,12 +74,6 @@ public class ConfigureContentControllerTest {
     }
     
     @Test
-    public void testCancelUpdate() throws PortletModeException {
-        controller.cancelUpdate(request, response);
-        verify(response).setPortletMode(PortletMode.VIEW);
-    }
-
-    @Test
     public void testUpdateConfiguration() throws ReadOnlyException, PortletModeException {
         
         ContentForm form = new ContentForm();
