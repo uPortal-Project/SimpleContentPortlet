@@ -19,7 +19,6 @@
 package org.jasig.portlet.cms.mvc.portlet;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -36,7 +35,6 @@ import org.jasig.portlet.cms.service.IStringCleaningService;
 import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -112,21 +110,7 @@ public class ConfigureContentController {
         // exit the portlet's configuration mode
         response.setPortletMode(PortletMode.VIEW);
     }
-    
-    /**
-     * Cancel any pending portlet configuration edits and exit configuration mode.
-     * 
-     * @param request ActionRequest
-     * @param response ActionResponse
-     * @throws PortletModeException exception
-     */
-    @RequestMapping(params="action=cancelUpdate")
-    public void cancelUpdate(ActionRequest request, ActionResponse response) 
-            throws PortletModeException {
-        // exit the portlet's configuration mode
-        response.setPortletMode(PortletMode.VIEW);
-    }
-    
+
     @ResourceMapping("preview")
     public ModelAndView getPreview(@RequestParam("content") String content) {
         
@@ -168,26 +152,5 @@ public class ConfigureContentController {
         PortletPreferences preferences = request.getPreferences();
         return Boolean.valueOf(preferences.getValue("cleanContent", "true"));
     }
-    
-    /**
-     * Get the list of supported locales to populate the drop-down list with.
-     * 
-     * @param request PortletRequest
-     * @return list of supported locals
-     */
-//    @ModelAttribute("supportedLocales")
-    public HashMap<String, String> getLocales(PortletRequest request) {
 
-        PortletPreferences preferences = request.getPreferences();
-        String[] supportedLocales = preferences.getValues("supportedLocales", new String[]{});
-        HashMap<String, String> locales = new HashMap<String, String>(); 
-
-        for (String localeString : supportedLocales) {
-            localeString = localeString.trim();
-            Locale locale = StringUtils.parseLocaleString(localeString.trim());
-            locales.put(localeString.trim(), localeString.trim() + ": " + locale.getDisplayName());
-        }
-
-        return locales;
-    }
 }

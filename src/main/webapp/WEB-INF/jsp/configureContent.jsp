@@ -22,7 +22,7 @@
 <c:set var="includeJQuery" value="${renderRequest.preferences.map['includeJQuery'][0]}"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
-<portlet:actionURL var="cancelUrl"><portlet:param name="action" value="cancelUpdate"/></portlet:actionURL>
+<portlet:renderURL var="cancelUrl" portletMode="VIEW" />
 <%--<portlet:resourceURL var="previewUrl" id="preview" escapeXml="false"/>--%>
 
 <c:if test="${includeJQuery}">
