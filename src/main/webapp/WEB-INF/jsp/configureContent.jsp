@@ -41,7 +41,11 @@
     <form:textarea id="${n}content" path="content"/>
 
     <p>
-        <a href="${ cancelUrl }"><spring:message code="configurationForm.return"/></a>
+    <form action="${cancelUrl}" method="post">
+      <button type="submit" name="cancel" value="cancel" class="btn-link">
+        <spring:message code="configurationForm.return"/>
+      </button>
+    </form>
     </p>
 
 </form:form>
