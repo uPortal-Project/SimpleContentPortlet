@@ -7,6 +7,8 @@ This Java Portlet is a [Sponsored Portlet][] in the uPortal ecosystem.
 
 ## Configuration
 
+* [Attachments](docs/attachments.md)
+
 See also [documentation in the external wiki][SimpleContentPortlet in Confluence].
 
 ### Using Encrypted Property Values
