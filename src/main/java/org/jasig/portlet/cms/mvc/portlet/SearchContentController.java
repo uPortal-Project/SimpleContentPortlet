@@ -23,21 +23,21 @@ import java.util.Locale;
 import javax.portlet.Event;
 import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
-import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.jasig.portal.search.SearchConstants;
-import org.jasig.portal.search.SearchRequest;
-import org.jasig.portal.search.SearchResult;
-import org.jasig.portal.search.SearchResults;
+import org.apereo.portal.search.SearchConstants;
+import org.apereo.portal.search.SearchRequest;
+import org.apereo.portal.search.SearchResult;
+import org.apereo.portal.search.SearchResults;
 import org.jasig.portlet.cms.service.IStringCleaningService;
 import org.jasig.portlet.cms.service.dao.IContentDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.EventMapping;
-import org.springframework.web.portlet.context.PortletConfigAware;
 
 /**
  * ViewContentController provides the main view of the portlet.
@@ -47,13 +47,14 @@ import org.springframework.web.portlet.context.PortletConfigAware;
  */
 @Controller
 @RequestMapping("VIEW")
-public class SearchContentController implements PortletConfigAware {
+public class SearchContentController {
     
     private int searchSummaryLength = 1000;
-    private PortletConfig portletConfig;
     private IContentDao contentDao;
     private IStringCleaningService stringCleaningService;
     
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * Length of search summary to return
      * @param searchSummaryLength length of search summary
@@ -72,10 +73,6 @@ public class SearchContentController implements PortletConfigAware {
         this.stringCleaningService = stringCleaningService;
     }
 
-    public void setPortletConfig(PortletConfig portletConfig) {
-        this.portletConfig = portletConfig;
-    }
-
     @EventMapping(SearchConstants.SEARCH_REQUEST_QNAME_STRING)
     public void searchContent(EventRequest request, EventResponse response) {
         final Event event = request.getEvent();
@@ -83,6 +80,9 @@ public class SearchContentController implements PortletConfigAware {
         
         final String textContent = getTextContent(request);
         final String[] searchTerms = searchQuery.getSearchTerms().split(" ");
+
+        logger.debug("Searching portletWindow='{}' fo the following terms:  {}", request.getWindowID(), searchTerms);
+
         for (final String term : searchTerms) {
 
             if (StringUtils.containsIgnoreCase(textContent, term)) {
@@ -97,7 +97,7 @@ public class SearchContentController implements PortletConfigAware {
                 searchResult.setTitle(title);
                 searchResult.setSummary(getContentSummary(textContent));
                 searchResult.getType().add("Portlet Content");
-                
+
                 //Add the result to the results and send the event
                 searchResults.getSearchResult().add(searchResult);
                 response.setEvent(SearchConstants.SEARCH_RESULTS_QNAME, searchResults);
@@ -108,7 +108,7 @@ public class SearchContentController implements PortletConfigAware {
         }
     }
 
-    protected String getContentSummary(final String content) {
+    private String getContentSummary(final String content) {
         if (content.length() > searchSummaryLength) {
             return content.substring(0, searchSummaryLength) + "...";
         }
@@ -116,7 +116,7 @@ public class SearchContentController implements PortletConfigAware {
         return content;
     }
     
-    public String getTextContent(PortletRequest request){
+    private String getTextContent(PortletRequest request){
         final Locale locale = request.getLocale();
         final String content = this.contentDao.getContent(request, locale.toString());
         return this.stringCleaningService.getTextContent(content);
