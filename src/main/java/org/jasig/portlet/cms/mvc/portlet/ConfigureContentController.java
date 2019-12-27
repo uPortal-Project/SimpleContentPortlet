@@ -95,6 +95,7 @@ public class ConfigureContentController {
             @ModelAttribute("form") ContentForm form) throws PortletModeException {
         
         String content = form.getContent();
+        log.debug(content);
         String locale = form.getLocale();
         
         // if configured to do so, validate the content and strip out any
@@ -136,7 +137,8 @@ public class ConfigureContentController {
         
         // TODO: Get the locale specified in the drop-down list
         String content = this.contentDao.getContent(request, null);
-        
+
+        log.debug(content);
         ContentForm form = new ContentForm();
         form.setContent(content);
         return form;
