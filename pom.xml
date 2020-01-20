@@ -46,7 +46,7 @@
         <persistence-api.version>1.0</persistence-api.version>
         <resource-server.version>1.0.44</resource-server.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>4.3.25.RELEASE</spring.version>
+        <spring.version>4.3.26.RELEASE</spring.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
         <uportal-libs.version>5.8.1</uportal-libs.version>
         <fineuploader.version>5.13.0</fineuploader.version>
