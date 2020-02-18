@@ -31,7 +31,7 @@
     <properties>
         <!-- Dependency versions -->
         <aws.version>1.11.724</aws.version>
-        <c3p0.version>0.9.5.4</c3p0.version>
+        <c3p0.version>0.9.5.5</c3p0.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-io.version>2.6</commons-io.version>
         <ehcache.version>2.9.0</ehcache.version>
