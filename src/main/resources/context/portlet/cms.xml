@@ -30,7 +30,7 @@
     <context:component-scan base-package="org.jasig.portlet.cms.mvc.portlet"/>
     <context:annotation-config/>
 
-    <bean parent="propertyConfigurer"/>
+    <bean parent="propertyResolver"/>
 
     <bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping">
         <property name="interceptors"><bean class="org.jasig.portlet.cms.mvc.portlet.MinimizedStateHandlerInterceptor"/></property>

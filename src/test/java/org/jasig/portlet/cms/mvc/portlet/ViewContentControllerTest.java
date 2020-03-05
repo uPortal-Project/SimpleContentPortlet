@@ -27,23 +27,29 @@ import javax.portlet.PortletRequest;
 import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.core.env.PropertyResolver;
 
 public class ViewContentControllerTest {
 
     @Mock PortletRequest request;
     @Mock IContentDao contentDao;
+    @Mock
+    PropertyResolver propertyResolver;
     
     String content = "<h1>Title</h1><p>content</p>";
+
+    @InjectMocks
     ViewContentController controller = new ViewContentController();
     
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         
-        controller.setContentDao(contentDao);
         when(contentDao.getContent(request, Locale.US.toString())).thenReturn(content);
+        when(propertyResolver.resolvePlaceholders(content)).thenReturn(content);
         when(request.getLocale()).thenReturn(Locale.US);
     }
     

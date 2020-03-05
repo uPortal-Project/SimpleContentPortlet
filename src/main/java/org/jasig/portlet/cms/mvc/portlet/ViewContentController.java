@@ -24,6 +24,7 @@ import javax.portlet.PortletRequest;
 
 import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.PropertyResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,14 +38,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("VIEW")
 public class ViewContentController {
-    
-    private IContentDao contentDao;
-    
+
     @Autowired
-    public void setContentDao(IContentDao contentDao) {
-        this.contentDao = contentDao;
-    }
-    
+    private PropertyResolver propertyResolver;
+
+    @Autowired
+    private IContentDao contentDao;
+
     /**
      * Display the main user-facing view of the portlet.
      * 
@@ -64,7 +64,6 @@ public class ViewContentController {
     @ModelAttribute("content")
     public String getContent(PortletRequest request){
         Locale locale = request.getLocale();
-        return this.contentDao.getContent(request, locale.toString());
+        return propertyResolver.resolvePlaceholders(contentDao.getContent(request, locale.toString()));
     }
-    
 }
