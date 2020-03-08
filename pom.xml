@@ -610,7 +610,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.2.3</version>
                 <configuration>
                     <warName>${project.artifactId}</warName>
                     <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
