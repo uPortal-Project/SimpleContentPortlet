@@ -77,9 +77,9 @@
                 <version>1.14</version>
             </dependency>
             <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>20040616</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
             </dependency>
             <dependency>
                 <groupId>commons-fileupload</groupId>
@@ -493,8 +493,8 @@
 
         <!-- ===== Runtime Dependencies ================================== -->
         <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -579,11 +579,7 @@
                         <goals><goal>enforce</goal></goals>
                         <configuration>
                             <rules>
-                                <bannedDependencies>
-                                    <excludes>
-                                        <exclude>commons-collections:commons-collections:[3.2.1]</exclude>
-                                    </excludes>
-                                </bannedDependencies>
+                                <bannedDependencies></bannedDependencies>
                             </rules>
                         </configuration>
                     </execution>
