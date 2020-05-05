@@ -50,7 +50,7 @@
 
     <properties>
         <!-- Dependency versions -->
-        <aws.version>1.11.769</aws.version>
+        <aws.version>1.11.776</aws.version>
         <c3p0.version>0.9.5.5</c3p0.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-io.version>2.6</commons-io.version>
