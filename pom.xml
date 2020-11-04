@@ -71,7 +71,7 @@
         <uportal-libs.version>5.8.2</uportal-libs.version>
         <jaxb.version>2.3.3</jaxb.version>
         <fineuploader.version>5.13.0</fineuploader.version>
-        <pdfobject.version>2.1.1</pdfobject.version>
+        <pdfobject.version>2.2.4</pdfobject.version>
 
         <!-- The JDBC Driver used by the portlet for data import/export-->
         <jdbc.groupId>org.hsqldb</jdbc.groupId>
