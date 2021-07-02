@@ -69,7 +69,7 @@
         <spring.version>4.3.30.RELEASE</spring.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
         <uportal-libs.version>5.9.0</uportal-libs.version>
-        <jaxb.version>2.3.3</jaxb.version>
+        <jaxb.version>2.3.4</jaxb.version>
         <fineuploader.version>5.13.0</fineuploader.version>
         <pdfobject.version>2.2.4</pdfobject.version>
 
