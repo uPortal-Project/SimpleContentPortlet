@@ -21,7 +21,6 @@
 <jsp:directive.include file="/WEB-INF/jsp/include.jsp"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
-<portlet:renderURL var="cancelUrl" portletMode="VIEW" />
 
 <style type="text/css">
     #${n}contentForm { min-height: 100px; padding: 10px; margin: 10px; }
@@ -44,10 +43,8 @@
       <button type="submit" name="update" value="update" class="btn-primary">
         <spring:message code="configurationForm.save"/>
       </button>
-      <form action="${cancelUrl}" method="post">
       <button type="submit" name="cancel" value="cancel" class="btn-default">
         <spring:message code="configurationForm.return"/>
       </button>
-      </form>
     </div>
 </form:form>

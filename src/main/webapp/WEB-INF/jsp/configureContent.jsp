@@ -22,7 +22,6 @@
 <c:set var="includeJQuery" value="${renderRequest.preferences.map['includeJQuery'][0]}"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
-<portlet:renderURL var="cancelUrl" portletMode="VIEW" />
 <%--<portlet:resourceURL var="previewUrl" id="preview" escapeXml="false"/>--%>
 
 <c:if test="${includeJQuery}">
@@ -39,16 +38,15 @@
 
 <form:form id="${n}contentForm" commandName="form" action="${formUrl}" method="post">
     <form:textarea id="${n}content" path="content"/>
-
-    <p>
-    <form action="${cancelUrl}" method="post">
-      <button type="submit" name="cancel" value="cancel" class="btn-link">
-        <spring:message code="configurationForm.return"/>
-      </button>
-    </form>
-    </p>
-
 </form:form>
+
+<form action="${formUrl}" method="post">
+    <p>
+        <button type="submit" name="cancel" value="cancel" class="btn-link">
+            <spring:message code="configurationForm.return"/>
+        </button>
+    </p>
+</form>
 
 <script type="text/javascript">
 <rs:compressJs>

@@ -93,7 +93,15 @@ public class ConfigureContentController {
     @RequestMapping(params="action=updateConfiguration")
     public void updateConfiguration(ActionRequest request, ActionResponse response, 
             @ModelAttribute("form") ContentForm form) throws PortletModeException {
-        
+
+        String cancelParam = request.getParameter("cancel");
+
+        if (cancelParam != null && cancelParam.equals("cancel")) {
+            response.setPortletMode(PortletMode.VIEW);
+
+            return;
+        }
+
         String content = form.getContent();
         log.debug(content);
         String locale = form.getLocale();
@@ -121,8 +129,7 @@ public class ConfigureContentController {
         
         return new ModelAndView("jsonView", model);
     }
-    
-    
+
     /**
      * Get the form object for the portlet configuration.  If this portlet has
      * already been configured with content, the current HTML will be 
