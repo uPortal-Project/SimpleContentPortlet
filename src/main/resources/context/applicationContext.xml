@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Licensed to Apereo under one or more contributor license
@@ -24,9 +25,9 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    https://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <import resource="classpath:/context/baseContext.xml"/>
 
@@ -35,8 +36,8 @@
 
     <!--
      | OWASP AntiSamy policy file.
-     |  
-     | Used at content submission time to validate and sanitize submitted HTML. 
+     |
+     | Used at content submission time to validate and sanitize submitted HTML.
      | For tips on selecting and tailoring a policy file to meet your security
      | requirements, please refer to the OWASP documentation.
      +-->
@@ -48,7 +49,7 @@
     </bean>
 
     <!-- Message source for this context, loaded from localized "messages_xx" files -->
-    <bean id="messageSource" 
+    <bean id="messageSource"
         class="org.springframework.context.support.ResourceBundleMessageSource"
         p:basenames="messages"/>
 
@@ -57,7 +58,7 @@
      +-->
     <bean class="org.springframework.web.servlet.view.XmlViewResolver"
             p:order="0" p:location="classpath:/context/views.xml"/>
-            
+
     <!-- JSP view resolver -->
     <bean id="viewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver"

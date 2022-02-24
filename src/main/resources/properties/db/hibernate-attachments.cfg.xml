@@ -20,7 +20,7 @@
 
 -->
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "https://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
     <session-factory name="PortalDb">
@@ -40,7 +40,7 @@
              hsqldb we need this to be update. Users *should* do a schema update before switching to new versions, or
              this should hopefully not do something negative if it ever does update the schema (typically doesn't). -->
         <property name="hibernate.hbm2ddl.auto">update</property>
-        
+
         <mapping class="org.jasig.portlet.attachment.model.Attachment" />
     </session-factory>
 </hibernate-configuration>
