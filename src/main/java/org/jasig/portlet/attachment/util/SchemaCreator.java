@@ -20,12 +20,19 @@ package org.jasig.portlet.attachment.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.hibernate.tool.schema.TargetType;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,15 +100,16 @@ public class SchemaCreator implements ApplicationContextAware {
 
         try (final Connection conn = dataSource.getConnection()) {
 
-            final Configuration config = new Configuration();
-            config.setProperty("hibernate.dialect", hibernateDialect);
-            config.addAnnotatedClass(Attachment.class);
+            Map<String, String> settings = new HashMap<>();
+            settings.put("hibernate.dialect", hibernateDialect);
 
-            logger.info("Creating database schema based on the following Configuration:\n{}",
-                    config);
+            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(settings).build();
+            MetadataSources metadata = new MetadataSources(serviceRegistry);
+            metadata.addAnnotatedClass(Attachment.class);
 
-            final SchemaExport schemaExport = new SchemaExport(config, conn);
-            schemaExport.execute(true, true, false, false);
+            EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
+            SchemaExport schemaExport = new SchemaExport();
+            schemaExport.execute(enumSet, SchemaExport.Action.BOTH, metadata.buildMetadata());
 
             final List<Exception> exceptions = schemaExport.getExceptions();
             if (exceptions.size() != 0) {
