@@ -62,11 +62,26 @@ public class SchemaCreator implements ApplicationContextAware {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * We <em>must</em> obtain the value of this property from the PropertySourcesPlaceholderConfigurer;
+     * We <em>must</em> obtain the values of these properties from the PropertySourcesPlaceholderConfigurer;
      * not from hibernate.properties or any static resource within the war file.
      */
     @Value("${hibernate.dialect}")
     private String hibernateDialect;
+
+    @Value("${hibernate.connection.driver_class}")
+    private String hibernateDriverClass;
+
+    @Value("${hibernate.connection.url}")
+    private String hibernateConnectionUrl;
+
+    @Value("${hibernate.connection.username}")
+    private String hibernateConnectionUsername;
+
+    @Value("${hibernate.connection.password}")
+    private String hibernateConnectionPassword;
+
+    @Value("${hibernate.connection.validationQuery}")
+    private String hibernateConnectionValidationQuery;
 
     public static void main(String[] args) {
 
@@ -101,7 +116,12 @@ public class SchemaCreator implements ApplicationContextAware {
         try (final Connection conn = dataSource.getConnection()) {
 
             Map<String, String> settings = new HashMap<>();
+            settings.put("hibernate.connection.driver_class", hibernateDriverClass);
             settings.put("hibernate.dialect", hibernateDialect);
+            settings.put("hibernate.connection.url", hibernateConnectionUrl);
+            settings.put("hibernate.connection.username", hibernateConnectionUsername);
+            settings.put("hibernate.connection.password", hibernateConnectionPassword);
+            settings.put("hibernate.connection.validationQuery", hibernateConnectionValidationQuery);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(settings).build();
             MetadataSources metadata = new MetadataSources(serviceRegistry);
