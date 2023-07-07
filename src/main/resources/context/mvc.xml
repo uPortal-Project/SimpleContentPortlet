@@ -47,9 +47,11 @@
           p:order="0" p:location="classpath:/context/views.xml"/>
 
     <!-- JSP view resolver -->
-    <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:viewClass="org.springframework.web.servlet.view.JstlView"
-          p:order="9" p:cache="true" p:prefix="/WEB-INF/jsp/attachments/" p:suffix=".jsp"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+        <property name="contentType" value="text/html;charset=UTF-8" />
+        <property name="prefix" value="/WEB-INF/jsp/attachments/" />
+        <property name="suffix" value=".jsp" />
+        <property name="viewClass" value="com.liferay.portletmvc4spring.PortletJstlView" />
+    </bean>
 
 </beans>

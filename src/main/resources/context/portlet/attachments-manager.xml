@@ -35,11 +35,11 @@
 
     <bean parent="propertyConfigurer"/>
 
-    <bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+    <bean class="com.liferay.portletmvc4spring.mvc.annotation.DefaultAnnotationHandlerMapping">
         <property name="interceptors"><bean class="org.jasig.portlet.cms.mvc.portlet.MinimizedStateHandlerInterceptor"/></property>
     </bean>
 
-    <bean id="portletMultipartResolver" class= "org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
+    <bean id="portletMultipartResolver" class= "com.liferay.portletmvc4spring.multipart.CommonsPortletMultipartResolver">
         <property name="maxUploadSize" value="100000" />
     </bean>
 
