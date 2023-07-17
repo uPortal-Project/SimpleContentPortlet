@@ -38,7 +38,7 @@
 
 <h2><spring:message code="configurationForm.title"/></h2>
 
-<form:form id="${n}contentForm" commandName="form" action="${formUrl}" method="post">
+<form:form id="${n}contentForm" modelAttribute="form" action="${formUrl}" method="post">
     <form:textarea id="${n}content" path="content" cols="100" rows="20" wrap="hard"/>
     <div class="btn-group" style="margin: 5px 0 10px 0;">
       <button type="submit" name="update" value="update" class="btn-primary">

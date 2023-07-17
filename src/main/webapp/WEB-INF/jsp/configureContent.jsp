@@ -37,7 +37,7 @@
 
 <h2><spring:message code="configurationForm.title"/></h2>
 
-<form:form id="${n}contentForm" commandName="form" action="${formUrl}" method="post">
+<form:form id="${n}contentForm" modelAttribute="form" action="${formUrl}" method="post">
     <form:textarea id="${n}content" path="content"/>
 
     <p>

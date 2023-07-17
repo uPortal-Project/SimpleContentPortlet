@@ -60,10 +60,14 @@
             p:order="0" p:location="classpath:/context/views.xml"/>
 
     <!-- JSP view resolver -->
-    <bean id="viewResolver"
-        class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-        p:viewClass="org.springframework.web.servlet.view.JstlView"
-        p:order="10" p:cache="true" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+        <property name="contentType" value="text/html;charset=UTF-8" />
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+        <property name="viewClass" value="com.liferay.portletmvc4spring.PortletJstlView" />
+        <property name="order" value="10" />
+        <property name="cache" value="true" />
+    </bean>
 
     <bean id="localAttachmentFilter" class="org.jasig.portlet.attachment.filter.LocalAttachmentFilter"/>
 </beans>
