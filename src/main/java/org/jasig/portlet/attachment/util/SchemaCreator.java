@@ -104,7 +104,6 @@ public class SchemaCreator implements ApplicationContextAware {
 	    settings.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
             settings.put("hibernate.connection.validationQuery", "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");	    
 
-
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(settings).build();
             MetadataSources metadata = new MetadataSources(serviceRegistry);
             metadata.addAnnotatedClass(Attachment.class);
