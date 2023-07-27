@@ -101,11 +101,7 @@ public class SchemaCreator implements ApplicationContextAware {
         try (final Connection conn = dataSource.getConnection()) {
 
             Map<String, String> settings = new HashMap<>();
-	    settings.put("hibernate.connection.driver_class", "org.hsqldb.jdbc.JDBCDriver");
 	    settings.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-            settings.put("hibernate.connection.url", "jdbc:hsqldb:hsql://localhost:8887/uPortal");
-            settings.put("hibernate.connection.username", "sa");
-            settings.put("hibernate.connection.password", "");
             settings.put("hibernate.connection.validationQuery", "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");	    
 
 
