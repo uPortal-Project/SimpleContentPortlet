@@ -24,8 +24,8 @@
              version="2.0">
     <persistence-unit name="AttachmentsDb"> <!-- transaction-type="RESOURCE_LOCAL" -->
         <properties>
-            <property name="hibernate.ejb.cfgfile" value="/properties/db/hibernate-attachments.cfg.xml" />
-            <property name="hibernate.archive.autodetection" value="" />
+            <property name="hibernate.cfg_xml_file" value="/properties/db/hibernate-attachments.cfg.xml" />
+            <property name="hibernate.archive.autodetect" value="" />
         </properties>
     </persistence-unit>
 </persistence>
