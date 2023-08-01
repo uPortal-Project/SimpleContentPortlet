@@ -74,7 +74,7 @@
         </property>
     </bean>
     
-   <bean id="propertyResolver" factory-bean="propertyConfigurer" factory-method="getPropertyResolver"/>
+    <bean id="propertyResolver" factory-bean="propertyConfigurer" factory-method="getPropertyResolver"/>
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
           p:driverClass="${hibernate.connection.driver_class}"
@@ -92,7 +92,7 @@
         <!-- Per c3p0 documentation, if using type4 driver which we generally do, it should have a
              Connection.isValid method to test the connection, so we don't need to specify a test query.
              If you aren't using a JDBC type4 driver, uncomment this. -->
-        <!-- <property name="preferredTestQuery" value="${hibernate.connection.validationQuery}"/> -->
+        <!--<property name="preferredTestQuery" value="${hibernate.connection.validationQuery}"/> -->
 
         <!-- Fix hot deploy connection pool issues on Tomcat. Requires c3p0 v0.9.5.
              See http://www.mchange.com/projects/c3p0/#configuring_to_avoid_memory_leaks_on_redeploy. -->

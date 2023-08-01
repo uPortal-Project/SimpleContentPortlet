@@ -63,6 +63,10 @@ public class SchemaCreator implements ApplicationContextAware {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * We <em>must</em> obtain the value of this property from the PropertySourcesPlaceholderConfigurer;
+     * not from hibernate.properties or any static resource within the war file.
+     */
     @Value("${hibernate.dialect}")
     private String hibernateDialect;
 
@@ -88,13 +92,17 @@ public class SchemaCreator implements ApplicationContextAware {
     }
 
     private int create() {
-           
-        final DataSource dataSource = applicationContext.getBean(DATA_SOURCE_BEAN_NAME, DataSource.class);
 
+        /*
+         * We will need to provide a Configuration and a Connection;  both should be properly
+         * managed by the Spring ApplicationContext.
+         */
+
+        final DataSource dataSource = applicationContext.getBean(DATA_SOURCE_BEAN_NAME, DataSource.class);
 
         try (final Connection conn = dataSource.getConnection()) {
             Map<String, String> settings = new HashMap<>();
-             settings.put("hibernate.dialect",hibernateDialect);
+            settings.put("hibernate.dialect",hibernateDialect);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(settings).build();
             MetadataSources metadata = new MetadataSources(serviceRegistry);
@@ -102,7 +110,7 @@ public class SchemaCreator implements ApplicationContextAware {
 
             EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
             SchemaExport schemaExport = new SchemaExport();
-            schemaExport.execute(enumSet, SchemaExport.Action.BOTH, metadata.buildMetadata());	
+            schemaExport.execute(enumSet, SchemaExport.Action.BOTH, metadata.buildMetadata());
 
             final List<Exception> exceptions = schemaExport.getExceptions();
             if (exceptions.size() != 0) {
@@ -112,7 +120,6 @@ public class SchemaCreator implements ApplicationContextAware {
                 }
                 return 1;
             }
-
 	    } catch (SQLException sqle) {
             logger.error("Failed to initialize & invoke the SchemaExport tool", sqle);
             return 1;
