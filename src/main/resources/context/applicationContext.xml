@@ -59,12 +59,12 @@
     <bean class="org.springframework.web.servlet.view.XmlViewResolver"
             p:order="0" p:location="classpath:/context/views.xml"/>
 
-    <!-- JSP view resolver -->
+    <!-- Default JSP view resolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
         <property name="contentType" value="text/html;charset=UTF-8" />
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
-        <property name="viewClass" value="com.liferay.portletmvc4spring.PortletJstlView" />
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
         <property name="order" value="10" />
         <property name="cache" value="true" />
     </bean>

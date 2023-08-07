@@ -18,7 +18,7 @@
     under the License.
 
 --%>
-<jsp:directive.include file="/WEB-INF/jsp/include.jsp"/>
+<jsp:directive.include file="/WEB-INF/jsp/common/include.jsp"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
 <portlet:renderURL var="cancelUrl" portletMode="VIEW" />

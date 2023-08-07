@@ -52,6 +52,8 @@
         <property name="prefix" value="/WEB-INF/jsp/attachments/" />
         <property name="suffix" value=".jsp" />
         <property name="viewClass" value="com.liferay.portletmvc4spring.PortletJstlView" />
+        <property name="order" value="7" />
+        <property name="cache" value="true" />
     </bean>
 
 </beans>

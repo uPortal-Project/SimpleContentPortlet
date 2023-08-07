@@ -20,7 +20,7 @@ package org.jasig.portlet.attachment.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndView;
 import com.liferay.portletmvc4spring.bind.annotation.RenderMapping;
 
 import javax.portlet.PortletPreferences;

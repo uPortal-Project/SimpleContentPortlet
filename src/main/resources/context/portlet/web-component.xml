@@ -43,7 +43,7 @@
         <property name="prefix" value="/WEB-INF/jsp/webcomponent/" />
         <property name="suffix" value=".jsp" />
         <property name="viewClass" value="com.liferay.portletmvc4spring.PortletJstlView" />
-        <property name="order" value="9" />
+        <property name="order" value="8" />
         <property name="cache" value="true" />
     </bean>
 </beans>
