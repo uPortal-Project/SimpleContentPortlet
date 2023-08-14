@@ -39,8 +39,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations={"classpath:testContext.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:testContext.xml"})
 public class AntiSamyStringCleaningServiceTest {
 
     private AntiSamyStringCleaningService cleaningService;
@@ -58,17 +58,12 @@ public class AntiSamyStringCleaningServiceTest {
     }
 
     @Test
-    public void testGoodCallDoNotMerge() {
-        assert ("Content").equals("Content");
-    }
-
-    //TODO fix @Test
     public void testGetSafeContent() {
         String clean = cleaningService.getSafeContent(content);
         assert ("Title<p>Content</p>").equals(clean);
     }
 
-    //TODO fix @Test
+    @Test
     public void testScanException() throws PolicyException {
 
         cleaningService = spy(cleaningService);
@@ -86,7 +81,7 @@ public class AntiSamyStringCleaningServiceTest {
 
     }
 
-    //TODO fix @Test
+    @Test
     public void testPolicyException() throws ScanException {
 
         cleaningService = spy(cleaningService);
