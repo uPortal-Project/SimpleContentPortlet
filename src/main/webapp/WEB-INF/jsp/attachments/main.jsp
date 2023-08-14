@@ -179,7 +179,7 @@
                         element: $("#${n}file-uploader")[0],
                         template: 'qq-template-gallery',
                         request: {
-                            endpoint: "<c:url value='/api/content/attach/local.json'/>",
+                            endpoint: "<c:url value='/api/content/attach/local_via_json'/>",
                             forceMultipart: true,
                             paramsInBody: true,
                             params: {

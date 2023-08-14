@@ -262,7 +262,7 @@ $(document).ready(function(){
         element: document.getElementById("fine-uploader-gallery"),
         template: 'qq-template-gallery',
         request: {
-            endpoint: "<c:url value='/api/content/attach/local.json'/>"
+            endpoint: "<c:url value='/api/content/attach/local_via_json'/>"
         },
         callbacks: {
             onSubmit: function (id, filename) {
