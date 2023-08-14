@@ -92,7 +92,7 @@
         <!-- Per c3p0 documentation, if using type4 driver which we generally do, it should have a
              Connection.isValid method to test the connection, so we don't need to specify a test query.
              If you aren't using a JDBC type4 driver, uncomment this. -->
-        <!--<property name="preferredTestQuery" value="${hibernate.connection.validationQuery}"/> -->
+        <!--<property name="preferredTestQuery" value="${hibernate.connection.validationQuery}"/>-->
 
         <!-- Fix hot deploy connection pool issues on Tomcat. Requires c3p0 v0.9.5.
              See http://www.mchange.com/projects/c3p0/#configuring_to_avoid_memory_leaks_on_redeploy. -->
@@ -104,18 +104,14 @@
     <!-- Attachments related configuration -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="jpaVendorAdapter">
-	      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
-	    </property>
-	    <property name="jpaProperties">
-	      <props>
-	          <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-              <prop key="generateDdl">false</prop>
-	      </props>
-	    </property>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
         <property name="persistenceUnitName" value="AttachmentsDb" />
     </bean>
 
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
+        <property name="generateDdl" value="false" />
+        <property name="databasePlatform" value="${hibernate.dialect}" />
+    </bean>
 
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 

@@ -20,12 +20,20 @@ package org.jasig.portlet.attachment.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.hibernate.tool.schema.TargetType;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,15 +44,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
-
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.hibernate.tool.schema.TargetType;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 /**
  * This tool is responsible for creating the SimpleCMS portlet database schema (and dropping
@@ -64,11 +63,26 @@ public class SchemaCreator implements ApplicationContextAware {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * We <em>must</em> obtain the value of this property from the PropertySourcesPlaceholderConfigurer;
+     * We <em>must</em> obtain the hibernate property values from the PropertySourcesPlaceholderConfigurer;
      * not from hibernate.properties or any static resource within the war file.
      */
     @Value("${hibernate.dialect}")
     private String hibernateDialect;
+
+    @Value("${hibernate.connection.driver_class}")
+    private String hibernateDriverClass;
+
+    @Value("${hibernate.connection.url}")
+    private String hibernateConnectionUrl;
+
+    @Value("${hibernate.connection.username}")
+    private String hibernateConnectionUsername;
+
+    @Value("${hibernate.connection.password}")
+    private String hibernateConnectionPassword;
+
+    @Value("${hibernate.connection.validationQuery}")
+    private String hibernateConnectionValidationQuery;
 
     public static void main(String[] args) {
 
@@ -101,8 +115,14 @@ public class SchemaCreator implements ApplicationContextAware {
         final DataSource dataSource = applicationContext.getBean(DATA_SOURCE_BEAN_NAME, DataSource.class);
 
         try (final Connection conn = dataSource.getConnection()) {
-            Map<String, String> settings = new HashMap<>();
-            settings.put("hibernate.dialect",hibernateDialect);
+            Map<String, Object> settings = new HashMap<>();
+            settings.put("hibernate.dialect", hibernateDialect);
+            settings.put("hibernate.connection.driver_class", hibernateDriverClass);
+            settings.put("hibernate.connection.url", hibernateConnectionUrl);
+            settings.put("hibernate.connection.username", hibernateConnectionUsername);
+            settings.put("hibernate.connection.password", hibernateConnectionPassword);
+            settings.put("hibernate.connection.validationQuery", hibernateConnectionValidationQuery);
+            settings.put(AvailableSettings.HBM2DDL_CONNECTION, conn);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(settings).build();
             MetadataSources metadata = new MetadataSources(serviceRegistry);
@@ -120,7 +140,7 @@ public class SchemaCreator implements ApplicationContextAware {
                 }
                 return 1;
             }
-	    } catch (SQLException sqle) {
+        } catch (SQLException sqle) {
             logger.error("Failed to initialize & invoke the SchemaExport tool", sqle);
             return 1;
         }
