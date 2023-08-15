@@ -18,9 +18,6 @@
  */
 package org.jasig.portlet.cms.mvc.portlet;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletMode;
@@ -28,6 +25,8 @@ import javax.portlet.PortletModeException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
+import com.liferay.portletmvc4spring.bind.annotation.ActionMapping;
+import com.liferay.portletmvc4spring.bind.annotation.RenderMapping;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.portlet.cms.mvc.form.ContentForm;
@@ -37,9 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.liferay.portletmvc4spring.bind.annotation.ResourceMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * ConfigureContentController allows administrative users to set the content 
@@ -76,7 +72,7 @@ public class ConfigureContentController {
      * 
      * @return main configuration view
      */
-    @RequestMapping
+    @RenderMapping
     public String showContentForm() {
         return "configureContent";
     }
@@ -90,7 +86,7 @@ public class ConfigureContentController {
      * @param form configuration form
      * @throws PortletModeException exception
      */
-    @RequestMapping(params="action=updateConfiguration")
+    @ActionMapping(params="action=updateConfiguration")
     public void updateConfiguration(ActionRequest request, ActionResponse response, 
             @ModelAttribute("form") ContentForm form) throws PortletModeException {
         
@@ -111,17 +107,6 @@ public class ConfigureContentController {
         // exit the portlet's configuration mode
         response.setPortletMode(PortletMode.VIEW);
     }
-
-    @ResourceMapping("preview")
-    public ModelAndView getPreview(@RequestParam("content") String content) {
-        
-        Map<String, String> model = new HashMap<String, String>();
-        String cleanContent = cleaningService.getSafeContent(content);
-        model.put("content", cleanContent);
-        
-        return new ModelAndView("jsonView", model);
-    }
-    
     
     /**
      * Get the form object for the portlet configuration.  If this portlet has
