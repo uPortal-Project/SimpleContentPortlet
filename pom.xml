@@ -191,6 +191,12 @@
                 <groupId>org.jasig.resourceserver</groupId>
                 <artifactId>resource-server-utils</artifactId>
                 <version>${resource-server.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- Provides the PortalPropertySourcesPlaceholderConfigurer
                  that supports global.properties and Jasypt encryption-->
@@ -313,29 +319,8 @@
 
             <!-- For sl4j/logback logging, see https://wiki.jasig.org/display/PLT/Logging+Best+Practices -->
             <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.2</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jul-to-slf4j</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>log4j-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
             <dependency>
@@ -510,18 +495,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
