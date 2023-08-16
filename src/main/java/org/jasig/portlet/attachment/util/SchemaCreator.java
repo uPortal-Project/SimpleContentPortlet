@@ -18,29 +18,21 @@
  */
 package org.jasig.portlet.attachment.util;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.schema.TargetType;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 
@@ -51,25 +43,16 @@ import org.springframework.core.io.Resource;
  * encrypted properties).  It is invokable from the command line with '$ java', but designed to be
  * integrated with build tools like Gradle.
  */
-public class SchemaCreator implements ApplicationContextAware {
+public class SchemaCreator {
 
     private static final String APPLICATION_CONTEXT_LOCATION = "classpath:/context/baseContext.xml";
 
-    private static final String DATA_SOURCE_BEAN_NAME = "dataSource";
-
-    private ApplicationContext applicationContext;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * We <em>must</em> obtain the value of this property from the PropertySourcesPlaceholderConfigurer;
-     * not from hibernate.properties or any static resource within the war file.
-     */
-    @Value("${hibernate.dialect}")
-    private String hibernateDialect;
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
     public static void main(String[] args) {
-
         // Bootstrap an ApplicationContext...
         final GenericApplicationContext context = new GenericApplicationContext();
         final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
@@ -84,27 +67,12 @@ public class SchemaCreator implements ApplicationContextAware {
         System.exit(schemaCreator.create());
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
     private int create() {
+        try {
+            SessionFactoryImplementor sessionFactory = entityManagerFactory.unwrap(SessionFactoryImplementor.class);
+            ServiceRegistry serviceRegistry = sessionFactory.getServiceRegistry();
 
-        /*
-         * We will need to provide a Configuration and a Connection;  both should be properly
-         * managed by the Spring ApplicationContext.
-         */
-
-        final DataSource dataSource = applicationContext.getBean(DATA_SOURCE_BEAN_NAME, DataSource.class);
-
-        try (final Connection conn = dataSource.getConnection()) {
-
-            Map<String, String> settings = new HashMap<>();
-            settings.put("hibernate.dialect", hibernateDialect);
-
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(settings).build();
-            MetadataSources metadata = new MetadataSources(serviceRegistry);
+            MetadataSources metadata = new MetadataSources(serviceRegistry.getParentServiceRegistry());
             metadata.addAnnotatedClass(Attachment.class);
 
             EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
@@ -112,20 +80,19 @@ public class SchemaCreator implements ApplicationContextAware {
             schemaExport.execute(enumSet, SchemaExport.Action.BOTH, metadata.buildMetadata());
 
             final List<Exception> exceptions = schemaExport.getExceptions();
-            if (exceptions.size() != 0) {
+            if (!exceptions.isEmpty()) {
                 logger.error("Schema Create Failed;  see below for details");
                 for (Exception e : exceptions) {
                     logger.error("Exception from Hibernate Tools SchemaExport", e);
                 }
                 return 1;
             }
-        } catch (SQLException sqle) {
-            logger.error("Failed to initialize & invoke the SchemaExport tool", sqle);
+        } catch (Exception e) {
+            logger.error("Failed to initialize & invoke the SchemaExport tool", e);
             return 1;
         }
 
         return 0;
-
     }
 
 }

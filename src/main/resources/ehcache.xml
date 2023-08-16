@@ -27,7 +27,7 @@
         overflowToDisk="false"
         memoryStoreEvictionPolicy="LFU"/>
 
-    <cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
+    <cache name="default-update-timestamps-region"
         maxElementsInMemory="100"
         eternal="false"
         timeToLiveSeconds="900"
@@ -35,7 +35,7 @@
         memoryStoreEvictionPolicy="LRU"
         statistics="true"/>
 
-    <cache name="org.hibernate.cache.internal.StandardQueryCache"
+    <cache name="default-query-results-region"
            maxElementsInMemory="100"
            eternal="false"
            timeToLiveSeconds="900"

@@ -51,19 +51,16 @@
     <properties>
         <!-- Dependency versions -->
         <aws.version>1.12.459</aws.version>
-        <c3p0.version>0.9.5.5</c3p0.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-io.version>2.11.0</commons-io.version>
         <ehcache.version>2.9.0</ehcache.version>
         <ehcache-web.version>2.0.4</ehcache-web.version>
         <jackson.version>2.14.2</jackson.version>
-        <hibernate.version>5.3.20.Final</hibernate.version>
-        <hibernate-jpamodelgen.version>1.3.0.Final</hibernate-jpamodelgen.version>
-        <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
-        <hsqldb.version>2.7.1</hsqldb.version>
+        <hibernate.version>5.6.15.Final</hibernate.version>
+        <hsqldb.version>2.7.0</hsqldb.version>
         <junit.version>4.13.2</junit.version>
         <logback.version>1.3.5</logback.version>
-        <persistence-api.version>1.0</persistence-api.version>
+        <persistence-api.version>2.2</persistence-api.version>
         <resource-server.version>1.3.1</resource-server.version>
         <slf4j.version>2.0.6</slf4j.version>
         <spring.version>4.3.30.RELEASE</spring.version>
@@ -86,11 +83,6 @@
                 <groupId>com.amazonaws</groupId>
                 <artifactId>aws-java-sdk-s3</artifactId>
                 <version>${aws.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.mchange</groupId>
-                <artifactId>c3p0</artifactId>
-                <version>${c3p0.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-codec</groupId>
@@ -140,23 +132,17 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-jpamodelgen</artifactId>
-                <version>${hibernate-jpamodelgen.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.1-api</artifactId>
-                <version>${hibernate-jpa-api.version}</version>
+                <version>${hibernate.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-ehcache</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
-            <!-- Needed for schema reset;  version compatible with org.hibernate:hibernate-core:4.1.9.Final -->
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-tools</artifactId>
-                <version>4.3.5.Final</version>
+                <version>${hibernate.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -172,6 +158,11 @@
                 <groupId>javax.portlet</groupId>
                 <artifactId>portlet-api</artifactId>
                 <version>2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.persistence</groupId>
+	        <artifactId>javax.persistence-api</artifactId>
+                <version>${persistence-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -372,10 +363,6 @@
             <artifactId>aws-java-sdk-s3</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-        </dependency>
-        <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
@@ -404,22 +391,16 @@
             <artifactId>hibernate-tools</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>c3p0</groupId>
-                    <artifactId>c3p0</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>jsr250-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+	    <artifactId>javax.persistence-api</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -717,11 +698,6 @@
                 <version>${resource-server.version}</version>
                 <dependencies>
                     <dependency>
-                        <groupId>org.hibernate.javax.persistence</groupId>
-                        <artifactId>hibernate-jpa-2.1-api</artifactId>
-                        <version>${hibernate-jpa-api.version}</version>
-                    </dependency>
-                    <dependency>
                         <groupId>jakarta.xml.bind</groupId>
                         <artifactId>jakarta.xml.bind-api</artifactId>
                         <version>${jaxb.version}</version>
@@ -863,11 +839,6 @@
                         <groupId>javax.portlet</groupId>
                         <artifactId>portlet-api</artifactId>
                         <version>2.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.hibernate.javax.persistence</groupId>
-                        <artifactId>hibernate-jpa-2.1-api</artifactId>
-                        <version>${hibernate-jpa-api.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>jakarta.xml.bind</groupId>
