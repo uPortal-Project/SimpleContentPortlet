@@ -36,7 +36,6 @@ import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
@@ -113,7 +112,7 @@ public class ConfigureContentController {
         response.setPortletMode(PortletMode.VIEW);
     }
 
-    @PostMapping(params="action=cancel")
+    @RequestMapping(params="action=cancel")
     public void cancel(ActionRequest request, ActionResponse response) throws PortletModeException {
         response.setPortletMode(PortletMode.VIEW);
     }
