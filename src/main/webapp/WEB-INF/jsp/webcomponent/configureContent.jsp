@@ -21,12 +21,13 @@
 <jsp:directive.include file="/WEB-INF/jsp/common/include.jsp"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
-<portlet:renderURL var="cancelUrl" portletMode="VIEW" />
+<portlet:actionURL var="cancelUrl" escapeXml="false"><portlet:param name="action" value="cancel"/></portlet:actionURL>
 
 <style type="text/css">
     #${n}contentForm { min-height: 100px; padding: 10px; margin: 10px; }
     #${n}contentForm div.btn-group {
         display: block;
+	margin: 5px 0 10px 0;
     }
     #${n}contentForm textarea {
          width: 100%;
@@ -40,14 +41,16 @@
 
 <form:form id="${n}contentForm" modelAttribute="form" action="${formUrl}" method="post">
     <form:textarea id="${n}content" path="content" cols="100" rows="20" wrap="hard"/>
-    <div class="btn-group" style="margin: 5px 0 10px 0;">
+    <div class="btn-group">
       <button type="submit" name="update" value="update" class="btn-primary">
         <spring:message code="configurationForm.save"/>
       </button>
-      <form action="${cancelUrl}" method="post">
-      <button type="submit" name="cancel" value="cancel" class="btn-default">
+    </div>
+</form:form>
+<form:form action="${cancelUrl}" method="post">
+    <div class="btn-group">
+      <button type="submit" name="cancel" value="cancel" class="btn-link">
         <spring:message code="configurationForm.return"/>
       </button>
-      </form>
     </div>
 </form:form>
