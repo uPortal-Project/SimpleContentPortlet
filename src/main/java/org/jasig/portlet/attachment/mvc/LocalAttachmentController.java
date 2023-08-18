@@ -44,7 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 public final class LocalAttachmentController {
 
     @Autowired
-    private IAttachmentService attachmentService = null;
+    private IAttachmentService attachmentService;
 
     /**
      * This used to be called via `/content/attach/local.json`. Since upgrading to Spring 5.3 dropped support for

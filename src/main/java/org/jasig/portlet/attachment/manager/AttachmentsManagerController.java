@@ -23,9 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.liferay.portletmvc4spring.bind.annotation.RenderMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
-import javax.portlet.PortletSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +31,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.jasig.portlet.attachment.service.IAttachmentService;
-import org.jasig.portlet.attachment.service.impl.AttachmentService;
 import org.springframework.web.servlet.ModelAndView;
 
 /**

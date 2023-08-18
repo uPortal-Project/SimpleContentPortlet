@@ -33,9 +33,10 @@ import org.jasig.portlet.cms.service.IStringCleaningService;
 import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class ConfigureContentControllerTest {
 
     @Mock ActionRequest request;
@@ -50,8 +51,6 @@ public class ConfigureContentControllerTest {
     
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        
         when(request.getPreferences()).thenReturn(preferences);
         when(preferences.getValue("cleanContent", "true")).thenReturn("true");
         

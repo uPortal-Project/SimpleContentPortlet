@@ -33,9 +33,10 @@ import org.jasig.portlet.cms.mvc.exception.ContentPersistenceException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class PortletPreferencesContentDaoImplTest {
 
     @Mock ActionRequest request;
@@ -46,8 +47,6 @@ public class PortletPreferencesContentDaoImplTest {
     
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        
         when(request.getPreferences()).thenReturn(preferences);
         when(preferences.getValue(PortletPreferencesContentDaoImpl.CONTENT_KEY, "")).thenReturn(content);
     }

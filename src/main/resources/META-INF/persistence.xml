@@ -19,13 +19,13 @@
     under the License.
 
 -->
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence https://java.sun.com/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit name="AttachmentsDb"> <!-- transaction-type="RESOURCE_LOCAL" -->
         <properties>
             <property name="hibernate.cfg_xml_file" value="/properties/db/hibernate-attachments.cfg.xml" />
-            <property name="hibernate.archive.autodetection" value="" />
+            <property name="hibernate.archive.autodetect" value="" />
         </properties>
     </persistence-unit>
 </persistence>

@@ -26,7 +26,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.apache.commons.codec.binary.Base64;
@@ -73,7 +73,7 @@ public class AmazonS3PersistenceStrategy implements IDocumentPersistenceStrategy
             return null;
         }
 
-        AmazonS3 s3 = new AmazonS3Client();
+        AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
 
         String key = PATH_FORMAT.format(new Object[]{s3BucketPath, attachment.getGuid(), attachment.getFilename()});
 
