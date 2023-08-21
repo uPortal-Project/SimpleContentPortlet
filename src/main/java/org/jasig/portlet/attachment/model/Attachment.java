@@ -22,7 +22,6 @@ package org.jasig.portlet.attachment.model;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,8 +37,6 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jasig.portlet.attachment.dao.jpa.Queries;
 
 /**
@@ -79,8 +76,6 @@ import org.jasig.portlet.attachment.dao.jpa.Queries;
         query="SELECT a FROM Attachment a WHERE a.createdBy = :creator AND a.filename = :filename")
 @NamedQuery(name=Queries.FIND_ALL_ATTACHMENTS,
         query="SELECT a FROM Attachment a order by a.id")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Attachment {
     @Id
     @GeneratedValue(generator = "SCM_ATTACHMENT_GEN")
