@@ -40,3 +40,7 @@ Scenarios:
   * Search
     * There is a search controller and ‘event-definitions’ in the portlet.xml.
     * While emptying caches doesn’t update the portlet’s search terms, an overriding dataImport picks up the search terms - however, it doesn’t exercise the controller.
+  * Attachment persistence - for any of the specific scenarios that leverage attachments (cms, attachment, attachment-manager):
+    * Database (default)
+    * File
+    * S3
