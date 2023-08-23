@@ -33,8 +33,17 @@
 
     <bean parent="propertyResolver"/>
 
-    <bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+    <bean class="com.liferay.portletmvc4spring.mvc.annotation.DefaultAnnotationHandlerMapping">
         <property name="interceptors"><bean class="org.jasig.portlet.cms.mvc.portlet.MinimizedStateHandlerInterceptor"/></property>
     </bean>
 
+    <!-- JSP view resolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+        <property name="contentType" value="text/html;charset=UTF-8" />
+        <property name="prefix" value="/WEB-INF/jsp/cms/" />
+        <property name="suffix" value=".jsp" />
+        <property name="viewClass" value="com.liferay.portletmvc4spring.PortletJstlView" />
+        <property name="order" value="8" />
+        <property name="cache" value="true" />
+    </bean>
 </beans>

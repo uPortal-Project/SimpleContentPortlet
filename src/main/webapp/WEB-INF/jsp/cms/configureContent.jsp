@@ -18,7 +18,7 @@
     under the License.
 
 --%>
-<jsp:directive.include file="/WEB-INF/jsp/include.jsp"/>
+<jsp:directive.include file="/WEB-INF/jsp/common/include.jsp"/>
 <c:set var="includeJQuery" value="${renderRequest.preferences.map['includeJQuery'][0]}"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
@@ -37,7 +37,7 @@
 
 <h2><spring:message code="configurationForm.title"/></h2>
 
-<form:form id="${n}contentForm" commandName="form" action="${formUrl}" method="post">
+<form:form id="${n}contentForm" modelAttribute="form" action="${formUrl}" method="post">
     <form:textarea id="${n}content" path="content"/>
 </form:form>
 <form:form action="${cancelUrl}" method="post">

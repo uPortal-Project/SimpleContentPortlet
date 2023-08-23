@@ -68,7 +68,7 @@ public class ImportExport {
     private String hibernateURI;
 
     @Value("${hibernate.attachments.batch.fetch.size:100}")
-    private int batchFetchSize = 100;
+    private int batchFetchSize;
 
     public static void main(String[] args) throws Exception {
 

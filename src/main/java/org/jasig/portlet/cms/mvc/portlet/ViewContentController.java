@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import javax.portlet.PortletRequest;
 
+import com.liferay.portletmvc4spring.bind.annotation.RenderMapping;
 import org.jasig.portlet.cms.service.dao.IContentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.PropertyResolver;
@@ -50,7 +51,7 @@ public class ViewContentController {
      * 
      * @return view name
      */
-    @RequestMapping
+    @RenderMapping
     public String viewContent() {
         return "viewContent";
     }

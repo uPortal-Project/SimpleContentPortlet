@@ -20,13 +20,10 @@ package org.jasig.portlet.attachment.manager;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import com.liferay.portletmvc4spring.bind.annotation.RenderMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
-import javax.portlet.PortletSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.jasig.portlet.attachment.service.IAttachmentService;
-import org.jasig.portlet.attachment.service.impl.AttachmentService;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Toben Archer

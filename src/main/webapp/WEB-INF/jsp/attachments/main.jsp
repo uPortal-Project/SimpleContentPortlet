@@ -18,7 +18,7 @@
     under the License.
 
 --%>
-<jsp:directive.include file="/WEB-INF/jsp/include.jsp"/>
+<jsp:directive.include file="/WEB-INF/jsp/common/include.jsp"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <c:if test="${!usePortalJsLibs}">
     <script src="<rs:resourceURL value='/rs/jquery/1.11.0/jquery-1.11.0.min.js'/>" type="text/javascript"></script>
@@ -179,7 +179,7 @@
                         element: $("#${n}file-uploader")[0],
                         template: 'qq-template-gallery',
                         request: {
-                            endpoint: "<c:url value='/api/content/attach/local.json'/>",
+                            endpoint: "<c:url value='/api/content/attach/local_via_json'/>",
                             forceMultipart: true,
                             paramsInBody: true,
                             params: {

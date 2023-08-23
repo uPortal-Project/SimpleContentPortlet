@@ -44,9 +44,17 @@ import org.springframework.web.servlet.ModelAndView;
 public final class LocalAttachmentController {
 
     @Autowired
-    private IAttachmentService attachmentService = null;
+    private IAttachmentService attachmentService;
 
-    @RequestMapping(value = "/content/attach/local.json", method = RequestMethod.POST)
+    /**
+     * This used to be called via `/content/attach/local.json`. Since upgrading to Spring 5.3 dropped support for
+     * path suffixes, this was renamed to `/content/attach/local_via_json`.
+     * @param file
+     * @param servletRequest
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/content/attach/local_via_json", method = RequestMethod.POST)
     public ModelAndView uploadForm(@RequestParam(value = "qqfile") MultipartFile file,
                                    HttpServletRequest servletRequest)
             throws IOException

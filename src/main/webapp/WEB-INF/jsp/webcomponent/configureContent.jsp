@@ -18,7 +18,7 @@
     under the License.
 
 --%>
-<jsp:directive.include file="/WEB-INF/jsp/include.jsp"/>
+<jsp:directive.include file="/WEB-INF/jsp/common/include.jsp"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
 <portlet:actionURL var="cancelUrl" escapeXml="false"><portlet:param name="action" value="cancel"/></portlet:actionURL>
@@ -39,7 +39,7 @@
 
 <h2><spring:message code="configurationForm.title"/></h2>
 
-<form:form id="${n}contentForm" commandName="form" action="${formUrl}" method="post">
+<form:form id="${n}contentForm" modelAttribute="form" action="${formUrl}" method="post">
     <form:textarea id="${n}content" path="content" cols="100" rows="20" wrap="hard"/>
     <div class="btn-group">
       <button type="submit" name="update" value="update" class="btn-primary">

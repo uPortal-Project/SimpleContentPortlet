@@ -45,7 +45,7 @@ public final class LocalAttachmentFilter implements Filter {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private IAttachmentService attachmentService = null;
+    private IAttachmentService attachmentService;
 
     public void init(FilterConfig filterConfig) throws ServletException {}
 

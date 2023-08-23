@@ -30,11 +30,7 @@
         <property name="hibernate.max_fetch_depth">3</property>
         <property name="hibernate.default_batch_fetch_size">4</property>
         <property name="hibernate.jdbc.batch_size">25</property>
-        <property name="hibernate.cache.use_query_cache">true</property>
-        <property name="hibernate.cache.use_second_level_cache">true</property>
-        <property name="hibernate.cache.provider_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property>
-        <property name="hibernate.cache.use_minimal_puts">true</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <!-- Ideally we'd prefer this off in production, but since the porlet (without uPortal overlay) uses in-memory
              hsqldb we need this to be update. Users *should* do a schema update before switching to new versions, or

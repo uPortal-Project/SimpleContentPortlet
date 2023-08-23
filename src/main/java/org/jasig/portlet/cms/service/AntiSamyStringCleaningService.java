@@ -28,7 +28,7 @@ import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -57,7 +57,7 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
      * @param resource resource to use
      */
     @javax.annotation.Resource(name = "policyFile")
-    @Required
+    @Autowired
     public void setResource(Resource resource) {
         this.resource = resource;
     }
@@ -68,7 +68,7 @@ public class AntiSamyStringCleaningService implements IStringCleaningService,
      * @param resource resource to use
      */
     @javax.annotation.Resource(name = "textOnlyPolicyFile")
-    @Required
+    @Autowired
     public void setTextOnlyPolicy(Resource resource) {
         this.textOnlyResource = resource;
     }

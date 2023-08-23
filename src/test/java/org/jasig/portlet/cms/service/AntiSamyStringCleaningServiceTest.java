@@ -18,13 +18,14 @@
  */
 package org.jasig.portlet.cms.service;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import org.jasig.portlet.cms.mvc.exception.StringCleaningException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,16 +48,23 @@ public class AntiSamyStringCleaningServiceTest {
     @Mock AntiSamy antiSamy;
     String content = "<h1>Title</h1><p>Content<script type=\"text/javascript\">alert('uhoh!');</script></p>";
 
+    AutoCloseable mockitoAnnotationsMocksCloseable;
+
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        this.mockitoAnnotationsMocksCloseable = MockitoAnnotations.openMocks(this);
     }
-    
+
+    @After
+    public void tearDown() throws Exception {
+        this.mockitoAnnotationsMocksCloseable.close();
+    }
+
     @Autowired(required = true)
     public void setCleaningService(AntiSamyStringCleaningService cleaningService) {
         this.cleaningService = cleaningService;
     }
-    
+
     @Test
     public void testGetSafeContent() {
         String clean = cleaningService.getSafeContent(content);
@@ -80,7 +88,7 @@ public class AntiSamyStringCleaningServiceTest {
         }
 
     }
-    
+
     @Test
     public void testPolicyException() throws ScanException {
 

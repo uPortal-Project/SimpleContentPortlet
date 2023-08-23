@@ -78,7 +78,7 @@
 
     <servlet>
         <servlet-name>ViewRendererServlet</servlet-name>
-        <servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class>
+        <servlet-class>com.liferay.portletmvc4spring.ViewRendererServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

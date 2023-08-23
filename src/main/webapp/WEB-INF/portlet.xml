@@ -27,7 +27,7 @@
  
     <portlet>
         <portlet-name>cms</portlet-name>
-        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <portlet-class>com.liferay.portletmvc4spring.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
             <value>classpath:/context/portlet/cms.xml</value>
@@ -99,7 +99,7 @@
 
     <portlet>
         <portlet-name>web-component</portlet-name>
-        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <portlet-class>com.liferay.portletmvc4spring.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
             <value>classpath:/context/portlet/web-component.xml</value>
@@ -140,7 +140,7 @@
 
     <portlet>
         <portlet-name>attachments</portlet-name>
-        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <portlet-class>com.liferay.portletmvc4spring.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
             <value>classpath:/context/portlet/attachments.xml</value>
@@ -177,7 +177,7 @@
 
     <portlet>
         <portlet-name>attachments-manager</portlet-name>
-        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <portlet-class>com.liferay.portletmvc4spring.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
             <value>classpath:/context/portlet/attachments-manager.xml</value>
