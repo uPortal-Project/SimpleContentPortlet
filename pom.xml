@@ -63,6 +63,7 @@
         <servlet.version>3.1.0</servlet.version>
         <slf4j.version>2.0.6</slf4j.version>
         <spring.version>5.3.28</spring.version>
+        <spring-data.version>2.7.15</spring-data.version>
         <portletmvc4spring.version>5.2.0</portletmvc4spring.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
         <uportal-libs.version>5.13.1</uportal-libs.version>
@@ -260,9 +261,9 @@
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>${spring.version}</version>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>${spring-data.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -429,8 +430,8 @@
             <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

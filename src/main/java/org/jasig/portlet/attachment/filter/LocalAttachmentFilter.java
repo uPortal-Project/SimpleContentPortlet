@@ -64,7 +64,7 @@ public final class LocalAttachmentFilter implements Filter {
             int guidIndex = parts.length - 2;
             String guid = parts[guidIndex];
 
-            Attachment attachment = attachmentService.get(guid);
+            Attachment attachment = attachmentService.findByGuid(guid);
             if (attachment != null) {
                 log.debug("Restoring the following  attachment to the server file system:  {}", path);
                 byte[] content = attachment.getData();

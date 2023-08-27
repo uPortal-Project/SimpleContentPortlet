@@ -47,7 +47,7 @@ public class AttachmentsManagerController {
     @RenderMapping
     public ModelAndView main(final PortletRequest request) {
         final Map<String,Object> model = new HashMap<String,Object>();
-        model.put("attachments",attachmentService.findAll(0,65536));
+        model.put("attachments",attachmentService.findAll());
         ModelAndView view = new ModelAndView("view",model);
         return view;
     }

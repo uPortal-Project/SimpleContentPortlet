@@ -18,58 +18,54 @@
  */
 package org.jasig.portlet.attachment.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.apache.commons.lang.StringUtils;
-import org.jasig.portlet.attachment.dao.IAttachmentDao;
+import org.jasig.portlet.attachment.dao.jpa.AttachmentsRepository;
 import org.jasig.portlet.attachment.service.IDocumentPersistenceStrategy;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Chris Waymire (chris@waymire.net)
  */
-@Component
+@Service
 public class AttachmentService implements IAttachmentService {
     @Autowired
-    private IAttachmentDao attachmentDao;
+    private AttachmentsRepository attachmentsRepository;
 
     @Autowired
     @Qualifier(value = "documentPersistenceStrategy")
     private IDocumentPersistenceStrategy documentPersistenceStrategy;
 
     @Override
-    public Attachment get(final long attachmentId) {
-        return attachmentDao.get(attachmentId);
+    @Transactional
+    public Attachment findById(final long attachmentId) {
+        return attachmentsRepository.findById(attachmentId).orElse(null);
     }
 
     @Override
-    public Attachment get(final String guid) {
-        return attachmentDao.get(guid);
+    @Transactional
+    public Attachment findByGuid(final String guid) {
+        return attachmentsRepository.findByGuid(guid).orElse(null);
     }
 
     @Override
-    public List<Attachment> find(final String creator) {
-        return attachmentDao.find(creator);
+    @Transactional
+    public List<Attachment> findAll() {
+        return iterableToList(attachmentsRepository.findAll());
     }
 
     @Override
-    public List<Attachment> find(final String creator,final String filename) {
-        return attachmentDao.find(creator,filename);
-    }
-
-    @Override
-    public List<Attachment> findAll(int offset, int maxresults) {
-        return attachmentDao.findAll(offset, maxresults);
-    }
-
-    @Override
+    @Transactional
     public Attachment save(Attachment attachment, String username, HttpServletRequest request) {
         // The username must be present
         if (StringUtils.isBlank(username)) {
@@ -89,9 +85,8 @@ public class AttachmentService implements IAttachmentService {
             attachment.setData(null);
         }
 
-        Attachment existing = attachmentDao.get(attachment.getGuid());
-        if(existing != null)
-        {
+        Attachment existing = attachmentsRepository.findByGuid(attachment.getGuid()).orElse(null);
+        if (existing != null) {
             existing.setFilename(attachment.getFilename());
             existing.setPath(attachment.getPath());
             if (documentPersistenceStrategy.isPersistenceIntoDatabaseRequired()) {
@@ -104,22 +99,22 @@ public class AttachmentService implements IAttachmentService {
         }
 
         updateTimestamps(attachment, username);
-        Attachment saved = attachmentDao.save(attachment);
-        return saved;
+        return attachmentsRepository.save(attachment);
     }
 
     @Override
+    @Transactional
     public void delete(Attachment attachment) {
-        attachmentDao.delete(attachment);
+        attachmentsRepository.delete(attachment);
     }
 
     @Override
-    public void delete(long attachmentId) {
-        attachmentDao.delete(attachmentId);
+    @Transactional
+    public void deleteById(long attachmentId) {
+        attachmentsRepository.deleteById(attachmentId);
     }
 
-    protected void updateTimestamps(final Attachment attachment,final String user)
-    {
+    protected void updateTimestamps(final Attachment attachment,final String user) {
         Date now = new Date();
         if(attachment.getCreatedAt() == null)
         {
@@ -130,24 +125,15 @@ public class AttachmentService implements IAttachmentService {
         attachment.setModifiedAt(now);
     }
 
-    public IAttachmentDao getAttachmentDao() {
-        return attachmentDao;
-    }
-
-    public void setAttachmentDao(IAttachmentDao attachmentDao) {
-        this.attachmentDao = attachmentDao;
-    }
-
-    public IDocumentPersistenceStrategy getDocumentPersistenceStrategy() {
-        return documentPersistenceStrategy;
-    }
-
-    public void setDocumentPersistenceStrategy(IDocumentPersistenceStrategy documentPersistenceStrategy) {
-        this.documentPersistenceStrategy = documentPersistenceStrategy;
-    }
-
     @Override
     public boolean isPersistenceIntoDatabaseRequired() {
         return documentPersistenceStrategy.isPersistenceIntoDatabaseRequired();
     }
+
+    private List<Attachment> iterableToList(Iterable<Attachment> iterable) {
+        List<Attachment> results = new ArrayList<>();
+        iterable.forEach(results::add);
+        return results;
+    }
+
 }

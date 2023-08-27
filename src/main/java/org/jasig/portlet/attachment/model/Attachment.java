@@ -30,14 +30,11 @@ import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.jasig.portlet.attachment.dao.jpa.Queries;
 
 /**
  * @author Chris Waymire (chris@waymire.net)
@@ -68,14 +65,6 @@ import org.jasig.portlet.attachment.dao.jpa.Queries;
         pkColumnValue="UP_ATTACHMENT_PROP",
         allocationSize=1
 )
-@NamedQuery(name=Queries.GET_ATTACHMENT_BY_GUID,
-        query="SELECT a FROM Attachment a WHERE a.guid = :guid")
-@NamedQuery(name=Queries.FIND_ATTACHMENTS_BY_CREATOR,
-        query="SELECT a FROM Attachment a WHERE a.createdBy = :creator")
-@NamedQuery(name=Queries.FIND_ATTACHMENTS_BY_FILENAME,
-        query="SELECT a FROM Attachment a WHERE a.createdBy = :creator AND a.filename = :filename")
-@NamedQuery(name=Queries.FIND_ALL_ATTACHMENTS,
-        query="SELECT a FROM Attachment a order by a.id")
 public class Attachment {
     @Id
     @GeneratedValue(generator = "SCM_ATTACHMENT_GEN")

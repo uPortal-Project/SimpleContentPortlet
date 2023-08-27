@@ -71,15 +71,12 @@ public class ImportExport {
     private int batchFetchSize;
 
     public static void main(String[] args) throws Exception {
-
         if (args.length != 2) {
             usage();
         }
 
         ApplicationContext context = bootstrapApplicationContext();
-
         ImportExport importExport = (ImportExport) context.getBean("importExport");
-
         importExport.notifyUserIfUsingInMemoryDb();
 
         if ("export".equals(args[0])) {
@@ -89,11 +86,10 @@ public class ImportExport {
         } else {
             usage();
         }
-
     }
 
     public static ApplicationContext bootstrapApplicationContext() {
-        return new ClassPathXmlApplicationContext(new String[] {"context/importExportContext.xml"});
+        return new ClassPathXmlApplicationContext("context/importExportContext.xml");
     }
 
     private void notifyUserIfUsingInMemoryDb() {
@@ -111,7 +107,7 @@ public class ImportExport {
         File dir = checkIfDirExists(directoryName, false);
         Collection<File> files = FileUtils.listFiles(dir, new WildcardFileFilter("*" + FILENAME_SUFFIX),
                 TrueFileFilter.INSTANCE );
-        if (files.size() == 0) {
+        if (files.isEmpty()) {
             log.info("No files of form {} to import in {}", "*" + FILENAME_SUFFIX, directoryName);
         }
         boolean importSucceeded = true;
@@ -201,54 +197,43 @@ public class ImportExport {
         boolean operationSucceeded = true;
         File dir = checkIfDirExists(directoryName, true);
 
-        int offset = 0;
-        List<Attachment> attachments;
-        do {
-            attachments = attachmentService.findAll(offset, batchFetchSize);
-            if (attachments.size() > 0) {
-                try {
-                    JAXBContext jc = JAXBContext.newInstance(Attachment.class);
-                    Marshaller marshaller = jc.createMarshaller();
-                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-                    for (Attachment attachment : attachments) {
-                        File entityFile = new File(dir, attachment.getGuid() + FILENAME_SUFFIX);
-
-                        if (attachment.getData() == null && attachmentService.isPersistenceIntoDatabaseRequired()) {
-                            log.error("File {}, guid {} has no data.  This typically occurs if you are running export"
-                                    + " against a SimpleContentPortlet database prior to v2.0.0. You probably want"
-                                    + " to delete this file before running import and instead run export using"
-                                    + " a version prior to 2.0.0",
-                                    entityFile.getAbsolutePath(), attachment.getGuid());
-                            operationSucceeded = false;
-                        } else {
-                            log.info("Creating file {}", entityFile.getAbsolutePath());
-                        }
-                        try {
-                            JAXBElement<Attachment> je2 = new JAXBElement<>(new QName("Attachment"), Attachment.class, attachment);
-                            marshaller.marshal(je2, new FileWriter(entityFile));
-                        } catch (IOException e) {
-                            log.error("Unable to write to file {}", entityFile.getAbsolutePath(), e);
-                            operationSucceeded = false;
-                        }
-                    }
-
-                } catch (JAXBException e) {
-                    log.error("Unable to create XML file", e);
-                    System.exit(1);
-                }
-            }
-            offset += attachments.size();
-
-        } while (attachments.size() == batchFetchSize);
-
-        if (attachments.size() == 0 && offset == 0) {
+        List<Attachment> attachments = attachmentService.findAll();
+        if (attachments.isEmpty()) {
             log.info("No attachments found in the database.");
+        } else {
+            try {
+                JAXBContext jc = JAXBContext.newInstance(Attachment.class);
+                Marshaller marshaller = jc.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+                for (Attachment attachment : attachments) {
+                    File entityFile = new File(dir, attachment.getGuid() + FILENAME_SUFFIX);
+
+                    if (attachment.getData() == null && attachmentService.isPersistenceIntoDatabaseRequired()) {
+                        log.error("File {}, guid {} has no data.  This typically occurs if you are running export"
+                                + " against a SimpleContentPortlet database prior to v2.0.0. You probably want"
+                                + " to delete this file before running import and instead run export using"
+                                + " a version prior to 2.0.0",
+                                entityFile.getAbsolutePath(), attachment.getGuid());
+                        operationSucceeded = false;
+                    } else {
+                        log.info("Creating file {}", entityFile.getAbsolutePath());
+                    }
+                    try {
+                        JAXBElement<Attachment> je2 = new JAXBElement<>(new QName("Attachment"), Attachment.class, attachment);
+                        marshaller.marshal(je2, new FileWriter(entityFile));
+                    } catch (IOException e) {
+                        log.error("Unable to write to file {}", entityFile.getAbsolutePath(), e);
+                        operationSucceeded = false;
+                    }
+                }
+            } catch (JAXBException e) {
+                log.error("Unable to create XML file", e);
+                operationSucceeded = false;
+            }
         }
 
-        if (!operationSucceeded) {
-            System.exit(1);
-        }
+        System.exit(operationSucceeded? 0 : 1);
     }
 
     private File checkIfDirExists(String directoryName, boolean createIfAbsent) {

@@ -22,11 +22,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
     xmlns:p="http://www.springframework.org/schema/p"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
     https://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
     http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="org.jasig.portlet.attachment.dao"/>
@@ -125,5 +127,7 @@
 
     <!-- Used to [drop and] create the Attachments database schema from the command line -->
     <bean id="schemaCreator" class="org.jasig.portlet.attachment.util.SchemaCreator" />
+
+    <jpa:repositories base-package="org.jasig.portlet.attachment.dao.jpa" />
 
 </beans>
