@@ -28,11 +28,9 @@ import org.jasig.portlet.attachment.model.Attachment;
  * @author Chris Waymire (chris@waymire.net)
  */
 public interface IAttachmentService {
-    Attachment get(long attachmentId);
-    Attachment get(String guid);
-    List<Attachment> find(String creator);
-    List<Attachment> find(String creator, String filename);
-    List<Attachment> findAll(int offset, int maxresults);
+    Attachment findById(long attachmentId);
+    Attachment findByGuid(String guid);
+    List<Attachment> findAll();
 
     /**
      * Saves the metadata about the attachment to the database and persists the attachment to the
@@ -43,8 +41,9 @@ public interface IAttachmentService {
      * @return Updated attachment object
      */
     Attachment save(Attachment attachment, String username, HttpServletRequest request);
+
     void delete(Attachment attachment);
-    void delete(long attachmentId);
+    void deleteById(long attachmentId);
 
     /**
      * Boolean indicating whether or not attachment data is stored into the database.  Some persistence stores,
