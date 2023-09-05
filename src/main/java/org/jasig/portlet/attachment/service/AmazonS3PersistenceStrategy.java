@@ -29,10 +29,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.jasig.portlet.attachment.model.Attachment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +41,8 @@ import org.springframework.stereotype.Service;
  * @author James Wennmacher, jwennmacher@unicon.net
  */
 @Service
+@Slf4j
 public class AmazonS3PersistenceStrategy implements IDocumentPersistenceStrategy {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static final MessageFormat PATH_FORMAT = new MessageFormat("{0}/{1}/{2}");
 

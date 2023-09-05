@@ -27,9 +27,6 @@ import javax.portlet.PortletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,7 +36,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("VIEW")
 public class AttachmentsManagerController {
-    protected final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
     private IAttachmentService attachmentService;

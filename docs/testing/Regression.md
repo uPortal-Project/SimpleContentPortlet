@@ -32,15 +32,19 @@ Scenarios:
 ```shell
 ~$ ./gradlew :overlays:uportal:dataExport -Dtype=portlet-definition -Dsysid=snappy
 ```
-  * Import portlet - should work for any portlet type
+    * Import portlet - should work for any portlet type
 ```shell
 ~$ ./gradlew overlays:uportal:dataImport -Ddir=path/to/the/new/or/updated/data/files/
 ```
+    * Export SCP Attachments
+      * Via ImportExport class
+    * Import SCP Attachments
+      * Via ImportExport class
 * Other
   * Search
     * There is a search controller and ‘event-definitions’ in the portlet.xml.
     * While emptying caches doesn’t update the portlet’s search terms, an overriding dataImport picks up the search terms - however, it doesn’t exercise the controller.
-  * Attachment persistence - for any of the specific scenarios that leverage attachments (cms, attachment, attachment-manager):
+  * Attachment persistence - global setting for all scenarios that leverage attachments (cms, attachment, attachment-manager):
     * Database (default)
     * File
     * S3

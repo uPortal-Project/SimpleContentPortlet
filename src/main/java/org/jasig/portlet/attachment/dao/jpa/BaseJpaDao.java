@@ -21,16 +21,11 @@ package org.jasig.portlet.attachment.dao.jpa;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Chris Waymire (chris@waymire.net)
  */
 public abstract class BaseJpaDao {
     public static final String PERSISTENCE_UNIT_NAME = "AttachmentsDb";
-
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     private EntityManager entityManager;
 

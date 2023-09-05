@@ -34,14 +34,13 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -56,10 +55,9 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@Slf4j
 public class ImportExport {
     private static final String FILENAME_SUFFIX = ".attachment.xml";
-
-    Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     IAttachmentService attachmentService;
