@@ -25,6 +25,7 @@ import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
 import javax.portlet.PortletRequest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apereo.portal.search.SearchConstants;
 import org.apereo.portal.search.SearchRequest;
@@ -32,8 +33,6 @@ import org.apereo.portal.search.SearchResult;
 import org.apereo.portal.search.SearchResults;
 import org.jasig.portlet.cms.service.IStringCleaningService;
 import org.jasig.portlet.cms.service.dao.IContentDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,14 +46,13 @@ import com.liferay.portletmvc4spring.bind.annotation.EventMapping;
  */
 @Controller
 @RequestMapping("VIEW")
+@Slf4j
 public class SearchContentController {
     
     private int searchSummaryLength = 1000;
     private IContentDao contentDao;
     private IStringCleaningService stringCleaningService;
     
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      * Length of search summary to return
      * @param searchSummaryLength length of search summary
@@ -80,8 +78,7 @@ public class SearchContentController {
         
         final String textContent = getTextContent(request);
         final String[] searchTerms = searchQuery.getSearchTerms().split(" ");
-
-        logger.debug("Searching portletWindow='{}' fo the following terms:  {}", request.getWindowID(), searchTerms);
+        log.debug("Searching portletWindow='{}' fo the following terms:  {}", request.getWindowID(), searchTerms);
 
         for (final String term : searchTerms) {
 

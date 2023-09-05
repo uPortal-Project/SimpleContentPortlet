@@ -58,6 +58,7 @@
         <hsqldb.version>2.7.0</hsqldb.version>
         <junit.version>4.13.2</junit.version>
         <logback.version>1.3.5</logback.version>
+        <lombok.version>1.18.28</lombok.version>
         <persistence-api.version>2.2</persistence-api.version>
         <resource-server.version>1.3.1</resource-server.version>
         <servlet.version>3.1.0</servlet.version>
@@ -329,6 +330,11 @@
                 <version>${pdfobject.version}</version>
             </dependency>
             <!-- End of logging section -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -521,7 +527,11 @@
             <version>2.1.0-M3</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- ===== Test Dependencies ====================================== -->
         <dependency>
@@ -545,7 +555,6 @@
             <version>3.3.2</version>
             <type>maven-plugin</type>
         </dependency>
-
     </dependencies>
 
     <build>

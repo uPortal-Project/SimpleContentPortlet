@@ -30,19 +30,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.jasig.portlet.attachment.service.IAttachmentService;
 import org.jasig.portlet.attachment.util.FileUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Chris Waymire (chris@waymire.net)
  */
+@Slf4j
 public final class LocalAttachmentFilter implements Filter {
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private IAttachmentService attachmentService;

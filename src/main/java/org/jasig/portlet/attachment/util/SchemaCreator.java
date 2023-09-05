@@ -23,14 +23,13 @@ import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.schema.TargetType;
 import org.jasig.portlet.attachment.model.Attachment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
@@ -43,11 +42,10 @@ import org.springframework.core.io.Resource;
  * encrypted properties).  It is invokable from the command line with '$ java', but designed to be
  * integrated with build tools like Gradle.
  */
+@Slf4j
 public class SchemaCreator {
 
     private static final String APPLICATION_CONTEXT_LOCATION = "classpath:/context/baseContext.xml";
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private EntityManagerFactory entityManagerFactory;
@@ -81,14 +79,14 @@ public class SchemaCreator {
 
             final List<Exception> exceptions = schemaExport.getExceptions();
             if (!exceptions.isEmpty()) {
-                logger.error("Schema Create Failed;  see below for details");
+                log.error("Schema Create Failed;  see below for details");
                 for (Exception e : exceptions) {
-                    logger.error("Exception from Hibernate Tools SchemaExport", e);
+                    log.error("Exception from Hibernate Tools SchemaExport", e);
                 }
                 return 1;
             }
         } catch (Exception e) {
-            logger.error("Failed to initialize & invoke the SchemaExport tool", e);
+            log.error("Failed to initialize & invoke the SchemaExport tool", e);
             return 1;
         }
 
