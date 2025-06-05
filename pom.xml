@@ -68,7 +68,7 @@
         <portletmvc4spring.version>5.2.0</portletmvc4spring.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
         <uportal-libs.version>5.13.1</uportal-libs.version>
-        <jaxb.version>2.3.3</jaxb.version>
+        <jaxb.version>4.0.2</jaxb.version>
         <fineuploader.version>5.13.0</fineuploader.version>
         <pdfobject.version>2.2.4</pdfobject.version>
 
