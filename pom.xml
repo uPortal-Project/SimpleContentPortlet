@@ -53,7 +53,7 @@
         <aws.version>1.12.780</aws.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-io.version>2.18.0</commons-io.version>
-        <jackson.version>2.14.2</jackson.version>
+        <jackson.version>2.15.0</jackson.version>
         <hibernate.version>5.6.15.Final</hibernate.version>
         <hsqldb.version>2.7.4</hsqldb.version>
         <junit.version>4.13.2</junit.version>
