@@ -51,7 +51,7 @@
     <properties>
         <!-- Dependency versions -->
         <aws.version>1.12.780</aws.version>
-        <commons-fileupload.version>1.5</commons-fileupload.version>
+        <commons-fileupload.version>1.6.0</commons-fileupload.version>
         <commons-io.version>2.18.0</commons-io.version>
         <jackson.version>2.14.2</jackson.version>
         <hibernate.version>5.6.15.Final</hibernate.version>
