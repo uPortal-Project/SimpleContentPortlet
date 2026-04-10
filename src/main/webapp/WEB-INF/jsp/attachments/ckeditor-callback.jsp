@@ -23,7 +23,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="rs" uri="http://www.jasig.org/resource-server" %>
 
-<script src="<rs:resourceURL value='/rs/jquery/1.11.0/jquery-1.11.0.min.js'/>" type="text/javascript"></script>
+<%-- rs:resourceURL resolves to /ResourceServingWebapp by default; webjars live under /resource-server --%>
+<script src="/resource-server/webjars/jquery/dist/jquery.min.js" type="text/javascript"></script>
 
 <script type='text/javascript'>
     function loadImage() {

@@ -20,9 +20,7 @@
 --%>
 <jsp:directive.include file="/WEB-INF/jsp/common/include.jsp"/>
 <c:set var="n"><portlet:namespace/></c:set>
-<c:if test="${!usePortalJsLibs}">
-    <script src="<rs:resourceURL value='/rs/jquery/1.11.0/jquery-1.11.0.min.js'/>" type="text/javascript"></script>
-</c:if>
+<%-- jQuery is now provided by the portal as up.jQuery --%>
 
 <script src="<c:url value='/webjars/fine-uploader/5.13.0/dist/fine-uploader.min.js'/>"></script>
 <script src="<c:url value='/webjars/pdfobject/2.0.201604172/pdfobject.min.js'/>"></script>
@@ -197,6 +195,9 @@ div.col_content{
 </div>
 
 <script>
+var ${n} = ${n} || {};
+${n}.jQuery = up.jQuery;
+
 function addRowHandlers() {
     var table = document.getElementById("filetable");
     var rows = table.getElementsByTagName("tr");
@@ -254,7 +255,7 @@ function updateDetails(row)
     }
 }
 
-$(document).ready(function(){
+${n}.jQuery(document).ready(function(){
     addRowHandlers();
     });
 
