@@ -196,7 +196,7 @@ div.col_content{
 
 <script>
 var ${n} = ${n} || {};
-${n}.jQuery = up.jQuery;
+${n}.jQuery = (typeof up !== 'undefined' && up.jQuery) ? up.jQuery : jQuery;
 
 function addRowHandlers() {
     var table = document.getElementById("filetable");

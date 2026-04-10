@@ -46,7 +46,7 @@
 <script type="text/javascript">
 <rs:compressJs>
     var ${n} = ${n} || {};
-        ${n}.jQuery = up.jQuery;
+        ${n}.jQuery = (typeof up !== 'undefined' && up.jQuery) ? up.jQuery : jQuery;
     ${n}.jQuery(function(){
         var $ = ${n}.jQuery;
         $(document).ready(function(){
