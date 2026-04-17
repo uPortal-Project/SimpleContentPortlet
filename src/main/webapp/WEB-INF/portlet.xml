@@ -160,18 +160,7 @@
                  JavaScript library (jQuery).  The needs of this portlet are
                  very lightweight and the portlet runs infrequently, so we'll
                  default to 'true' in this case. -->
-            <preference>
-                <name>Attachments.usePortalJsLibs</name>
-                <value>true</value>
-            </preference>
 
-            <!-- If 'EmergencyAlertController.usePortalJsLibs' is true, this
-                 value will help find the portal's JavaScript library (jQuery).
-                 If not, it has no impact. -->
-            <preference>
-                <name>Attachments.portalJsNamespace</name>
-                <value>up</value>
-            </preference>
         </portlet-preferences>
     </portlet>
 

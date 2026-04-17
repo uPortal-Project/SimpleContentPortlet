@@ -132,7 +132,7 @@
 <script type="text/javascript">
     var ${n} = ${n} || {};
 
-    ${n}.jQuery = (typeof ${portalJsNamespace} !== 'undefined' && ${portalJsNamespace}.jQuery) ? ${portalJsNamespace}.jQuery : jQuery;
+    ${n}.jQuery = up.jQuery;
     
     var upAttachments = upAttachments || {};
 
