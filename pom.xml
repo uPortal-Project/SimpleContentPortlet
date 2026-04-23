@@ -62,7 +62,14 @@
         <portletmvc4spring.version>5.2.0</portletmvc4spring.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
         <uportal-libs.version>5.13.1</uportal-libs.version>
-        <jaxb.version>2.3.3</jaxb.version>
+        <!-- jakarta.xml.bind-api: last 2.x on Central is 2.3.3. The 2.x line still
+             exposes the javax.xml.bind.* packages this portlet imports; 3.0+ moves
+             to jakarta.xml.bind and belongs to a full Jakarta EE migration. -->
+        <jaxb-api.version>2.3.3</jaxb-api.version>
+        <!-- glassfish jaxb-runtime tracks its own 2.3.x patch stream (up to 2.3.9)
+             independently of the API. Keep this split so a patch bump on the runtime
+             doesn't accidentally try to pull a non-existent jakarta.xml.bind-api:2.3.x. -->
+        <jaxb-runtime.version>2.3.9</jaxb-runtime.version>
         <fineuploader.version>5.13.0</fineuploader.version>
         <pdfobject.version>2.2.4</pdfobject.version>
 
@@ -77,12 +84,12 @@
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>${jaxb.version}</version>
+            <version>${jaxb-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>${jaxb.version}</version>
+            <version>${jaxb-runtime.version}</version>
         </dependency>
         <!-- ===== Compile Time Dependencies ============================== -->
         <dependency>
@@ -481,7 +488,7 @@
                     <dependency>
                         <groupId>org.glassfish.jaxb</groupId>
                         <artifactId>jaxb-runtime</artifactId>
-                        <version>${jaxb.version}</version>
+                        <version>${jaxb-runtime.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -602,12 +609,12 @@
                     <dependency>
                         <groupId>jakarta.xml.bind</groupId>
                         <artifactId>jakarta.xml.bind-api</artifactId>
-                        <version>${jaxb.version}</version>
+                        <version>${jaxb-api.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.glassfish.jaxb</groupId>
                         <artifactId>jaxb-runtime</artifactId>
-                        <version>${jaxb.version}</version>
+                        <version>${jaxb-runtime.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
