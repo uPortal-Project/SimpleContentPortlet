@@ -20,9 +20,7 @@
 --%>
 <jsp:directive.include file="/WEB-INF/jsp/common/include.jsp"/>
 <c:set var="n"><portlet:namespace/></c:set>
-<c:if test="${!usePortalJsLibs}">
-    <script src="<rs:resourceURL value='/rs/jquery/1.11.0/jquery-1.11.0.min.js'/>" type="text/javascript"></script>
-</c:if>
+<%-- jQuery is now provided by the portal as up.jQuery --%>
 
 <script src="<c:url value='/webjars/fine-uploader/5.13.0/dist/fine-uploader.min.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/webjars/fine-uploader/5.13.0/dist/fine-uploader.min.css'/>" />
@@ -134,15 +132,7 @@
 <script type="text/javascript">
     var ${n} = ${n} || {};
 
-    <c:choose>
-        <c:when test="${!usePortalJsLibs}">
-            ${n}.jQuery = jQuery.noConflict(true);
-        </c:when>
-        <c:otherwise>
-            <c:set var="ns"><c:if test="${ not empty portalJsNamespace }">${ portalJsNamespace }.</c:if></c:set>
-            ${n}.jQuery = ${ ns }jQuery;
-        </c:otherwise>
-    </c:choose>
+    ${n}.jQuery = up.jQuery;
     
     var upAttachments = upAttachments || {};
 

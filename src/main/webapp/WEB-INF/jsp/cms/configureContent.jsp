@@ -19,15 +19,12 @@
 
 --%>
 <jsp:directive.include file="/WEB-INF/jsp/common/include.jsp"/>
-<c:set var="includeJQuery" value="${renderRequest.preferences.map['includeJQuery'][0]}"/>
 <c:set var="n"><portlet:namespace/></c:set>
 <portlet:actionURL var="formUrl" escapeXml="false"><portlet:param name="action" value="updateConfiguration"/></portlet:actionURL>
 <portlet:actionURL var="cancelUrl" escapeXml="false"><portlet:param name="action" value="cancel"/></portlet:actionURL>
 <%--<portlet:resourceURL var="previewUrl" id="preview" escapeXml="false"/>--%>
 
-<c:if test="${includeJQuery}">
-    <rs:aggregatedResources path="skin.xml"/>
-</c:if>
+<%-- jQuery is now provided by the portal as up.jQuery; skin.xml include removed --%>
 <script src="<rs:resourceURL value='/rs/ckeditor/4.3.2/ckeditor.js'/>" type="text/javascript"></script>
 
 <style type="text/css">
@@ -49,14 +46,7 @@
 <script type="text/javascript">
 <rs:compressJs>
     var ${n} = ${n} || {};
-<c:choose>
-    <c:when test="${!usePortalJsLibs}">
-        ${n}.jQuery = jQuery.noConflict(true);
-    </c:when>
-    <c:otherwise>
         ${n}.jQuery = up.jQuery;
-    </c:otherwise>
-</c:choose>
     ${n}.jQuery(function(){
         var $ = ${n}.jQuery;
         $(document).ready(function(){

@@ -495,41 +495,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <plugin>
-                <groupId>org.jasig.resourceserver</groupId>
-                <artifactId>resource-server-plugin</artifactId>
-                <version>${resource-server.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>jakarta.xml.bind</groupId>
-                        <artifactId>jakarta.xml.bind-api</artifactId>
-                        <version>${jaxb.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.glassfish.jaxb</groupId>
-                        <artifactId>jaxb-runtime</artifactId>
-                        <version>${jaxb.version}</version>
-                    </dependency>
-                  </dependencies>
-                <executions>
-                    <execution>
-                        <id>aggregate-skin</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>batch-aggregate</goal>
-                        </goals>
-                        <inherited>false</inherited>
-                        <configuration>
-                            <displayJsWarnings>false</displayJsWarnings>
-                            <includes>
-                                <include>skin.xml</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Plug-in to add lifecycles to support db-init, data-import, and data-export -->
+<!-- Plug-in to add lifecycles to support db-init, data-import, and data-export -->
             <plugin>
                 <groupId>org.jasig.portal.maven</groupId>
                 <artifactId>uportal-maven-plugin</artifactId>
