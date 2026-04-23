@@ -28,23 +28,28 @@
         "org.springframework:spring-web",
         "org.springframework:spring-webmvc",
         "org.springframework:spring-webmvc-portlet",
-        "org.springframework.data:spring-data-jpa"
+        "org.springframework.data:spring-data-jpa",
+        "com.liferay.portletmvc4spring:com.liferay.portletmvc4spring.framework",
+        "com.liferay.portletmvc4spring:com.liferay.portletmvc4spring.security"
       ],
       "allowedVersions": "< 6.0",
-      "description": "This portlet is pinned to Spring Framework 5.3.x. Next-major bumps require a coordinated migration."
+      "description": "This portlet is pinned to Spring Framework 5.3.x. Next-major bumps (Spring 6+) require Jakarta EE + Java 17+, neither of which match this portlet's stack."
+    },
+    {
+      "matchPackagePrefixes": [
+        "org.hibernate:",
+        "org.hibernate.orm:"
+      ],
+      "allowedVersions": "< 6.0",
+      "description": "Pinned to Hibernate 5.6.x. Hibernate 6+ (including the org.hibernate.orm groupId rename, hibernate-processor, hibernate-c3p0 relocations) requires Jakarta EE and Java 17+."
     },
     {
       "matchPackageNames": [
-        "org.hibernate:hibernate-core",
-        "org.hibernate:hibernate-ehcache",
-        "org.hibernate:hibernate-entitymanager",
-        "org.hibernate:hibernate-jpamodelgen",
-        "org.hibernate:hibernate-tools",
-        "org.hibernate:hibernate-validator",
-        "org.hibernate.orm:hibernate-core"
+        "jakarta.xml.bind:jakarta.xml.bind-api",
+        "org.glassfish.jaxb:jaxb-runtime"
       ],
-      "allowedVersions": "< 6.0",
-      "description": "Pinned to Hibernate 5.6.x. Later majors require Jakarta EE or Java 17+, neither of which match this portlet."
+      "allowedVersions": "< 3.0",
+      "description": "jakarta.xml.bind-api and jaxb-runtime 2.x are the last releases compatible with javax.xml.bind.* packages. 3.x+ moves to the jakarta.xml.bind package and is part of the broader Jakarta EE migration, which this portlet is not yet doing."
     }
   ]
 }
