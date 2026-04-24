@@ -61,7 +61,7 @@
         <spring-data.version>2.7.18</spring-data.version>
         <portletmvc4spring.version>5.2.0</portletmvc4spring.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
-        <uportal-libs.version>5.13.1</uportal-libs.version>
+        <uportal-libs.version>5.17.2</uportal-libs.version>
         <!-- jakarta.xml.bind-api: last 2.x on Central is 2.3.3. The 2.x line still
              exposes the javax.xml.bind.* packages this portlet imports; 3.0+ moves
              to jakarta.xml.bind and belongs to a full Jakarta EE migration. -->
