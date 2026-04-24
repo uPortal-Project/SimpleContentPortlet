@@ -59,7 +59,7 @@
         <resource-server.version>1.5.2</resource-server.version>
         <spring.version>5.3.39</spring.version>
         <spring-data.version>2.7.18</spring-data.version>
-        <portletmvc4spring.version>5.2.0</portletmvc4spring.version>
+        <portletmvc4spring.version>5.3.4</portletmvc4spring.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
         <uportal-libs.version>5.13.1</uportal-libs.version>
         <!-- jakarta.xml.bind-api: last 2.x on Central is 2.3.3. The 2.x line still
