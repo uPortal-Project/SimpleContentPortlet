@@ -58,7 +58,7 @@
         <persistence-api.version>2.2</persistence-api.version>
         <resource-server.version>1.5.2</resource-server.version>
         <spring.version>5.3.39</spring.version>
-        <spring-data.version>2.7.18</spring-data.version>
+        <spring-data.version>4.0.5</spring-data.version>
         <portletmvc4spring.version>5.3.4</portletmvc4spring.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
         <uportal-libs.version>5.17.2</uportal-libs.version>
