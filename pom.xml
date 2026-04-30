@@ -56,7 +56,7 @@
         <hibernate.version>5.6.15.Final</hibernate.version>
         <hsqldb.version>2.7.4</hsqldb.version>
         <persistence-api.version>2.2</persistence-api.version>
-        <resource-server.version>1.5.2</resource-server.version>
+        <resource-server.version>1.5.3</resource-server.version>
         <spring.version>5.3.39</spring.version>
         <spring-data.version>2.7.18</spring-data.version>
         <portletmvc4spring.version>5.3.4</portletmvc4spring.version>
