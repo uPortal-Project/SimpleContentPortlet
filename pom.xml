@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.jasig.portlet</groupId>
         <artifactId>uportal-portlet-parent</artifactId>
-        <version>48</version>
+        <version>49</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -455,26 +455,21 @@
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
-                    <basedir>${basedir}</basedir>
-                    <header>${jasig-short-license-url}</header>
-
-                    <aggregate>true</aggregate>
-                    <strictCheck>true</strictCheck>
-                    <excludes>
-                        <exclude>LICENSE</exclude>
-                        <exclude>NOTICE</exclude>
+                    <!--
+                      | Parent v49 provides basedir, header URL, aggregate,
+                      | strictCheck, the standard excludes (LICENSE, NOTICE,
+                      | .idea/**, overlays/**, .gitignore, **/*.channel-type)
+                      | and the tld/tag/cpd mappings. Local block keeps only
+                      | the SimpleContentPortlet-specific css/js excludes.
+                      |
+                      | combine.children="append" preserves parent's exclude
+                      | list (without it the child replaces parent's list
+                      | wholesale).
+                    +-->
+                    <excludes combine.children="append">
                         <exclude>src/main/webapp/css/**</exclude>
                         <exclude>src/main/webapp/js/**</exclude>
-                        <exclude>**/*.channel-type</exclude>
-                        <exclude>.idea/**</exclude> <!-- Exclude intelliJ files -->
-                        <exclude>overlays/**</exclude> <!-- Exclude intelliJ files -->
-                        <exclude>.gitignore</exclude>
                     </excludes>
-                    <mapping>
-                        <tld>XML_STYLE</tld>
-                        <tag>DYNASCRIPT_STYLE</tag>
-                        <cpd>XML_STYLE</cpd>
-                    </mapping>
                 </configuration>
             </plugin>
             <plugin>
