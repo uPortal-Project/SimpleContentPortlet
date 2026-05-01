@@ -26,7 +26,7 @@ import javax.portlet.EventResponse;
 import javax.portlet.PortletRequest;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apereo.portal.search.SearchConstants;
 import org.apereo.portal.search.SearchRequest;
 import org.apereo.portal.search.SearchResult;
