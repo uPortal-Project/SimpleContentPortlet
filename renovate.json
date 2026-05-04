@@ -28,12 +28,18 @@
         "org.springframework:spring-web",
         "org.springframework:spring-webmvc",
         "org.springframework:spring-webmvc-portlet",
-        "org.springframework.data:spring-data-jpa",
-        "com.liferay.portletmvc4spring:com.liferay.portletmvc4spring.framework",
-        "com.liferay.portletmvc4spring:com.liferay.portletmvc4spring.security"
+        "org.springframework.data:spring-data-jpa"
       ],
       "allowedVersions": "< 6.0",
       "description": "This portlet is pinned to Spring Framework 5.3.x. Next-major bumps (Spring 6+) require Jakarta EE + Java 17+, neither of which match this portlet's stack."
+    },
+    {
+      "matchPackageNames": [
+        "com.liferay.portletmvc4spring:com.liferay.portletmvc4spring.framework",
+        "com.liferay.portletmvc4spring:com.liferay.portletmvc4spring.security"
+      ],
+      "allowedVersions": "<= 5.2.0",
+      "description": "portletmvc4spring 5.2.1+ adds JSR-362 (Portlet 3.0) API calls (PortletRequest.getRenderParameters()). uPortal/Pluto runs JSR-286 (Portlet 2.0); Apache Pluto is in the Attic with no Portlet 3.0 path. 5.2.0 is the last Portlet-2.0-compatible release."
     },
     {
       "matchPackagePrefixes": [
