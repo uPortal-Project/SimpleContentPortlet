@@ -25,7 +25,7 @@
 <%--<portlet:resourceURL var="previewUrl" id="preview" escapeXml="false"/>--%>
 
 <%-- jQuery is now provided by the portal as up.jQuery; skin.xml include removed --%>
-<script src="<rs:resourceURL value='/rs/ckeditor/4.3.2/ckeditor.js'/>" type="text/javascript"></script>
+<script src="/resource-server/webjars/ckeditor4/ckeditor.js" type="text/javascript"></script>
 
 <style type="text/css">
     #${n}contentForm { min-height: 100px; padding: 10px; margin: 10px; }
@@ -44,7 +44,6 @@
 </form:form>
 
 <script type="text/javascript">
-<rs:compressJs>
     var ${n} = ${n} || {};
         ${n}.jQuery = up.jQuery;
     ${n}.jQuery(function(){
@@ -75,5 +74,4 @@
         });
         
     });
-</rs:compressJs>
 </script>
