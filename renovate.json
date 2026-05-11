@@ -51,11 +51,29 @@
     },
     {
       "matchPackageNames": [
+        "com.sun.xml.bind:jaxb-impl",
+        "com.sun.xml.bind:jaxb-xjc",
         "jakarta.xml.bind:jakarta.xml.bind-api",
         "org.glassfish.jaxb:jaxb-runtime"
       ],
       "allowedVersions": "< 3.0",
-      "description": "jakarta.xml.bind-api and jaxb-runtime 2.x are the last releases compatible with javax.xml.bind.* packages. 3.x+ moves to the jakarta.xml.bind package and is part of the broader Jakarta EE migration, which this portlet is not yet doing."
+      "description": "jakarta.xml.bind-api, jaxb-runtime, jaxb-impl, and jaxb-xjc 2.x are the last releases compatible with javax.xml.bind.* packages. 3.x+ moves to the jakarta.xml.bind package and is part of the broader Jakarta EE migration, which this portlet is not yet doing."
+    },
+    {
+      "matchPackagePrefixes": ["org.apache.portals.pluto:"],
+      "allowedVersions": "< 3.0",
+      "description": "Apache Pluto is in the Attic; pluto-taglib 3.x and the rest of Pluto 3.x ship in the jakarta.portlet namespace, which uPortal cannot move to since the embedded Pluto container has no jakarta path. Stay on 2.1.0-M3 (the last javax.portlet release)."
+    },
+    {
+      "matchPackageNames": ["jaxen:jaxen"],
+      "allowedVersions": "< 2.0",
+      "description": "uportal-portlet-parent pins jaxen to Atlassian's 1.2.0-atlassian-2 fork (same pattern used for commons-lang and ehcache-spring-annotations). Jaxen 2.x is the mainline release and would back out of the fork-tracking convention; ignore until the fork policy is revisited."
+    },
+    {
+      "matchPackagePrefixes": ["org.junit.jupiter:", "org.junit.platform:"],
+      "matchPackageNames": ["org.junit:junit-bom"],
+      "enabled": false,
+      "description": "Tests are JUnit 4 (4.13.2 via uportal-portlet-parent) + Mockito. JUnit 5 (Jupiter) is a separate test engine; migrating would require re-annotating every @Before/@Test/@RunWith and is out of scope for the current parent."
     }
   ]
 }
