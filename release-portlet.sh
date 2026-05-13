@@ -150,16 +150,38 @@ mvn -B clean install > /tmp/release-build.log 2>&1 \
   || { echo; tail -30 /tmp/release-build.log; fail "build failed (see /tmp/release-build.log)"; }
 ok "clean install passed"
 
-# 5. Styling pass
-hdr "Styling (notice:generate / license:format / javadoc:fix)"
+# 5. Styling pass — auto-fix NOTICE/license/javadoc drift, then verify
+#    notice:check and license:check are what mvn release:prepare's `clean verify`
+#    runs; running them here surfaces drift before the destructive release plugin.
+hdr "Styling pass + NOTICE/license verification"
+
+# Run formatters/generators (best-effort; warnings only)
 mvn -B notice:generate license:format javadoc:fix > /tmp/release-styling.log 2>&1 \
   || warn "styling pass non-zero exit (see /tmp/release-styling.log)"
+
+# Verify check goals pass. If notice:check fails, target/NOTICE.expected contains
+# the correct content — copy it over and re-verify.
+if ! mvn -B notice:check license:check > /tmp/release-checks.log 2>&1; then
+  if [[ -f target/NOTICE.expected ]] && ! diff -q target/NOTICE.expected NOTICE > /dev/null 2>&1; then
+    cp target/NOTICE.expected NOTICE
+    warn "NOTICE refreshed from target/NOTICE.expected"
+    if ! mvn -B notice:check license:check > /tmp/release-checks.log 2>&1; then
+      echo; tail -30 /tmp/release-checks.log
+      fail "notice:check / license:check still failing after NOTICE auto-fix"
+    fi
+  else
+    echo; tail -30 /tmp/release-checks.log
+    fail "notice:check / license:check failed (see /tmp/release-checks.log)"
+  fi
+fi
+
+# Anything left in the working tree is drift the operator must review + commit
 if ! git diff --quiet; then
-  printf '\ndrift detected:\n'
+  printf '\ndrift detected (auto-fixed; operator must review + commit):\n'
   git diff --stat
   fail "review the diff above, commit as 'chore: pre-release prep', push to upstream/$BRANCH, then re-run this script"
 fi
-ok "no drift"
+ok "no drift; notice:check + license:check pass"
 
 # 6. Artifact discovery
 hdr "Artifact discovery"
