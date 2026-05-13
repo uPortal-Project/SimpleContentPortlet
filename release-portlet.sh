@@ -99,9 +99,19 @@ grep -q '<id>central</id>' "$HOME/.m2/settings.xml" \
   || warn "<server id=central> not in settings.xml — release:perform upload may fail"
 ok "~/.m2/settings.xml present"
 
-FINGERPRINT=$(gpg --list-secret-keys --with-colons --fingerprint 2>/dev/null | awk -F: '/^fpr:/{print $10; exit}')
-[[ -n "$FINGERPRINT" ]] || fail "no GPG secret key in default keyring"
-ok "signing fingerprint: $FINGERPRINT"
+# Prefer the keyname Maven is configured to use (<gpg.keyname> in settings.xml);
+# fall back to the first secret key in the keyring if none is configured.
+GPG_KEYNAME=$(grep -oE '<gpg\.keyname>[^<]+' "$HOME/.m2/settings.xml" 2>/dev/null | head -1 | sed 's/<gpg\.keyname>//')
+if [[ -n "$GPG_KEYNAME" ]]; then
+  FINGERPRINT=$(gpg --list-keys --with-colons "$GPG_KEYNAME" 2>/dev/null | awk -F: '/^fpr:/{print $10; exit}')
+  [[ -n "$FINGERPRINT" ]] || fail "gpg.keyname=$GPG_KEYNAME from settings.xml not found in keyring"
+  ok "Maven gpg.keyname: $GPG_KEYNAME → fingerprint $FINGERPRINT"
+else
+  FINGERPRINT=$(gpg --list-secret-keys --with-colons --fingerprint 2>/dev/null | awk -F: '/^fpr:/{print $10; exit}')
+  [[ -n "$FINGERPRINT" ]] || fail "no GPG secret key in default keyring"
+  warn "no <gpg.keyname> in ~/.m2/settings.xml — falling back to first secret key"
+  ok "signing fingerprint: $FINGERPRINT"
+fi
 
 HTTP=$(curl -so /dev/null -w "%{http_code}" "https://keys.openpgp.org/vks/v1/by-fingerprint/$FINGERPRINT")
 [[ "$HTTP" == "200" ]] || fail "key $FINGERPRINT not on keys.openpgp.org (HTTP $HTTP) — upload via https://keys.openpgp.org/upload"
