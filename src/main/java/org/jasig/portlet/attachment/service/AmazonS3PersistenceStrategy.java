@@ -18,22 +18,20 @@
  */
 package org.jasig.portlet.attachment.service;
 
-import java.io.ByteArrayInputStream;
 import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.jasig.portlet.attachment.model.Attachment;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.core.exception.SdkException;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 /**
  * Persistence strategy which persists the attachment's file to an S3 bucket
@@ -72,31 +70,40 @@ public class AmazonS3PersistenceStrategy implements IDocumentPersistenceStrategy
             return null;
         }
 
-        AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
-
         String key = PATH_FORMAT.format(new Object[]{s3BucketPath, attachment.getGuid(), attachment.getFilename()});
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(attachment.getContentType());
-        metadata.setContentLength(attachment.getData().length);
-        metadata.setCacheControl(s3CacheControlString);
-
         // S3 chose base64-encoded hash not the typical 32-character hex string so convert accordingly.
-        // Hex.decodeHex(attachment.getChecksum().toCharArray())
-        metadata.setContentMD5(Base64.encodeBase64String(DatatypeConverter.parseHexBinary(attachment.getChecksum())));
+        String contentMd5 = Base64.encodeBase64String(DatatypeConverter.parseHexBinary(attachment.getChecksum()));
 
-        try {
-            s3.putObject(new PutObjectRequest(s3BucketName, key,
-                    new ByteArrayInputStream(attachment.getData()), metadata));
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(s3BucketName)
+                .key(key)
+                .contentType(attachment.getContentType())
+                .contentLength((long) attachment.getData().length)
+                .cacheControl(s3CacheControlString)
+                .contentMD5(contentMd5)
+                .build();
+
+        // v2 S3Client holds a connection pool and is AutoCloseable, so close it per use.
+        try (S3Client s3 = buildS3Client()) {
+            s3.putObject(putObjectRequest, RequestBody.fromBytes(attachment.getData()));
             log.debug("Successfully sent {} to S3 bucket {} under key {}", attachment.getFilename(),
                     s3BucketName, key);
-        } catch (AmazonClientException e) {
+        } catch (SdkException e) {
             String message = String.format("Unable to persist attachment %1s to S3 bucket %2s, key %3s",
                     attachment.getFilename(), s3BucketName, key);
             throw new PersistenceException(message, e);
         }
 
         return (s3BucketBaseUrl.endsWith("/")? s3BucketBaseUrl : s3BucketBaseUrl + "/") + key;
+    }
+
+    /**
+     * Builds an S3 client using the default region and credentials provider chains.
+     * Visible for testing so the client can be replaced with a mock.
+     */
+    protected S3Client buildS3Client() {
+        return S3Client.create();
     }
 
 
