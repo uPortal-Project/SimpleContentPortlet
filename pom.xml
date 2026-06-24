@@ -58,7 +58,7 @@
         <persistence-api.version>2.2</persistence-api.version>
         <resource-server.version>1.5.3</resource-server.version>
         <spring.version>5.3.39</spring.version>
-        <spring-data.version>2.7.18</spring-data.version>
+        <spring-data.version>4.1.0</spring-data.version>
         <!-- portletmvc4spring 5.2.1+ calls PortletRequest.getRenderParameters(),
              which is a JSR-362 (Portlet 3.0) API method. uPortal/Pluto provides
              only JSR-286 (Portlet 2.0), and Apache Pluto is in the Attic with no
