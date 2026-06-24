@@ -31,11 +31,40 @@ This project includes:
   Apache Commons Lang under Apache-2.0
   Apache FreeMarker under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
-  Apache HttpCore under Apache License, Version 2.0
+  Apache HttpComponents Core HTTP/1.1 under Apache License, Version 2.0
+  Apache HttpComponents Core HTTP/2 under Apache License, Version 2.0
   Apache Pluto Portlet Tag Library under The Apache Software License, Version 2.0
-  AWS Java SDK for Amazon S3 under Apache License, Version 2.0
-  AWS Java SDK for AWS KMS under Apache License, Version 2.0
-  AWS SDK for Java - Core under Apache License, Version 2.0
+  AWS Event Stream under Apache License, Version 2.0
+  AWS Java SDK :: Annotations under Apache License, Version 2.0
+  AWS Java SDK :: Arns under Apache License, Version 2.0
+  AWS Java SDK :: Auth under Apache License, Version 2.0
+  AWS Java SDK :: AWS Core under Apache License, Version 2.0
+  AWS Java SDK :: AWS CRT Core under Apache License, Version 2.0
+  AWS Java SDK :: Checksums under Apache License, Version 2.0
+  AWS Java SDK :: Checksums SPI under Apache License, Version 2.0
+  AWS Java SDK :: Core :: Protocols :: AWS Query Protocol under Apache License, Version 2.0
+  AWS Java SDK :: Core :: Protocols :: AWS Xml Protocol under Apache License, Version 2.0
+  AWS Java SDK :: Core :: Protocols :: Json Utils under Apache License, Version 2.0
+  AWS Java SDK :: Core :: Protocols :: Protocol Core under Apache License, Version 2.0
+  AWS Java SDK :: Endpoints SPI under Apache License, Version 2.0
+  AWS Java SDK :: HTTP Auth under Apache License, Version 2.0
+  AWS Java SDK :: HTTP Auth AWS under Apache License, Version 2.0
+  AWS Java SDK :: HTTP Auth Event Stream under Apache License, Version 2.0
+  AWS Java SDK :: HTTP Auth SPI under Apache License, Version 2.0
+  AWS Java SDK :: HTTP Client Interface under Apache License, Version 2.0
+  AWS Java SDK :: HTTP Clients :: Apache5 under Apache License, Version 2.0
+  AWS Java SDK :: HTTP Clients :: Netty Non-Blocking I/O under Apache License, Version 2.0
+  AWS Java SDK :: Identity SPI under Apache License, Version 2.0
+  AWS Java SDK :: Metrics SPI under Apache License, Version 2.0
+  AWS Java SDK :: Profiles under Apache License, Version 2.0
+  AWS Java SDK :: Regions under Apache License, Version 2.0
+  AWS Java SDK :: Retries under Apache License, Version 2.0
+  AWS Java SDK :: Retries API under Apache License, Version 2.0
+  AWS Java SDK :: SDK Core under Apache License, Version 2.0
+  AWS Java SDK :: Services :: Amazon S3 under Apache License, Version 2.0
+  AWS Java SDK :: Third Party :: Jackson-core under Apache License, Version 2.0
+  AWS Java SDK :: Utilities under Apache License, Version 2.0
+  AWS Java SDK :: Utils Lite under Apache License, Version 2.0
   Batik CSS engine under The Apache Software License, Version 2.0
   Batik external code under The Apache Software License, Version 2.0
   Batik utility library under The Apache Software License, Version 2.0
@@ -66,7 +95,6 @@ This project includes:
   HyperSQL Database under HSQLDB License, a BSD open source license
   istack common utility code runtime under Eclipse Distribution License - v 1.0
   J2ObjC Annotations under Apache License, Version 2.0
-  Jackson dataformat: CBOR under The Apache Software License, Version 2.0
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
@@ -85,8 +113,6 @@ This project includes:
   jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JAXB2 Basics - Runtime under BSD-Style License
   JBoss Logging 3 under Apache License, version 2.0
-  JMES Path Query library under Apache License, Version 2.0
-  Joda-Time under Apache License, Version 2.0
   jstl under Commons Development and Distribution License, Version 1.0
   JUnit under Eclipse Public License 1.0
   Logback Classic Module under Eclipse Public License - v 2.0 or GNU Lesser General Public License
@@ -94,6 +120,16 @@ This project includes:
   mchange-commons-java under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
   mockito-core under The MIT License
   Neko HTML under The Apache Software License, Version 2.0
+  Netty/Buffer under Apache License, Version 2.0
+  Netty/Codec under Apache License, Version 2.0
+  Netty/Codec/HTTP under Apache License, Version 2.0
+  Netty/Codec/HTTP2 under Apache License, Version 2.0
+  Netty/Common under Apache License, Version 2.0
+  Netty/Handler under Apache License, Version 2.0
+  Netty/Resolver under Apache License, Version 2.0
+  Netty/Transport under Apache License, Version 2.0
+  Netty/Transport/Classes/Epoll under Apache License, Version 2.0
+  Netty/Transport/Native/Unix/Common under Apache License, Version 2.0
   Objenesis under Apache License, Version 2.0
   Old JAXB Runtime under Eclipse Distribution License - v 1.0
   OWASP AntiSamy under BSD License
@@ -102,6 +138,7 @@ This project includes:
   PortletMVC4Spring Framework under Apache License, Version 2.0
   PortletMVC4Spring Security under Apache License, Version 2.0
   Project Lombok under The MIT License
+  reactive-streams under MIT-0
   Resource Server API under Apache License Version 2.0
   Resource Server Core under Apache License Version 2.0
   Resource Server Utilities under Apache License Version 2.0
