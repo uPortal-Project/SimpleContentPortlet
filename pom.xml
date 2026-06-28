@@ -53,7 +53,7 @@
         <aws.version>2.46.7</aws.version>
         <commons-fileupload.version>1.6.0</commons-fileupload.version>
         <commons-io.version>2.22.0</commons-io.version>
-        <hibernate.version>5.6.15.Final</hibernate.version>
+        <hibernate.version>7.4.3.Final</hibernate.version>
         <hsqldb.version>2.7.4</hsqldb.version>
         <persistence-api.version>2.2</persistence-api.version>
         <resource-server.version>1.5.3</resource-server.version>
