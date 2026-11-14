@@ -75,7 +75,11 @@ public class SearchContentController {
     public void searchContent(EventRequest request, EventResponse response) {
         final Event event = request.getEvent();
         final SearchRequest searchQuery = (SearchRequest)event.getValue();
-        
+
+        if (searchQuery == null || searchQuery.getSearchTerms() == null) {
+            return;
+        }
+
         final String textContent = getTextContent(request);
         final String[] searchTerms = searchQuery.getSearchTerms().split(" ");
         log.debug("Searching portletWindow='{}' fo the following terms:  {}", request.getWindowID(), searchTerms);
